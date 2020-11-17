@@ -18,6 +18,10 @@ namespace AlmCore.SQLModel
         /// </summary>
         public string FileURL { get; set; }
         /// <summary>
+        /// 来源
+        /// </summary>
+        public string Source { get; set; }
+        /// <summary>
         /// 所属标签
         /// </summary>
         public string Tag { get; set; }
@@ -29,5 +33,10 @@ namespace AlmCore.SQLModel
         /// 作者
         /// </summary>
         public string Author { get; set; }
+        /// <summary>
+        /// 时间
+        /// </summary>
+        [SugarColumn(ColumnDataType = "DateTime")]
+        public DateTime Time { get; set; }
     }
 }
