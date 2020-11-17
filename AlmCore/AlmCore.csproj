@@ -10,8 +10,4 @@
     <PackageReference Include="XExten" Version="2.2.6.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Scrapy\ImomoeModel\" />
-  </ItemGroup>
-
 </Project>

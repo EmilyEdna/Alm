@@ -5,8 +5,11 @@ using System.Text;
 
 namespace AlmCore.SQLModel.Konachans
 {
-    [SugarTable("Collect")]
-    public class Collect : ISQLModel
+    /// <summary>
+    /// 用户收藏记录
+    /// </summary>
+    [SugarTable("KonaCollect")]
+    public class KonaCollect : ISQLModel
     {
         public int Id { get; set; }
         /// <summary>

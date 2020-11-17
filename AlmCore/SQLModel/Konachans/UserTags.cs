@@ -5,6 +5,9 @@ using System.Text;
 
 namespace AlmCore.SQLModel.Konachans
 {
+    /// <summary>
+    /// 用户标签表
+    /// </summary>
     [SugarTable("UserTags")]
     public class UserTags
     {
