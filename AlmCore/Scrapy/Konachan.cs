@@ -1,5 +1,5 @@
 ﻿using AlmCore.Scrapy.KonachanModel;
-using AlmCore.SQLModel;
+using AlmCore.SQLModel.Konachans;
 using SqlSugar;
 using System;
 using System.Collections.Generic;

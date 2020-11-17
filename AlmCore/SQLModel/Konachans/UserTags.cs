@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AlmCore.SQLModel
+namespace AlmCore.SQLModel.Konachans
 {
     [SugarTable("UserTags")]
     public class UserTags
