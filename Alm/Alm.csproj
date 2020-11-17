@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AlmCore\AlmCore.csproj" />
+  </ItemGroup>
+
 </Project>
