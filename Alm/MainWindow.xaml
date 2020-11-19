@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:userctrl="clr-namespace:Alm.UserControls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowShadowColor="#888888"
@@ -32,10 +33,10 @@
                         Width="20"
                         Height="20"
                         Fill="HotPink"
-                        Data="{StaticResource Flower}"
+                        Data="{StaticResource FlowerIcon}"
                         Stretch="Fill">
                 </Path>
-                <TextBlock Text="全网视频"
+                <TextBlock Text="-----"
                            Foreground="White" 
                            Margin="4,0,0,0" 
                            FontSize="12"
@@ -53,7 +54,7 @@
                     ButtonForeground="HotPink"
                     IconHeight="1"
                     IconWidth="12"
-                    Icon="{StaticResource Min}"
+                    Icon="{StaticResource MinIcon}"
                     Cursor="Hand"
                     CommandParameter="Min"/>
                 <win:AlmBtn
@@ -63,10 +64,17 @@
                     ButtonForeground="HotPink"
                     IconHeight="12"
                     IconWidth="12"
-                    Icon="{StaticResource Close}"
+                    Icon="{StaticResource CloseIcon}"
                     Cursor="Hand"
                     CommandParameter="Close"/>
             </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <userctrl:Navigation/>
         </Grid>
     </Grid>
 </win:AlmWin>

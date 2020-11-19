@@ -14,4 +14,10 @@
     <ProjectReference Include="..\AlmCore\AlmCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Style\Geometry.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
