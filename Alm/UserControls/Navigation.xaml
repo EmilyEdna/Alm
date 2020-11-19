@@ -4,14 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Alm.UserControls"
-             mc:Ignorable="d" 
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:view="clr-namespace:Alm.ViewModel"
+             mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <view:SileMenuViewModel/>
+    </UserControl.DataContext>
     <hc:TransitioningContentControl>
         <hc:SideMenu>
             <hc:Interaction.Triggers>
                 <hc:EventTrigger EventName="SelectionChanged">
-                    <hc:EventToCommand PassEventArgsToCommand="True" />
+                    <hc:EventToCommand PassEventArgsToCommand="True"  Command="{Binding SelectCmd}"/>
                 </hc:EventTrigger>
             </hc:Interaction.Triggers>
             <hc:SideMenuItem Header="Overview">
@@ -21,7 +25,7 @@
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
-                <hc:SideMenuItem Header="Search">
+                <hc:SideMenuItem Header="Search" Command="{Binding SelectItem}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource SearchIcon}"  
                                   Fill="BlueViolet"
