@@ -13,11 +13,6 @@
     </UserControl.DataContext>
     <hc:TransitioningContentControl>
         <hc:SideMenu>
-            <hc:Interaction.Triggers>
-                <hc:EventTrigger EventName="SelectionChanged">
-                    <hc:EventToCommand PassEventArgsToCommand="True"  Command="{Binding SelectCmd}"/>
-                </hc:EventTrigger>
-            </hc:Interaction.Triggers>
             <hc:SideMenuItem Header="Overview">
                 <hc:SideMenuItem.Icon>
                     <Path Data="{StaticResource FunctionIcon}"  
@@ -25,7 +20,9 @@
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
-                <hc:SideMenuItem Header="Search" Command="{Binding SelectItem}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                <hc:SideMenuItem Header="Search" 
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource SearchIcon}"  
                                   Fill="BlueViolet"
@@ -33,7 +30,9 @@
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
                 </hc:SideMenuItem>
-                <hc:SideMenuItem Header="Konachan">
+                <hc:SideMenuItem Header="Konachan"  
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource ImageIcon}"  
                                   Fill="YellowGreen"
@@ -41,7 +40,9 @@
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
                 </hc:SideMenuItem>
-                <hc:SideMenuItem Header="Bangumi">
+                <hc:SideMenuItem Header="Bangumi"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource BangumiIcon}"  
                                   Fill="HotPink"
@@ -57,7 +58,9 @@
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
-                <hc:SideMenuItem Header="PlayHistory">
+                <hc:SideMenuItem Header="PlayHistory"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource HistoryIcon}"  
                                   Fill="red"
@@ -65,7 +68,9 @@
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
                 </hc:SideMenuItem>
-                <hc:SideMenuItem Header="ImageCollect">
+                <hc:SideMenuItem Header="ImageCollect"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource CollectIcon}"  
                                   Fill="Tomato"
@@ -73,7 +78,9 @@
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
                 </hc:SideMenuItem>
-                <hc:SideMenuItem Header="DownRecord">
+                <hc:SideMenuItem Header="DownRecord"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource DownloadIcon}"  
                                   Fill="Coral"
@@ -89,7 +96,9 @@
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
-                <hc:SideMenuItem Header="Author">
+                <hc:SideMenuItem Header="Author"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource AuthorIcon}"  
                                   Fill="DarkSeaGreen"

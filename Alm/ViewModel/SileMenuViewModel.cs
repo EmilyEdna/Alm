@@ -1,4 +1,7 @@
-﻿using Alm.ViewModel.Base;
+﻿using Alm.Pages;
+using Alm.Utils;
+using Alm.Utils.Enums;
+using Alm.ViewModel.Base;
 using HandyControl.Controls;
 using HandyControl.Data;
 using System;
@@ -10,19 +13,33 @@ namespace Alm.ViewModel
     public class SileMenuViewModel : ViewModelBase
     {
         /// <summary>
-        /// 全局
-        /// </summary>
-        public Commands<FunctionEventArgs<object>> SelectCmd => new Commands<FunctionEventArgs<object>>((obj) =>
-        {
-            Growl.Info((obj.Info as SideMenuItem)?.Header.ToString());
-        }, null);
-
-        /// <summary>
         /// 局部
         /// </summary>
-        public Commands<string> SelectItem => new Commands<string>((obj) => 
+        public Commands<string> SelectItem => new Commands<string>((str) =>
         {
-        
+            MainWindowViewModel main = IocManager.GetCache<MainWindowViewModel>(nameof(MainWindowViewModel));
+            FunctionEnums function = Enum.Parse<FunctionEnums>(str);
+            switch (function)
+            {
+                case FunctionEnums.Search:
+                    break;
+                case FunctionEnums.Konachan:
+                    break;
+                case FunctionEnums.Bangumi:
+                    main.CurrentPage = new BangumiPage();
+                    break;
+                case FunctionEnums.PlayHistory:
+                    main.CurrentPage = new PlayHistoryPage();
+                    break;
+                case FunctionEnums.ImageCollect:
+                    break;
+                case FunctionEnums.DownRecord:
+                    break;
+                case FunctionEnums.Author:
+                    break;
+                default:
+                    break;
+            }
         }, null);
     }
 }
