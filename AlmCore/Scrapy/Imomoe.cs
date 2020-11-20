@@ -17,7 +17,7 @@ namespace AlmCore.Scrapy
         private const string Search = "/search/{0}/?page={1}";
 
         #region 获取远程数据
-        public static BangumiRoot GetBangumi(object Keyword, int Page = 1, Action action = null)
+        public static BangumiRoot GetBangumi(object Keyword, int Page = 1, Action<Exception> action = null)
         {
 
             if (Keyword.GetType() == typeof(string))
@@ -35,7 +35,7 @@ namespace AlmCore.Scrapy
             }
         }
 
-        public static BangumiDetailRoot GetBangumiPage(string Route,Action action=null)
+        public static BangumiDetailRoot GetBangumiPage(string Route,Action<Exception> action=null)
         {
             var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + Route).Build().RunString().FirstOrDefault();
             return LoadPlayPage(data, action);
@@ -48,7 +48,7 @@ namespace AlmCore.Scrapy
         }
 
         #region 爬虫
-        private static BangumiRoot LoadSearchPage(string html, double pageNo = 20, Action action = null)
+        private static BangumiRoot LoadSearchPage(string html, double pageNo = 20, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
             {
@@ -86,11 +86,11 @@ namespace AlmCore.Scrapy
                 return roots;
             }, ex =>
             {
-                action?.Invoke();
+                action?.Invoke(ex);
                 return null;
             });
         }
-        private static BangumiDetailRoot LoadPlayPage(string html, Action action = null)
+        private static BangumiDetailRoot LoadPlayPage(string html, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
             {
@@ -118,7 +118,7 @@ namespace AlmCore.Scrapy
                 return roots;
             }, ex =>
             {
-                action?.Invoke();
+                action?.Invoke(ex);
                 return null;
             });
         }

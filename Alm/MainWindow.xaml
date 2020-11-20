@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:view="clr-namespace:Alm.ViewModel"
+        xmlns:vm="clr-namespace:Alm.ViewModel"
         xmlns:userctrl="clr-namespace:Alm.UserControls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -14,9 +14,9 @@
         WindowShadowSize="20"
         Foreground="#5C5C5C"
         Style="{StaticResource MainWindows}"
-        Height="700" Width="1100">
+        Height="700" Width="1300">
     <Window.DataContext>
-        <view:MainWindowViewModel/>
+        <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -79,7 +79,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <userctrl:Navigation/>
-            <Frame Grid.Column="1" Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
+            <Grid Grid.Column="1">
+                <Frame  Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
+                <hc:ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right" IsInertiaEnabled="True" IsPenetrating="True">
+                    <StackPanel hc:Growl.GrowlParent="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,0,5"/>
+                </hc:ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 </win:AlmWin>

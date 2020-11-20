@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Alm.UserControls"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:view="clr-namespace:Alm.ViewModel"
+             xmlns:vm="clr-namespace:Alm.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <view:SileMenuViewModel/>
+        <vm:SileMenuViewModel/>
     </UserControl.DataContext>
     <hc:TransitioningContentControl>
         <hc:SideMenu>
