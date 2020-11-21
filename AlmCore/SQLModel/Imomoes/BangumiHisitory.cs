@@ -18,8 +18,17 @@ namespace AlmCore.SQLModel.Imomoes
         /// </summary>
         public string BangumiURL { get; set; }
         /// <summary>
+        /// 番剧名称
+        /// </summary>
+        public string BangumiName { get; set; }
+        /// <summary>
+        /// 集数
+        /// </summary>
+        public string Collection { get; set; }
+        /// <summary>
         /// 播放进度
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string PlayProgress { get; set; }
         /// <summary>
         /// 观看时间

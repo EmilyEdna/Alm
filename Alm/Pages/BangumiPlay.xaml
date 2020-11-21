@@ -119,8 +119,6 @@
                         <TextBlock x:Name="RatePlay" Style="{StaticResource TextBlockDefaultPrimary}"/>
                         <TextBlock x:Name="RateTotal" Style="{StaticResource TextBlockDefaultPrimary}"/>
                     </WrapPanel>
-
-
                 </Grid>
             </Grid>
         </Grid>

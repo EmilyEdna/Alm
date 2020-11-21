@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using XExten.XCore;
+using System.Linq;
 
 namespace Alm.ViewModel
 {
@@ -23,6 +24,7 @@ namespace Alm.ViewModel
 
         #region Property
         public object WordCache { get; set; }
+        public string BangumiName { get; set; }
         private int _PageIndex;
         public int PageIndex
         {
@@ -62,9 +64,9 @@ namespace Alm.ViewModel
         #endregion
 
         #region Commands
-        public Commands<string> WatchCmd => new Commands<string>((str) =>
+        public Commands<Dictionary<string, string>> WatchCmd => new Commands<Dictionary<string, string>>((obj) =>
         {
-            var PLAY = Imomoe.GetVedio(str, ex =>
+            var PLAY = Imomoe.GetVedio(obj.Values.FirstOrDefault(), ex =>
              {
                  Growl.Info("未找到相关资源");
                  return;
@@ -76,14 +78,17 @@ namespace Alm.ViewModel
             }
             BangumiPlay Play = new BangumiPlay()
             {
-                MediaURL = new Uri(PLAY)
+                MediaURL = new Uri(PLAY),
+                BangumiName = BangumiName,
+                Collection = obj.Keys.FirstOrDefault()
             };
             Play.Show();
         }, null);
 
-        public Commands<string> ShowCmd => new Commands<string>((str) =>
+        public Commands<Dictionary<string,string>> ShowCmd => new Commands<Dictionary<string, string>>((obj) =>
         {
-            BRoot = Imomoe.GetBangumiPage(str, ex => Growl.Error(ex.Message));
+            BangumiName = obj.Keys.FirstOrDefault();
+            BRoot = Imomoe.GetBangumiPage(obj.Values.FirstOrDefault(), ex => Growl.Error(ex.Message));
             if (BRoot != null)
                 Info = "介绍";
         }, null);

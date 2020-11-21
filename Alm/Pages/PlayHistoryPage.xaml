@@ -4,8 +4,58 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Alm.Pages"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      xmlns:vm="clr-namespace:Alm.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PlayHistoryPage">
-    <TextBlock Text="我是历史"/>
+    <Page.DataContext>
+        <vm:PlayHistoryPageViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,10,0">
+            <hc:DatePicker ShowClearButton="True" SelectedDate="{Binding Time}" Width="380"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="搜索" Command="{Binding SearchCmd}"/>
+        </WrapPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Root.Queryable}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="番剧名称" DisplayMemberBinding="{Binding BangumiName}" Width="200" />
+                    <GridViewColumn Header="观看集数" DisplayMemberBinding="{Binding Collection}" Width="100"/>
+                    <GridViewColumn Header="上次看到" DisplayMemberBinding="{Binding PlayProgress}" Width="100"/>
+                    <GridViewColumn Header="观看日期" DisplayMemberBinding="{Binding PlayTime,StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="150"/>
+                    <GridViewColumn Header="操作" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <hc:ButtonGroup>
+                                    <Button Content="继续观看" 
+                                            CommandParameter="{Binding Id}" 
+                                            Command="{Binding DataContext.ContinuePlay,RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                    <Button Content="删除" 
+                                            CommandParameter="{Binding Id}"
+                                            Command="{Binding DataContext.Delete,RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                </hc:ButtonGroup>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <hc:Pagination Grid.Row="2" MaxPageCount="{Binding Root.TotalPage}"
+                       HorizontalAlignment="Center"
+                       Margin="0,5,0,0"
+                       PageIndex="{Binding PageIndex}" 
+                       IsJumpEnabled="True">
+            <hc:Interaction.Triggers>
+                <hc:EventTrigger EventName="PageUpdated">
+                    <hc:EventToCommand Command="{Binding PageUpdatedCmd}" PassEventArgsToCommand="True" />
+                </hc:EventTrigger>
+            </hc:Interaction.Triggers>
+        </hc:Pagination>
+    </Grid>
 </Page>

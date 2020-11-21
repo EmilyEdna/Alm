@@ -1,4 +1,6 @@
 ﻿using Alm.Utils.Enums;
+using AlmCore.SQLModel.Imomoes;
+using AlmCore.SQLService;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using XExten.XCore;
 
 namespace Alm.Pages
 {
@@ -23,7 +26,10 @@ namespace Alm.Pages
         {
             InitializeComponent();
         }
+        public string BangumiName { get; set; }
+        public string Collection { get; set; }
         public Uri MediaURL { get; set; }
+        public int Id { get; set; }
         DispatcherTimer timer = null;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -41,6 +47,17 @@ namespace Alm.Pages
                 {
                     Rate.Maximum = BangumiMedia.NaturalDuration.TimeSpan.TotalSeconds;
                     RateTotal.Text = $"/{BangumiMedia.NaturalDuration.TimeSpan.ToString().Split(".")[0]}";
+                    if (ImomoeLogic.Logic.CheckHistory(BangumiName, Collection))
+                    {
+                        Id = ImomoeLogic.Logic.AddHistory(new BangumiHisitory
+                        {
+                            BangumiName = BangumiName,
+                            Collection = Collection,
+                            BangumiURL = MediaURL.ToString(),
+                            PlayProgress = "0",
+                            PlayTime = DateTime.Now
+                        }); ;
+                    }
                 };
                 timer = new DispatcherTimer
                 {
@@ -50,6 +67,8 @@ namespace Alm.Pages
                 {
                     Rate.Value = BangumiMedia.Position.TotalSeconds;
                     RatePlay.Text = BangumiMedia.Position.ToString().Split(".")[0];
+                    if (Convert.ToInt32(BangumiMedia.Position.TotalSeconds.ToString().Split(".")[0]) % 60 == 0)
+                        ImomoeLogic.Logic.UpdateHistory(Id, RatePlay.Text);
                 });
                 timer.Start();
             }
