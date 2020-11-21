@@ -4,11 +4,78 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Alm.Pages"
+      xmlns:vm="clr-namespace:Alm.ViewModel"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="KonachanPage">
-
+    <Page.DataContext>
+        <vm:KonachanPageViewModel/>
+    </Page.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal" Margin="5,5,0,0">
+            <ComboBox ItemsSource="{Binding Tags}" 
+                      Width="300"
+                      IsEditable="True" 
+                      Style="{StaticResource ComboBoxExtend}"
+                      Text="{Binding KeyWord}"/>
+            <Button Content="搜索" 
+                    Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding SearchCmd}"/>
+        </WrapPanel>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="#ffffff" >
+            <hc:CoverView Margin="30"
+                              ItemWidth="160"
+                              ItemHeight="160"
+                              ItemContentHeight="120"
+                              ItemsSource="{Binding Root.Elements}">
+                <hc:CoverView.ItemHeaderTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding PreviewURL}"/>
+                    </DataTemplate>
+                </hc:CoverView.ItemHeaderTemplate>
+                <hc:CoverView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Author,StringFormat='作者：{0}'}"
+                                       Margin="1"
+                                       Style="{StaticResource TextBlockDefaultAccent}"/>
+                            <TextBlock Text="{Binding FileSizeMB,StringFormat='文件大小：{0}MB'}" 
+                                       Margin="1"
+                                       Style="{StaticResource TextBlockDefaultPrimary}"/>
+                            <TextBlock Text="{Binding Rating,StringFormat='分级：{0}'}" 
+                                        Margin="1"
+                                        Style="{StaticResource TextBlockDefaultThiLight}"/>
+                            <TextBlock Text="{Binding Source,StringFormat='源地址：{0}'}" 
+                                       Margin="1"
+                                       Style="{StaticResource TextBlockDefaultWarning}"/>
+                            <TextBlock Text="{Binding Tag,StringFormat='标签：{0}'}" 
+                                       TextWrapping="Wrap"
+                                       Margin="1"
+                                       Style="{StaticResource TextBlockDefaultDanger}"/>
+                            <TextBlock Text="{Binding CreateDate,StringFormat='创建时间：{0:yyyy-MM-dd HH:mm:ss}'}"
+                                       Margin="1"
+                                       Style="{StaticResource TextBlockDefaultSuccess}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </hc:CoverView.ItemTemplate>
+            </hc:CoverView>
+        </Border>
+        <hc:Pagination Grid.Row="2" 
+                       HorizontalAlignment="Center"
+                       MaxPageCount="{Binding Root.TotalPage}" 
+                       PageIndex="{Binding PageIndex}" 
+                       IsJumpEnabled="True">
+            <hc:Interaction.Triggers>
+                <hc:EventTrigger EventName="PageUpdated">
+                    <hc:EventToCommand Command="{Binding PageUpdatedCmd}" PassEventArgsToCommand="True" />
+                </hc:EventTrigger>
+            </hc:Interaction.Triggers>
+        </hc:Pagination>
     </Grid>
 </Page>

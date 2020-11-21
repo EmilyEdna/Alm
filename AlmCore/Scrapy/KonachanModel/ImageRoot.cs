@@ -12,7 +12,7 @@ namespace AlmCore.Scrapy.KonachanModel
         /// <summary>
         /// 总页数
         /// </summary>
-        public double PageTotal => Math.Ceiling(Total / 8.0);
+        public double TotalPage => Math.Ceiling(Total / 8.0);
         /// <summary>
         /// 总数
         /// </summary>

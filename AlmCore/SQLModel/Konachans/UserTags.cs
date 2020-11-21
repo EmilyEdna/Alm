@@ -9,11 +9,14 @@ namespace AlmCore.SQLModel.Konachans
     /// 用户标签表
     /// </summary>
     [SugarTable("UserTags")]
-    public class UserTags
+    public class UserTags:ISQLModel
     {
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public int Id { get; set; }
-        public int TagsId { get; set; }
+        /// <summary>
+        /// 标签值
+        /// </summary>
+        public string DiyValue { get; set; }
         /// <summary>
         /// 自定义名称
         /// </summary>

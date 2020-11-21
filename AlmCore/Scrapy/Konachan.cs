@@ -16,9 +16,9 @@ namespace AlmCore.Scrapy
         #region 获取远程数据
         private const string BaseURL = "https://konachan.com/";
         private const string Tag = "tag.xml?order=date&limit={0}";
-        private const string Home = "post.xml?page={0}&limit=12";
+        private const string Home = "post.xml?page={0}&limit=15";
 
-        public static ImageRoot GetImage(int Page, string Tag = "", Action action = null)
+        public static ImageRoot GetImage(int Page=1, string Tag = "", Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
              {
@@ -29,11 +29,11 @@ namespace AlmCore.Scrapy
                  return XPlusEx.XmlDeserialize<ImageRoot>(XmlData.FirstOrDefault());
              }, ex =>
              {
-                 action?.Invoke();
+                 action?.Invoke(ex);
                  return null;
              });
         }
-        public static TagRoot GetTag(int Page = 0, Action action = null)
+        public static TagRoot GetTag(int Page = 0, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
             {
@@ -41,7 +41,7 @@ namespace AlmCore.Scrapy
                 return XPlusEx.XmlDeserialize<TagRoot>(XmlData.FirstOrDefault());
             }, ex =>
             {
-                action?.Invoke();
+                action?.Invoke(ex);
                 return null;
             });
         }
@@ -61,7 +61,7 @@ namespace AlmCore.Scrapy
             }
             else
             {
-                var res = GetTag(50).Elements.ToAutoMapper<TagElements, Tags>().Where(t => t.Id > data.Id).ToList();
+                var res = GetTag(20).Elements.ToAutoMapper<TagElements, Tags>().Where(t => t.Id > data.Id).ToList();
                 if (res.Count != 0)
                     SQLContext.Lite.Insertable(res).ExecuteCommand();
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlmCore.Scrapy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace Alm
         public MainWindow()
         {
             InitializeComponent();
+            Task.Factory.StartNew(() => Konachan.InitTags());
         }
     }
 }
