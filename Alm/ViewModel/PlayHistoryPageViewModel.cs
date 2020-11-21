@@ -7,6 +7,7 @@ using HandyControl.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using XExten.XCore;
 using XExten.Common;
 
 namespace Alm.ViewModel
@@ -57,14 +58,31 @@ namespace Alm.ViewModel
             var History = ImomoeLogic.Logic.GetHistory(obj);
             BangumiPlay Play = new BangumiPlay
             {
+                Id = History.Id,
                 Collection = History.Collection,
                 BangumiName = History.BangumiName,
-                MediaURL = new Uri(History.BangumiURL),
+                MediaURL = new Uri(History.BangumiURL.ToLzStringDec()),
+                UseContinue = true,
+                PlayProgress = TimeSpan.FromSeconds(History.SpanSeconds)
             };
             Play.Show();
         }, null);
-        public Commands<object> SearchCmd => new Commands<object>((obj) => {
-            Root = ImomoeLogic.Logic.GetPlayHistories(Time, PageIndex);
+        public Commands<object> Cmd => new Commands<object>(obj =>
+        {
+            var type = System.Convert.ToInt32(obj);
+            if (type == 1)
+                Root = ImomoeLogic.Logic.GetPlayHistories(Time, PageIndex);
+            if (type == 2)
+            {
+                PageIndex = 1;
+                Time = null;
+                Root = ImomoeLogic.Logic.GetPlayHistories();
+            }
+            if (type == 3)
+            {
+                ImomoeLogic.Logic.DeleteHisitory();
+                Root = ImomoeLogic.Logic.GetPlayHistories(Time, PageIndex);
+            }
         }, null);
         #endregion
     }

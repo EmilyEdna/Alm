@@ -25,13 +25,16 @@ namespace AlmCore.SQLService
         /// 更新播放历史
         /// </summary>
         /// <param name="Id"></param>
+        /// <param name="SpanFmt"></param>
         /// <param name="Span"></param>
         /// <returns></returns>
-        public Task UpdateHistory(int Id, string Span)
+        public void UpdateHistory(int Id, string SpanFmt, double Span)
         {
-            return SQLContext.Lite.Updateable<BangumiHisitory>()
-                 .SetColumns(t => t.PlayProgress == Span)
-                 .Where(t => t.Id == Id).ExecuteCommandAsync();
+            SQLContext.Lite.Updateable<BangumiHisitory>()
+                .SetColumns(t => t.PlayProgress == SpanFmt)
+                .SetColumns(t => t.SpanSeconds == Span)
+                .SetColumns(t => t.PlayTime == DateTime.Now)
+                .Where(t => t.Id == Id).ExecuteCommand();
         }
         /// <summary>
         /// 检查播放历史
@@ -56,16 +59,19 @@ namespace AlmCore.SQLService
         {
             return SQLContext.Lite.Queryable<BangumiHisitory>()
                 .WhereIF(PlayTime.HasValue, t => t.PlayTime <= PlayTime.Value)
-                .OrderBy(t=>t.PlayTime,OrderByType.Desc)
+                .OrderBy(t => t.PlayTime, OrderByType.Desc)
                 .ToList().ToPage(PageIndex, 10);
         }
         /// <summary>
         /// 删除历史纪律
         /// </summary>
         /// <returns></returns>
-        public Task DeleteHisitory(int Id)
+        public void DeleteHisitory(int Id = 0)
         {
-            return SQLContext.Lite.Deleteable<BangumiHisitory>(t => t.Id == Id).ExecuteCommandAsync();
+            if (Id != 0)
+                SQLContext.Lite.Deleteable<BangumiHisitory>(t => t.Id == Id).ExecuteCommand();
+            else
+                SQLContext.Lite.Deleteable<BangumiHisitory>().ExecuteCommand();
         }
         /// <summary>
         /// 获取历史

@@ -16,6 +16,7 @@ namespace AlmCore.SQLModel.Imomoes
         /// <summary>
         /// 视频地址
         /// </summary>
+        [SugarColumn(Length = 500)]
         public string BangumiURL { get; set; }
         /// <summary>
         /// 番剧名称
@@ -30,6 +31,10 @@ namespace AlmCore.SQLModel.Imomoes
         /// </summary>
         [SugarColumn(Length = 200)]
         public string PlayProgress { get; set; }
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        public double SpanSeconds { get; set; }
         /// <summary>
         /// 观看时间
         /// </summary>

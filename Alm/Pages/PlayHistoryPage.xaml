@@ -18,9 +18,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,10,0">
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,20,0">
             <hc:DatePicker ShowClearButton="True" SelectedDate="{Binding Time}" Width="380"/>
-            <Button Style="{StaticResource ButtonPrimary}" Content="搜索" Command="{Binding SearchCmd}"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="搜索" Command="{Binding Cmd}" CommandParameter="1"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="刷新" Command="{Binding Cmd}" CommandParameter="2"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="清空记录" Command="{Binding Cmd}" CommandParameter="3"/>
         </WrapPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding Root.Queryable}">
             <ListView.View>

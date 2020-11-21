@@ -80,7 +80,8 @@ namespace Alm.ViewModel
             {
                 MediaURL = new Uri(PLAY),
                 BangumiName = BangumiName,
-                Collection = obj.Keys.FirstOrDefault()
+                Collection = obj.Keys.FirstOrDefault(),
+                UseContinue=false
             };
             Play.Show();
         }, null);
