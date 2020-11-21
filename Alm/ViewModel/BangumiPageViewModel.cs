@@ -1,4 +1,5 @@
-﻿using Alm.Utils;
+﻿using Alm.Pages;
+using Alm.Utils;
 using Alm.ViewModel.Base;
 using AlmCore.Scrapy;
 using AlmCore.Scrapy.ImomoeModel;
@@ -61,6 +62,25 @@ namespace Alm.ViewModel
         #endregion
 
         #region Commands
+        public Commands<string> WatchCmd => new Commands<string>((str) =>
+        {
+            var PLAY = Imomoe.GetVedio(str, ex =>
+             {
+                 Growl.Info("未找到相关资源");
+                 return;
+             });
+            if (PLAY.IsNullOrEmpty())
+            {
+                Growl.Info("未找到相关资源");
+                return;
+            }
+            BangumiPlay Play = new BangumiPlay()
+            {
+                MediaURL = new Uri(PLAY)
+            };
+            Play.Show();
+        }, null);
+
         public Commands<string> ShowCmd => new Commands<string>((str) =>
         {
             BRoot = Imomoe.GetBangumiPage(str, ex => Growl.Error(ex.Message));

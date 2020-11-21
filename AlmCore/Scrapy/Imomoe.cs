@@ -35,16 +35,16 @@ namespace AlmCore.Scrapy
             }
         }
 
-        public static BangumiDetailRoot GetBangumiPage(string Route,Action<Exception> action=null)
+        public static BangumiDetailRoot GetBangumiPage(string Route, Action<Exception> action = null)
         {
             var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + Route).Build().RunString().FirstOrDefault();
             return LoadPlayPage(data, action);
         }
 
-        public static string GetVedio(string PlayHtml)
+        public static string GetVedio(string PlayHtml, Action<Exception> action = null)
         {
             var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + PlayHtml).Build().RunString().FirstOrDefault();
-            return LoadBangumi(data);
+            return LoadBangumi(data, action);
         }
 
         #region 爬虫
@@ -122,7 +122,7 @@ namespace AlmCore.Scrapy
                 return null;
             });
         }
-        private static string LoadBangumi(string html)
+        private static string LoadBangumi(string html, Action<Exception> action=null)
         {
             return XPlusEx.XTry(() =>
             {
@@ -135,8 +135,12 @@ namespace AlmCore.Scrapy
                 var res = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
                 if (!res.IsNullOrEmpty())
                     return Regex.Match(res, "http(.*)").Value;
-                return "";
-            }, ex => null);
+                return null;
+            }, ex =>
+            {
+                action?.Invoke(ex);
+                return null;
+            });
         }
         #endregion
         #endregion

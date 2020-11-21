@@ -24,6 +24,7 @@ namespace Alm.ViewModel
                 case FunctionEnums.Search:
                     break;
                 case FunctionEnums.Konachan:
+                    main.CurrentPage = new KonachanPage();
                     break;
                 case FunctionEnums.Bangumi:
                     main.CurrentPage = new BangumiPage();
