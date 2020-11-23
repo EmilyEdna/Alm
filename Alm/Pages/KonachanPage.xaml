@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Alm.Pages"
+      xmlns:ctrl="clr-namespace:Alm.Controls"
       xmlns:vm="clr-namespace:Alm.ViewModel"
       xmlns:hc="https://handyorg.github.io/handycontrol"
       mc:Ignorable="d" 
@@ -36,7 +37,24 @@
                               ItemsSource="{Binding Root.Elements}">
                 <hc:CoverView.ItemHeaderTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding PreviewURL}"/>
+                        <Grid>
+                            <!--<StackPanel Panel.ZIndex="10" Margin="0,0,140,142">
+                                <CheckBox/>
+                               
+                            </StackPanel>-->
+                            <ctrl:AlmBtn
+                                Panel.ZIndex="15" Margin="0,0,140,105"
+                                ButtonSize="22"
+                                ButtonHoverColor="#0000"
+                                ButtonHoverForeground="White"
+                                ButtonForeground="HotPink"
+                                IconHeight="12"
+                                IconWidth="12"
+                                Icon="{DynamicResource NoStarIcon}"/>
+
+
+                            <Image Source="http://123.56.178.100/headpic/7.jpg"/>
+                        </Grid>
                     </DataTemplate>
                 </hc:CoverView.ItemHeaderTemplate>
                 <hc:CoverView.ItemTemplate>
