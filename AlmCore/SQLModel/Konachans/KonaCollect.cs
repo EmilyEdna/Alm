@@ -11,7 +11,7 @@ namespace AlmCore.SQLModel.Konachans
     [SugarTable("KonaCollect")]
     public class KonaCollect : ISQLModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         /// <summary>
         /// 预览地址
         /// </summary>
@@ -40,6 +40,6 @@ namespace AlmCore.SQLModel.Konachans
         /// 时间
         /// </summary>
         [SugarColumn(ColumnDataType = "DateTime")]
-        public DateTime Time { get; set; }
+        public DateTime Time { get; set; } = DateTime.Now;
     }
 }

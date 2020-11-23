@@ -1,4 +1,6 @@
 ﻿using Alm.Controls.Base;
+using AlmCore.Scrapy.KonachanModel;
+using AlmCore.SQLService;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,7 +37,7 @@ namespace Alm.Controls
                 targetWindow.Close();
             else if (Param.Equals("Min"))
                 targetWindow.WindowState = WindowState.Minimized;
-            else
+            else if (Param.Equals("Max"))
             {
                 targetWindow.StateChanged += (sender, e) =>
                 {
@@ -46,6 +48,22 @@ namespace Alm.Controls
                     targetWindow.WindowState = WindowState.Maximized;
                 else if (targetWindow.WindowState == WindowState.Maximized)
                     targetWindow.WindowState = WindowState.Normal;
+            }
+            else {
+                ResourceDictionary dictionary = new ResourceDictionary()
+                {
+                    Source = new Uri(@"/Alm;component/Style/Geometry.xaml", UriKind.Relative)
+                };
+                ImageElements Elements = (btn.CommandParameter as ImageElements);
+                if (KonachanLogic.Logic.HasCollect(Elements.Id))
+                {
+                    KonachanLogic.Logic.AddCollect(Elements);
+                    btn.Icon = Geometry.Parse(dictionary["YesStarIcon"].ToString());
+                }
+                else {
+                    KonachanLogic.Logic.RemoveCollect(Elements.Id);
+                    btn.Icon = Geometry.Parse(dictionary["NoStarIcon"].ToString());
+                }
             }
         }
     }
