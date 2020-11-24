@@ -1,4 +1,6 @@
 ﻿using Alm.Controls.Base;
+using Alm.Utils;
+using Alm.ViewModel;
 using AlmCore.Scrapy.KonachanModel;
 using AlmCore.SQLService;
 using System;
@@ -35,9 +37,9 @@ namespace Alm.Controls
             var Param = btn.CommandParameter.ToString();
             if (Param.Equals("Close"))
                 targetWindow.Close();
-            else if (Param.Equals("Min"))
+            if (Param.Equals("Min"))
                 targetWindow.WindowState = WindowState.Minimized;
-            else if (Param.Equals("Max"))
+            if (Param.Equals("Max"))
             {
                 targetWindow.StateChanged += (sender, e) =>
                 {
@@ -49,7 +51,8 @@ namespace Alm.Controls
                 else if (targetWindow.WindowState == WindowState.Maximized)
                     targetWindow.WindowState = WindowState.Normal;
             }
-            else {
+            if (btn.CommandParameter.GetType() == typeof(ImageElements))
+            {
                 ResourceDictionary dictionary = new ResourceDictionary()
                 {
                     Source = new Uri(@"/Alm;component/Style/Geometry.xaml", UriKind.Relative)
@@ -60,10 +63,18 @@ namespace Alm.Controls
                     KonachanLogic.Logic.AddCollect(Elements);
                     btn.Icon = Geometry.Parse(dictionary["YesStarIcon"].ToString());
                 }
-                else {
+                else
+                {
                     KonachanLogic.Logic.RemoveCollect(Elements.Id);
                     btn.Icon = Geometry.Parse(dictionary["NoStarIcon"].ToString());
                 }
+            }
+            if (btn.CommandParameter.GetType() == typeof(long)) 
+            {
+                var Id = Convert.ToInt64(btn.CommandParameter);
+                KonachanLogic.Logic.RemoveCollect(Id);
+                CollectPageViewModel vm = IocManager.GetCache<CollectPageViewModel>(nameof(CollectPageViewModel));
+                vm.Init();
             }
         }
     }

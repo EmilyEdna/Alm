@@ -5,6 +5,7 @@ using System;
 using XExten.XCore;
 using System.Collections.Generic;
 using System.Text;
+using XExten.Common;
 
 namespace AlmCore.SQLService
 {
@@ -18,6 +19,18 @@ namespace AlmCore.SQLService
         public List<UserTags> GetUserTags()
         {
             return SQLContext.Lite.Queryable<UserTags>().OrderBy(t => t.AddTime, OrderByType.Desc).ToList();
+        }
+
+        /// <summary>
+        /// 查询收藏
+        /// </summary>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public PageResult<KonaCollect> GetCollect(DateTime? AddTime, int PageIndex)
+        {
+            return SQLContext.Lite.Queryable<KonaCollect>()
+                .WhereIF(AddTime.HasValue, t => t.Time <= AddTime.Value).ToList()
+                .ToPage(PageIndex, 20);
         }
         /// <summary>
         /// 检查是否收藏过

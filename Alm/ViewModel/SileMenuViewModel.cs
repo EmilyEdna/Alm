@@ -33,6 +33,7 @@ namespace Alm.ViewModel
                     main.CurrentPage = new PlayHistoryPage();
                     break;
                 case FunctionEnums.ImageCollect:
+                    main.CurrentPage = new KonachanCollectPage();
                     break;
                 case FunctionEnums.DownRecord:
                     break;
