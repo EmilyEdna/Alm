@@ -36,6 +36,7 @@ namespace Alm.ViewModel
                     main.CurrentPage = new KonachanCollectPage();
                     break;
                 case FunctionEnums.DownRecord:
+                    main.CurrentPage = new DownRecordPage                                                                                                                                                                                                                                                          ();
                     break;
                 case FunctionEnums.Author:
                     break;
