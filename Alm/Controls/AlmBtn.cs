@@ -1,7 +1,6 @@
 ﻿using Alm.Controls.Base;
 using Alm.Utils;
 using Alm.ViewModel;
-using AlmCore.Scrapy.KonachanModel;
 using AlmCore.SQLService;
 using System;
 using System.Collections.Generic;
@@ -50,31 +49,6 @@ namespace Alm.Controls
                     targetWindow.WindowState = WindowState.Maximized;
                 else if (targetWindow.WindowState == WindowState.Maximized)
                     targetWindow.WindowState = WindowState.Normal;
-            }
-            if (btn.CommandParameter.GetType() == typeof(ImageElements))
-            {
-                ResourceDictionary dictionary = new ResourceDictionary()
-                {
-                    Source = new Uri(@"/Alm;component/Style/Geometry.xaml", UriKind.Relative)
-                };
-                ImageElements Elements = (btn.CommandParameter as ImageElements);
-                if (KonachanLogic.Logic.HasCollect(Elements.Id))
-                {
-                    KonachanLogic.Logic.AddCollect(Elements);
-                    btn.Icon = Geometry.Parse(dictionary["YesStarIcon"].ToString());
-                }
-                else
-                {
-                    KonachanLogic.Logic.RemoveCollect(Elements.Id);
-                    btn.Icon = Geometry.Parse(dictionary["NoStarIcon"].ToString());
-                }
-            }
-            if (btn.CommandParameter.GetType() == typeof(long)) 
-            {
-                var Id = Convert.ToInt64(btn.CommandParameter);
-                KonachanLogic.Logic.RemoveCollect(Id);
-                CollectPageViewModel vm = IocManager.GetCache<CollectPageViewModel>(nameof(CollectPageViewModel));
-                vm.Init();
             }
         }
     }

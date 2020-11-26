@@ -63,6 +63,64 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type win:CollectBtn}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type win:CollectBtn}">
+                    <Grid x:Name="grid"
+                          Width="{Binding ButtonSize,RelativeSource={RelativeSource TemplatedParent}}"
+                          Height="{Binding ButtonSize,RelativeSource={RelativeSource TemplatedParent}}"
+                          Background="#00FFFFFF">
+                        <Path x:Name="Content"
+                                Width="{Binding IconWidth,RelativeSource={RelativeSource TemplatedParent}}"
+                                Height="{Binding IconHeight,RelativeSource={RelativeSource TemplatedParent}}"
+                                Data="{Binding Icon,RelativeSource={RelativeSource TemplatedParent}}"
+                                Fill="{Binding ButtonForeground, RelativeSource={RelativeSource TemplatedParent}}"
+                                Stretch="Fill"
+                                UseLayoutRounding="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Content" Property="Fill" Value="{Binding ButtonHoverForeground, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="grid" Property="Background" Value="{Binding ButtonHoverColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="grid" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type win:DownBtn}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type win:DownBtn}">
+                    <Grid x:Name="grid"
+                          Width="{Binding ButtonSize,RelativeSource={RelativeSource TemplatedParent}}"
+                          Height="{Binding ButtonSize,RelativeSource={RelativeSource TemplatedParent}}"
+                          Background="#00FFFFFF">
+                        <Path x:Name="Content"
+                                Width="{Binding IconWidth,RelativeSource={RelativeSource TemplatedParent}}"
+                                Height="{Binding IconHeight,RelativeSource={RelativeSource TemplatedParent}}"
+                                Data="{Binding Icon,RelativeSource={RelativeSource TemplatedParent}}"
+                                Fill="{Binding ButtonForeground, RelativeSource={RelativeSource TemplatedParent}}"
+                                Stretch="Fill"
+                                UseLayoutRounding="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Content" Property="Fill" Value="{Binding ButtonHoverForeground, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="grid" Property="Background" Value="{Binding ButtonHoverColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="grid" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!--#endregion-->
 
 </ResourceDictionary>

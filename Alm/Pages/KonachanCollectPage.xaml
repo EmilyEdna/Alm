@@ -35,7 +35,7 @@
                     <DataTemplate>
                         <Grid>
                             <CheckBox Panel.ZIndex="10" Margin="0,0,140,142"/>
-                            <ctrl:AlmBtn
+                            <ctrl:DownBtn
                                 Panel.ZIndex="15" Margin="0,0,140,105"
                                 ButtonSize="22"
                                 ButtonHoverColor="#0000"
@@ -44,6 +44,7 @@
                                 IconHeight="15"
                                 IconWidth="15"
                                 Icon="{DynamicResource YesStarIcon}" 
+                                Command="{Binding DataContext.RemoveCmd,RelativeSource={RelativeSource AncestorType=Page}}"
                                 CommandParameter="{Binding Id}"/>
                             <Image Source="http://123.56.178.100/headpic/7.jpg"/>
                             <!--<Image Source="{Binding PreviewURL}"/>-->

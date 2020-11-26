@@ -1,5 +1,8 @@
-﻿using Alm.Utils;
+﻿using Alm.Controls;
+using Alm.Utils;
 using Alm.ViewModel.Base;
+using AlmCore;
+using AlmCore.Downer;
 using AlmCore.Scrapy;
 using AlmCore.Scrapy.KonachanModel;
 using AlmCore.SQLModel.Konachans;
@@ -8,11 +11,14 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Alm.ViewModel
 {
-    public class KonachanPageViewModel: ViewModelBase
+    public class KonachanPageViewModel : ViewModelBase
     {
         public KonachanPageViewModel()
         {
@@ -43,7 +49,8 @@ namespace Alm.ViewModel
             set { _PageIndex = value; OnPropertyChanged("PageIndex"); }
         }
         private ImageRoot _Root;
-        public ImageRoot Root {
+        public ImageRoot Root
+        {
             get { return _Root; }
             set { _Root = value; OnPropertyChanged("Root"); }
         }
@@ -59,8 +66,42 @@ namespace Alm.ViewModel
         public Commands<FunctionEventArgs<int>> PageUpdatedCmd => new Commands<FunctionEventArgs<int>>((obj) =>
         {
             PageIndex = obj.Info;
-            Root = Konachan.GetImage(PageIndex,null, ex => Growl.Error(ex.Message));
+            Root = Konachan.GetImage(PageIndex, null, ex => Growl.Error(ex.Message));
         }, null);
+
+        public Commands<Dictionary<CollectBtn, ImageElements>> CollectCmd => new Commands<Dictionary<CollectBtn, ImageElements>>((obj) =>
+        {
+            ResourceDictionary dictionary = new ResourceDictionary()
+            {
+                Source = new Uri(@"/Alm;component/Style/Geometry.xaml", UriKind.Relative)
+            };
+            ImageElements Elements = obj.Values.FirstOrDefault();
+            CollectBtn Btn = obj.Keys.FirstOrDefault();
+            if (KonachanLogic.Logic.HasCollect(Elements.Id))
+            {
+                KonachanLogic.Logic.AddCollect(Elements);
+                Btn.Icon = Geometry.Parse(dictionary["YesStarIcon"].ToString());
+            }
+            else
+            {
+                KonachanLogic.Logic.RemoveCollect(Elements.Id);
+                Btn.Icon = Geometry.Parse(dictionary["NoStarIcon"].ToString());
+            }
+
+        }, null);
+
+        public Commands<ImageElements> DownCmd => new Commands<ImageElements>((obj) =>
+        {
+            DownInfo Info = new DownInfo
+            {
+                SaveDir = AppDomain.CurrentDomain.BaseDirectory + "Save\\",
+                DownloadUrlList = new List<string> {obj.FileURL},
+                TaskCount=2
+            };
+            DownManager down = new DownManager(Info);
+            down.Start();
+        },null);
+
         public Commands<object> SearchCmd => new Commands<object>((obj) =>
         {
         }, null);
