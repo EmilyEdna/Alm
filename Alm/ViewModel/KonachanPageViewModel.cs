@@ -1,8 +1,6 @@
 ﻿using Alm.Controls;
 using Alm.Utils;
 using Alm.ViewModel.Base;
-using AlmCore;
-using AlmCore.Downer;
 using AlmCore.Scrapy;
 using AlmCore.Scrapy.KonachanModel;
 using AlmCore.SQLModel.Konachans;
@@ -92,15 +90,16 @@ namespace Alm.ViewModel
 
         public Commands<ImageElements> DownCmd => new Commands<ImageElements>((obj) =>
         {
-            DownInfo Info = new DownInfo
+            KonachanLogic.Logic.AddDownRecord(new DownRecord
             {
-                SaveDir = AppDomain.CurrentDomain.BaseDirectory + "Save\\",
-                DownloadUrlList = new List<string> {obj.FileURL},
-                TaskCount=2
-            };
-            DownManager down = new DownManager(Info);
-            down.Start();
-        },null);
+                DownTime = DateTime.Now,
+                FileURL = obj.FileURL,
+                Id = obj.Id,
+                Name = obj.Tag,
+                State = "未开始"
+            });
+            Growl.Info("已加入到下载列表");
+        }, null);
 
         public Commands<object> SearchCmd => new Commands<object>((obj) =>
         {

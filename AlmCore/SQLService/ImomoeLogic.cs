@@ -12,6 +12,7 @@ namespace AlmCore.SQLService
     public class ImomoeLogic
     {
         public static ImomoeLogic Logic => new ImomoeLogic();
+        #region 播放历史
         /// <summary>
         /// 添加历史记录
         /// </summary>
@@ -82,7 +83,7 @@ namespace AlmCore.SQLService
         {
             return SQLContext.Lite.Queryable<BangumiHisitory>().Where(t => t.Id == Id).First();
         }
-
+        #endregion
 
         /// <summary>
         /// 添加收藏

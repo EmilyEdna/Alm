@@ -4,11 +4,92 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Alm.Pages"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      xmlns:vm="clr-namespace:Alm.ViewModel"
+      xmlns:ctrl="clr-namespace:Alm.ViewModel.Convert"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DownRecordPage">
-
+    <Page.Resources>
+        <ctrl:DownloadMultiValue x:Key="Convter"/>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:DownRecordPageViewModel/>
+    </Page.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,20,0">
+            <hc:DatePicker ShowClearButton="True" SelectedDate="{Binding Time}" Width="380"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="搜索" Command="{Binding Cmd}" CommandParameter="1"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="刷新" Command="{Binding Cmd}" CommandParameter="2"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="清空记录" Command="{Binding Cmd}" CommandParameter="3"/>
+        </WrapPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Root.Queryable}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="进度" Width="400"/>
+                    <GridViewColumn Header="状态" DisplayMemberBinding="{Binding State}" Width="50"/>
+                    <GridViewColumn Header="操作" Width="500">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <hc:ButtonGroup>
+                                    <Button Content="开始下载" 
+                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
+                                                <Binding Source="0"/>
+                                                <Binding Path="."/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Button Content="暂停下载" 
+                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
+                                                <Binding Source="3"/>
+                                                <Binding Path="."/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Button Content="重新下载" 
+                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
+                                                <Binding Source="1"/>
+                                                <Binding Path="."/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Button Content="删除" 
+                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
+                                                <Binding Source="2"/>
+                                                <Binding Path="."/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                </hc:ButtonGroup>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <hc:Pagination Grid.Row="2" MaxPageCount="{Binding Root.TotalPage}"
+                       HorizontalAlignment="Center"
+                       Margin="0,5,0,0"
+                       PageIndex="{Binding PageIndex}" 
+                       IsJumpEnabled="True">
+            <hc:Interaction.Triggers>
+                <hc:EventTrigger EventName="PageUpdated">
+                    <hc:EventToCommand Command="{Binding PageUpdatedCmd}" PassEventArgsToCommand="True" />
+                </hc:EventTrigger>
+            </hc:Interaction.Triggers>
+        </hc:Pagination>
     </Grid>
 </Page>

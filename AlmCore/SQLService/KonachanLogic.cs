@@ -20,7 +20,7 @@ namespace AlmCore.SQLService
         {
             return SQLContext.Lite.Queryable<UserTags>().OrderBy(t => t.AddTime, OrderByType.Desc).ToList();
         }
-
+        #region 收藏
         /// <summary>
         /// 查询收藏
         /// </summary>
@@ -58,5 +58,62 @@ namespace AlmCore.SQLService
         {
             SQLContext.Lite.Deleteable<KonaCollect>(t => t.Id == Id).ExecuteCommand();
         }
+        #endregion
+
+        #region 下载
+        /// <summary>
+        /// 添加下载
+        /// </summary>
+        /// <param name="Record"></param>
+        public void AddDownRecord(DownRecord Record)
+        {
+            SQLContext.Lite.Insertable(Record).ExecuteCommand();
+        }
+        /// <summary>
+        /// 获取下载列表
+        /// </summary>
+        /// <param name="DownTime"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public PageResult<DownRecord> GetDownRecord(DateTime? DownTime = null, int PageIndex = 1)
+        {
+            return SQLContext.Lite.Queryable<DownRecord>()
+                    .WhereIF(DownTime.HasValue, t => t.DownTime <= DownTime.Value).ToList()
+                    .ToPage(PageIndex, 20);
+        }
+        /// <summary>
+        /// 更新下载状态
+        /// </summary>
+        /// <param name="State"></param>
+        public void UpdateRecord(string State)
+        {
+            SQLContext.Lite.Updateable<DownRecord>()
+                   .SetColumns(t => t.State == State)
+                   .ExecuteCommand();
+        }
+        /// <summary>
+        /// 判断下载记录
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckRecord(long Id)
+        {
+            return SQLContext.Lite.Queryable<DownRecord>().Where(t => t.Id == Id).First() == null;
+        }
+        /// <summary>
+        /// 删除下载记录
+        /// </summary>
+        /// <param name="Id"></param>
+        public void DeleteRecord(long Id)
+        {
+            SQLContext.Lite.Deleteable<DownRecord>(t => t.Id == Id).ExecuteCommand();
+        }
+        /// <summary>
+        /// 删除下载记录
+        /// </summary>
+        public void DeleteRecordAll()
+        {
+            SQLContext.Lite.Deleteable<DownRecord>().ExecuteCommand();
+        }
+        #endregion
     }
 }

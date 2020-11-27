@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Alm.Utils.Enums
 {
-    public enum FunctionEnums
+    public enum FunctionEnum
     {
         Search,
         Konachan,

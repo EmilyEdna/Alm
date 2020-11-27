@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AlmCore.Downer
 {
@@ -111,11 +112,11 @@ namespace AlmCore.Downer
                         {
                             Thread.Sleep(100);
                         }
-                        if ((this.dls.Where(td => !td.IsFinish).Count() == 0))
+                        if (dls.Where(td => !td.IsFinish).Count() == 0)
                         {
 
                             CombineFiles(dlInfo);
-                            OnFineshHandler();
+                            //OnFineshHandler();
                         }
                     }
 

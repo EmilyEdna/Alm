@@ -18,27 +18,27 @@ namespace Alm.ViewModel
         public Commands<string> SelectItem => new Commands<string>((str) =>
         {
             MainWindowViewModel main = IocManager.GetCache<MainWindowViewModel>(nameof(MainWindowViewModel));
-            FunctionEnums function = Enum.Parse<FunctionEnums>(str);
+            FunctionEnum function = Enum.Parse<FunctionEnum>(str);
             switch (function)
             {
-                case FunctionEnums.Search:
+                case FunctionEnum.Search:
                     break;
-                case FunctionEnums.Konachan:
+                case FunctionEnum.Konachan:
                     main.CurrentPage = new KonachanPage();
                     break;
-                case FunctionEnums.Bangumi:
+                case FunctionEnum.Bangumi:
                     main.CurrentPage = new BangumiPage();
                     break;
-                case FunctionEnums.PlayHistory:
+                case FunctionEnum.PlayHistory:
                     main.CurrentPage = new PlayHistoryPage();
                     break;
-                case FunctionEnums.ImageCollect:
+                case FunctionEnum.ImageCollect:
                     main.CurrentPage = new KonachanCollectPage();
                     break;
-                case FunctionEnums.DownRecord:
-                    main.CurrentPage = new DownRecordPage                                                                                                                                                                                                                                                          ();
+                case FunctionEnum.DownRecord:
+                    main.CurrentPage = new DownRecordPage();
                     break;
-                case FunctionEnums.Author:
+                case FunctionEnum.Author:
                     break;
                 default:
                     break;

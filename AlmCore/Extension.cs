@@ -11,6 +11,23 @@ namespace AlmCore
         private static string ApplicationRoute = AppDomain.CurrentDomain.BaseDirectory;
         public static string Connection = ApplicationRoute + "God.SqlLite";
         public static string InitDataBase = ApplicationRoute + "Config.cof";
+        public static string SavrDir = ApplicationRoute + "\\Save";
+
+        /// <summary>
+        /// 创建文件夹
+        /// </summary>
+        /// <param name="DirRoute"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string CreateDir(string DirRoute,Action action=null) 
+        {
+            if (!Directory.Exists(DirRoute)) 
+            {
+                Directory.CreateDirectory(DirRoute);
+                action?.Invoke();
+            }
+            return DirRoute;
+        }
         /// <summary>
         /// 创建文件
         /// </summary>
