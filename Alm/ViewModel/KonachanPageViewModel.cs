@@ -90,15 +90,19 @@ namespace Alm.ViewModel
 
         public Commands<ImageElements> DownCmd => new Commands<ImageElements>((obj) =>
         {
-            KonachanLogic.Logic.AddDownRecord(new DownRecord
+            if (KonachanLogic.Logic.CheckRecord(obj.Id))
             {
-                DownTime = DateTime.Now,
-                FileURL = obj.FileURL,
-                Id = obj.Id,
-                Name = obj.Tag,
-                State = "未开始"
-            });
-            Growl.Info("已加入到下载列表");
+                KonachanLogic.Logic.AddDownRecord(new DownRecord
+                {
+                    DownTime = DateTime.Now,
+                    FileURL = obj.FileURL,
+                    Id = obj.Id,
+                    Name = obj.Tag,
+                    State = "未开始"
+                });
+                Growl.Info("已加入到下载列表");
+            }
+            else Growl.Info("已经在下载列表了");
         }, null);
 
         public Commands<object> SearchCmd => new Commands<object>((obj) =>

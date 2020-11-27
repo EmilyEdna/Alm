@@ -3,6 +3,7 @@ using Alm.ViewModel.Base;
 using AlmCore.Scrapy.KonachanModel;
 using AlmCore.SQLModel.Konachans;
 using AlmCore.SQLService;
+using HandyControl.Controls;
 using HandyControl.Data;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,23 @@ namespace Alm.ViewModel
         {
             PageIndex = 1;
             Root = KonachanLogic.Logic.GetCollect(Time, PageIndex);
+        }, null);
+
+        public Commands<ImageElements> DownCmd => new Commands<ImageElements>((obj) =>
+        {
+            if (KonachanLogic.Logic.CheckRecord(obj.Id))
+            {
+                KonachanLogic.Logic.AddDownRecord(new DownRecord
+                {
+                    DownTime = DateTime.Now,
+                    FileURL = obj.FileURL,
+                    Id = obj.Id,
+                    Name = obj.Tag,
+                    State = "未开始"
+                });
+                Growl.Info("已加入到下载列表");
+            }
+            else Growl.Info("已经在下载列表了");
         }, null);
 
         public Commands<long> RemoveCmd => new Commands<long>((obj) =>
