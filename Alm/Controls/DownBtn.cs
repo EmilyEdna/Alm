@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Alm.Controls
 {
-    public class DownBtn : ButtonBase
+    public class DownBtn:ButtonBase
     {
     }
 }

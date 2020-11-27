@@ -6,12 +6,13 @@
       xmlns:local="clr-namespace:Alm.Pages"
       xmlns:hc="https://handyorg.github.io/handycontrol"
       xmlns:vm="clr-namespace:Alm.ViewModel"
-      xmlns:ctrl="clr-namespace:Alm.ViewModel.Convert"
+      xmlns:cv="clr-namespace:Alm.ViewModel.Convert"
+      xmlns:ctrl="clr-namespace:Alm.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DownRecordPage">
     <Page.Resources>
-        <ctrl:DownloadMultiValue x:Key="Convter"/>
+        <cv:DownloadMultiValue x:Key="Convter"/>
     </Page.Resources>
     <Page.DataContext>
         <vm:DownRecordPageViewModel/>
@@ -31,49 +32,100 @@
         <ListView Grid.Row="1" ItemsSource="{Binding Root.Queryable}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="进度" Width="400"/>
-                    <GridViewColumn Header="状态" DisplayMemberBinding="{Binding State}" Width="50"/>
-                    <GridViewColumn Header="操作" Width="500">
+                    <GridViewColumn Header="进度" Width="800"/>
+                    <GridViewColumn Header="操作" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <hc:ButtonGroup>
-                                    <Button Content="开始下载" 
-                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
-                                        <Button.CommandParameter>
+                                <WrapPanel Orientation="Horizontal">
+                                    <ctrl:ComBtn 
+                                        ToolTipService.Placement="Bottom"
+                                        ButtonSize="22"
+                                        ButtonHoverColor="#0000"
+                                        ButtonHoverForeground="HotPink"
+                                        ButtonForeground="Black"
+                                        IconHeight="15"
+                                        IconWidth="15"
+                                        Icon="{StaticResource DownIcon}" 
+                                        Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <ctrl:ComBtn.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="下载"/>
+                                            </ToolTip>
+                                        </ctrl:ComBtn.ToolTip>
+                                        <ctrl:ComBtn.CommandParameter>
                                             <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
                                                 <Binding Source="0"/>
                                                 <Binding Path="."/>
                                             </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
-                                    <Button Content="暂停下载" 
-                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
-                                        <Button.CommandParameter>
-                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="3"/>
-                                                <Binding Path="."/>
-                                            </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
-                                    <Button Content="重新下载" 
-                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
-                                        <Button.CommandParameter>
+                                        </ctrl:ComBtn.CommandParameter>
+                                    </ctrl:ComBtn>
+                                    <ctrl:ComBtn 
+                                        ToolTipService.Placement="Bottom"
+                                        ButtonSize="22"
+                                        ButtonHoverColor="#0000"
+                                        ButtonHoverForeground="HotPink"
+                                        ButtonForeground="Black"
+                                        IconHeight="15"
+                                        IconWidth="15"
+                                        Icon="{StaticResource ReStartIcon}" 
+                                        Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <ctrl:ComBtn.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="重新下载"/>
+                                            </ToolTip>
+                                        </ctrl:ComBtn.ToolTip>
+                                        <ctrl:ComBtn.CommandParameter>
                                             <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
                                                 <Binding Source="1"/>
                                                 <Binding Path="."/>
                                             </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
-                                    <Button Content="删除" 
-                                            Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
-                                        <Button.CommandParameter>
+                                        </ctrl:ComBtn.CommandParameter>
+                                    </ctrl:ComBtn>
+                                    <ctrl:ComBtn 
+                                        ButtonSize="22"
+                                        ButtonHoverColor="#0000"
+                                        ButtonHoverForeground="HotPink"
+                                        ButtonForeground="Black"
+                                        IconHeight="15"
+                                        IconWidth="15"
+                                        ToolTipService.Placement="Bottom"
+                                        Icon="{StaticResource DeleteIcon}" 
+                                        Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <ctrl:ComBtn.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="删除"/>
+                                            </ToolTip>
+                                        </ctrl:ComBtn.ToolTip>
+                                        <ctrl:ComBtn.CommandParameter>
                                             <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="2"/>
+                                                <Binding Source="3"/>
                                                 <Binding Path="."/>
                                             </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
-                                </hc:ButtonGroup>
+                                        </ctrl:ComBtn.CommandParameter>
+                                    </ctrl:ComBtn>
+                                    <ctrl:ComBtn 
+                                        ButtonSize="22"
+                                        ButtonHoverColor="#0000"
+                                        ButtonHoverForeground="HotPink"
+                                        ButtonForeground="Black"
+                                        IconHeight="15"
+                                        IconWidth="15"
+                                        ToolTipService.Placement="Bottom"
+                                        Icon="{StaticResource  PauseIcon}" 
+                                        Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
+                                        <ctrl:ComBtn.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="暂停"/>
+                                            </ToolTip>
+                                        </ctrl:ComBtn.ToolTip>
+                                        <ctrl:ComBtn.CommandParameter>
+                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
+                                                <Binding Source="4"/>
+                                                <Binding Path="."/>
+                                            </MultiBinding>
+                                        </ctrl:ComBtn.CommandParameter>
+                                    </ctrl:ComBtn>
+                                </WrapPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

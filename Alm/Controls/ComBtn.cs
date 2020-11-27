@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Alm.Controls
 {
-    public class CollectBtn:ButtonBase
+    public class ComBtn: ButtonBase
     {
     }
 }
