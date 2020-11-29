@@ -28,11 +28,13 @@
             <Button Style="{StaticResource ButtonPrimary}" Content="搜索" Command="{Binding Cmd}" CommandParameter="1"/>
             <Button Style="{StaticResource ButtonPrimary}" Content="刷新" Command="{Binding Cmd}" CommandParameter="2"/>
             <Button Style="{StaticResource ButtonPrimary}" Content="清空记录" Command="{Binding Cmd}" CommandParameter="3"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content="打开目录" Command="{Binding Cmd}" CommandParameter="4"/>
         </WrapPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding Root.Queryable}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="进度" Width="800"/>
+                    <GridViewColumn Header="进度" Width="700"/>
+                    <GridViewColumn Header="文件大小" Width="100" DisplayMemberBinding="{Binding FileSize}"/>
                     <GridViewColumn Header="操作" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -98,7 +100,7 @@
                                         </ctrl:ComBtn.ToolTip>
                                         <ctrl:ComBtn.CommandParameter>
                                             <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="3"/>
+                                                <Binding Source="2"/>
                                                 <Binding Path="."/>
                                             </MultiBinding>
                                         </ctrl:ComBtn.CommandParameter>
@@ -120,7 +122,7 @@
                                         </ctrl:ComBtn.ToolTip>
                                         <ctrl:ComBtn.CommandParameter>
                                             <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="4"/>
+                                                <Binding Source="3"/>
                                                 <Binding Path="."/>
                                             </MultiBinding>
                                         </ctrl:ComBtn.CommandParameter>

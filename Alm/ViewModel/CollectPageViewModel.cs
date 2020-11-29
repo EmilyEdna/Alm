@@ -70,9 +70,10 @@ namespace Alm.ViewModel
                 KonachanLogic.Logic.AddDownRecord(new DownRecord
                 {
                     DownTime = DateTime.Now,
-                    FileURL = obj.FileURL,
+                    FileURL = obj.FileURL.ToLzStringEnc(),
                     Id = obj.Id,
                     Name = obj.Tag,
+                    FileSize=obj.FileSizeMB+"MB",
                     State = "未开始"
                 });
                 Growl.Info("已加入到下载列表");

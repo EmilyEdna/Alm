@@ -78,8 +78,8 @@ namespace AlmCore.SQLService
         public PageResult<DownRecord> GetDownRecord(DateTime? DownTime = null, int PageIndex = 1)
         {
             return SQLContext.Lite.Queryable<DownRecord>()
-                    .WhereIF(DownTime.HasValue, t => t.DownTime <= DownTime.Value).ToList()
-                    .ToPage(PageIndex, 20);
+                    .WhereIF(DownTime.HasValue, t => t.DownTime <= DownTime.Value)
+                    .OrderBy(t=>t.DownTime,OrderByType.Desc).ToList().ToPage(PageIndex, 20);
         }
         /// <summary>
         /// 更新下载状态

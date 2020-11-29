@@ -11,7 +11,7 @@ namespace AlmCore
         private static string ApplicationRoute = AppDomain.CurrentDomain.BaseDirectory;
         public static string Connection = ApplicationRoute + "God.SqlLite";
         public static string InitDataBase = ApplicationRoute + "Config.cof";
-        public static string SavrDir = ApplicationRoute + "\\Save";
+        public static string SavrDir = ApplicationRoute + "Save";
 
         /// <summary>
         /// 创建文件夹
@@ -19,9 +19,9 @@ namespace AlmCore
         /// <param name="DirRoute"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static string CreateDir(string DirRoute,Action action=null) 
+        public static string CreateDir(string DirRoute, Action action = null)
         {
-            if (!Directory.Exists(DirRoute)) 
+            if (!Directory.Exists(DirRoute))
             {
                 Directory.CreateDirectory(DirRoute);
                 action?.Invoke();
@@ -76,6 +76,29 @@ namespace AlmCore
                 writer.Dispose();
             });
         }
+        /// <summary>
+        /// 流转Bytes
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static byte[] StreamToBytes(Stream stream)
+        {
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
 
+            // 设置当前流的位置为流的开始 
+            stream.Seek(0, SeekOrigin.Begin);
+            return bytes;
+        }
+        /// <summary>
+        /// 流转stream
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static Stream BytesToStream(byte[] bytes)
+        {
+            Stream stream = new MemoryStream(bytes);
+            return stream;
+        }
     }
 }

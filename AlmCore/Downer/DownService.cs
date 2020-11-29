@@ -84,7 +84,7 @@ namespace AlmCore.Downer
             {
                 this.IsFinish = true;
                 this.IsStopped = true;
-                //OnFineshHandler();
+                OnFineshHandler();
             }
             return true;
         }
@@ -104,13 +104,13 @@ namespace AlmCore.Downer
                         From += length;
                         if (repeatTimes % 5 == 0)
                         {
-                            //OnDownloadHandler();
+                            OnDownloadHandler();
                         }
                         repeatTimes++;
                     }
                 }
             }
-            //OnDownloadHandler();
+            OnDownloadHandler();
         }
 
         private void OnDownloadHandler()

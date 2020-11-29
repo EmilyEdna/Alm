@@ -18,19 +18,18 @@ namespace AlmCore.SQLModel.Konachans
         /// 状态
         /// </summary>
         public string State { get; set; }
-        private string _FileURL;
         /// <summary>
         /// 文件路径
         /// </summary>
-        public string FileURL {
-
-            get { return _FileURL.ToLzStringDec(); }
-            set { _FileURL = value.ToLzStringEnc(); }
-        }
+        public string FileURL { get; set; }
         /// <summary>
         /// 下载时间
         /// </summary>
         [SugarColumn(ColumnDataType = "DateTime")]
         public DateTime DownTime { get; set; }
+        /// <summary>
+        /// 文件大小
+        /// </summary>
+        public string FileSize { get; set; }
     }
 }

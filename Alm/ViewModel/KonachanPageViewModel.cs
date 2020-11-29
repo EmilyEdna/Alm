@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using XExten.XCore;
 
 namespace Alm.ViewModel
 {
@@ -95,10 +96,11 @@ namespace Alm.ViewModel
                 KonachanLogic.Logic.AddDownRecord(new DownRecord
                 {
                     DownTime = DateTime.Now,
-                    FileURL = obj.FileURL,
+                    FileURL = obj.FileURL.ToLzStringEnc(),
                     Id = obj.Id,
                     Name = obj.Tag,
-                    State = "未开始"
+                    State = "未开始",
+                    FileSize = obj.FileSizeMB + "MB",
                 });
                 Growl.Info("已加入到下载列表");
             }
