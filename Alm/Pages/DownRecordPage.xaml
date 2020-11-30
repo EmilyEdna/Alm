@@ -33,8 +33,20 @@
         <ListView Grid.Row="1" ItemsSource="{Binding Root.Queryable}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="进度" Width="700"/>
-                    <GridViewColumn Header="文件大小" Width="100" DisplayMemberBinding="{Binding FileSize}"/>
+                    <GridViewColumn Header="进度" Width="600">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <ProgressBar Value="{Binding Progress}" 
+                                                 Style="{StaticResource ProgressBarSuccess}" 
+                                                 Maximum="100" 
+                                                 Width="550"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="大小" Width="100" DisplayMemberBinding="{Binding FileSize}"/>
+                    <GridViewColumn Header="日期" Width="100" DisplayMemberBinding="{Binding DownTime,StringFormat='{}{0:yyyy-MM-dd}'}"/>
                     <GridViewColumn Header="操作" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

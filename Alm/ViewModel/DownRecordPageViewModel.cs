@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using XExten.Common;
 using XExten.XCore;
 
@@ -24,6 +25,7 @@ namespace Alm.ViewModel
             IocManager.SetCache(nameof(DownRecordPageViewModel), this);
             PageIndex = 1;
             Root = KonachanLogic.Logic.GetDownRecord();
+
         }
         #region Property
         private PageResult<DownRecord> _Root;
@@ -54,7 +56,9 @@ namespace Alm.ViewModel
         {
             var type = System.Convert.ToInt32(obj);
             if (type == 1)
+            {
                 Root = KonachanLogic.Logic.GetDownRecord(Time, PageIndex);
+            }
             if (type == 2)
             {
                 PageIndex = 1;
@@ -78,7 +82,29 @@ namespace Alm.ViewModel
             switch (obj.Keys.FirstOrDefault())
             {
                 case DownloadEnum.Start:
-                    ThreadMainCore.Instance.MainHttp(Record.FileURL.ToLzStringDec(), Record.Name);
+                    ThreadMainCore.Instance.MainHttp(Record.FileURL.ToLzStringDec()).Progress += (arg1, arg2) =>
+                    {
+                        var RefreshData = Refresh(Root.Queryable);
+                        var Model = RefreshData.Where(t => t.Id == Record.Id).FirstOrDefault();
+                        Model.Progress = double.Parse((arg1 * 100.00 / arg2).ToString("F2"));
+                        Model.CurrentStream = arg1;
+                        Model.TotalStream = arg2;
+                        Root = new PageResult<DownRecord>
+                        {
+                            CurrentPage = Root.CurrentPage,
+                            Total = Root.Total,
+                            TotalPage = Root.TotalPage,
+                            Queryable = RefreshData
+                        };
+                        if(Model.Progress==100)
+                            KonachanLogic.Logic.UpdateRecord(new DownRecord
+                            {
+                                Id = Record.Id,
+                                Progress = Model.Progress,
+                                CurrentStream = arg1,
+                                TotalStream = arg2
+                            });
+                    };
                     break;
                 case DownloadEnum.ReStart:
                     break;
@@ -93,11 +119,28 @@ namespace Alm.ViewModel
             }
         }, null);
 
+
         public Commands<FunctionEventArgs<int>> PageUpdatedCmd => new Commands<FunctionEventArgs<int>>((obj) =>
         {
             PageIndex = obj.Info;
             Root = KonachanLogic.Logic.GetDownRecord(Time, PageIndex);
         }, null);
+
         #endregion
+
+        private List<DownRecord> Refresh(List<DownRecord> queryable)
+        {
+            return queryable.Select(t => new DownRecord
+            {
+                CurrentStream = t.CurrentStream,
+                DownTime = t.DownTime,
+                FileSize = t.FileSize,
+                FileURL = t.FileURL,
+                Id = t.Id,
+                Name = t.Name,
+                Progress = t.Progress,
+                TotalStream = t.TotalStream
+            }).ToList();
+        }
     }
 }

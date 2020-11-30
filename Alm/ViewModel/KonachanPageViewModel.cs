@@ -99,8 +99,7 @@ namespace Alm.ViewModel
                     FileURL = obj.FileURL.ToLzStringEnc(),
                     Id = obj.Id,
                     Name = obj.Tag,
-                    State = "未开始",
-                    FileSize = obj.FileSizeMB + "MB",
+                    FileSize = obj.FileSizeMB + "MB"
                 });
                 Growl.Info("已加入到下载列表");
             }

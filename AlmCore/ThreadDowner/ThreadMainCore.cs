@@ -12,20 +12,27 @@ namespace AlmCore.ThreadDowner
     {
         public static ThreadMainCore Instance => new Lazy<ThreadMainCore>().Value;
 
+        public event Action<long,long> Progress;
+        private int Long=0;
         /// <summary>
         /// 多线程下载
         /// </summary>
         /// <param name="Url"></param>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public void MainHttp(string Url, string Name)
+        public ThreadMainCore MainHttp(string Url)
         {
             FileInfoDowner fileInfo = new FileInfoDowner
             {
                 SaveDir = Extension.CreateDir(Extension.SavrDir),
-                FileName = Name
+                Url=Url,
             };
             var rsp = HttpCore.RangeDown(Url, 0, 0);
+
+            //获取文件名，如果包含附件名称则取下附件，否则从url获取名称
+            var Disposition = rsp.Headers["Content-Disposition"];
+            if (Disposition != null) fileInfo.FileName = Disposition.Split('=')[1];
+            else fileInfo.FileName = Path.GetFileName(rsp.ResponseUri.AbsolutePath);
 
             //尝试获取 Content-Range 头部，不为空说明支持断点续传
             var contentRange = rsp.Headers["Content-Range"];
@@ -34,18 +41,43 @@ namespace AlmCore.ThreadDowner
                 var tempFileName = Convert.ToBase64String(Encoding.UTF8.GetBytes(fileInfo.FileName)).ToUpper();
                 tempFileName = tempFileName.Length > 32 ? tempFileName.Substring(0, 32) : tempFileName;
                 fileInfo.Count = long.Parse(rsp.Headers["Content-Range"]?.Split('/')?[1]);
+                Task.Factory.StartNew(() => Save(fileInfo));
             }
-            new Thread(() => Save(fileInfo.FullPath, rsp.GetResponseStream())).Start();
+            else
+            {
+                Task.Factory.StartNew(() => Save(fileInfo, rsp.GetResponseStream()));
+            }
+            return this;
         }
-        private void Save(string FileName, Stream st)
+
+
+        private void Save(FileInfoDowner fileInfo, Stream st)
         {
             byte[] bytes = new byte[1024];
-            if (File.Exists(FileName)) File.Delete(FileName);
-            using var fs = File.Open(FileName, FileMode.CreateNew);
-            int length;
+            if (File.Exists(fileInfo.FullPath)) File.Delete(fileInfo.FullPath);
+            using var fs = File.Open(fileInfo.FullPath, FileMode.CreateNew);
+            int length = 0;
             while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
             {
+                Long += length;
                 fs.Write(bytes, 0, length);
+                Progress.Invoke(Long, fileInfo.Count);
+            }
+            fs.Close();
+        }
+
+        private void Save(FileInfoDowner fileInfo)
+        {
+            Stream st = HttpCore.RangeDown(fileInfo.Url, 0, fileInfo.Count).GetResponseStream();
+            byte[] bytes = new byte[1024];
+            if (File.Exists(fileInfo.FullPath)) File.Delete(fileInfo.FullPath);
+            using var fs = File.Open(fileInfo.FullPath, FileMode.CreateNew);
+            int length = 0;
+            while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
+            {
+                Long += length;
+                fs.Write(bytes, 0, length);
+                Progress.Invoke(Long, fileInfo.Count);
             }
             fs.Close();
         }

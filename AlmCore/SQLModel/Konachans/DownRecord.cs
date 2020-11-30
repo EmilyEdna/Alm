@@ -15,10 +15,6 @@ namespace AlmCore.SQLModel.Konachans
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 状态
-        /// </summary>
-        public string State { get; set; }
-        /// <summary>
         /// 文件路径
         /// </summary>
         public string FileURL { get; set; }
@@ -31,5 +27,20 @@ namespace AlmCore.SQLModel.Konachans
         /// 文件大小
         /// </summary>
         public string FileSize { get; set; }
+        /// <summary>
+        /// 进度
+        /// </summary>
+        [SugarColumn(IsNullable=true)]
+        public double? Progress { get; set; }
+        /// <summary>
+        /// 当前下载位置
+        /// </summary>
+        [SugarColumn(IsNullable = true)]
+        public long? CurrentStream { get; set; }
+        /// <summary>
+        /// 总长
+        /// </summary>
+        [SugarColumn(IsNullable = true)]
+        public long? TotalStream { get; set; }
     }
 }

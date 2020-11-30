@@ -85,11 +85,13 @@ namespace AlmCore.SQLService
         /// 更新下载状态
         /// </summary>
         /// <param name="State"></param>
-        public void UpdateRecord(string State)
+        public void UpdateRecord(DownRecord Record)
         {
             SQLContext.Lite.Updateable<DownRecord>()
-                   .SetColumns(t => t.State == State)
-                   .ExecuteCommand();
+                .SetColumns(t=>t.Progress== Record.Progress)
+                .SetColumns(t => t.CurrentStream == Record.CurrentStream)
+                .SetColumns(t => t.TotalStream == Record.TotalStream)
+                .Where(t=>t.Id==Record.Id).ExecuteCommand();
         }
         /// <summary>
         /// 判断下载记录

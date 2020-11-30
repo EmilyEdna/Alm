@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Web;
 
 namespace AlmCore.ThreadDowner.FileInfos
 {
@@ -26,6 +27,6 @@ namespace AlmCore.ThreadDowner.FileInfos
         /// <summary>
         /// 完整路径
         /// </summary>
-        public string FullPath => Path.Combine(SaveDir, FileName);
+        public string FullPath => Path.Combine(SaveDir, HttpUtility.UrlDecode(FileName));
     }
 }
