@@ -47,7 +47,7 @@
                     </GridViewColumn>
                     <GridViewColumn Header="大小" Width="100" DisplayMemberBinding="{Binding FileSize}"/>
                     <GridViewColumn Header="日期" Width="100" DisplayMemberBinding="{Binding DownTime,StringFormat='{}{0:yyyy-MM-dd}'}"/>
-                    <GridViewColumn Header="操作" Width="100">
+                    <GridViewColumn Header="操作" Width="60">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <WrapPanel Orientation="Horizontal">
@@ -74,28 +74,6 @@
                                         </ctrl:ComBtn.CommandParameter>
                                     </ctrl:ComBtn>
                                     <ctrl:ComBtn 
-                                        ToolTipService.Placement="Bottom"
-                                        ButtonSize="22"
-                                        ButtonHoverColor="#0000"
-                                        ButtonHoverForeground="HotPink"
-                                        ButtonForeground="Black"
-                                        IconHeight="15"
-                                        IconWidth="15"
-                                        Icon="{StaticResource ReStartIcon}" 
-                                        Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
-                                        <ctrl:ComBtn.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock Text="重新下载"/>
-                                            </ToolTip>
-                                        </ctrl:ComBtn.ToolTip>
-                                        <ctrl:ComBtn.CommandParameter>
-                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="1"/>
-                                                <Binding Path="."/>
-                                            </MultiBinding>
-                                        </ctrl:ComBtn.CommandParameter>
-                                    </ctrl:ComBtn>
-                                    <ctrl:ComBtn 
                                         ButtonSize="22"
                                         ButtonHoverColor="#0000"
                                         ButtonHoverForeground="HotPink"
@@ -112,7 +90,7 @@
                                         </ctrl:ComBtn.ToolTip>
                                         <ctrl:ComBtn.CommandParameter>
                                             <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="2"/>
+                                                <Binding Source="1"/>
                                                 <Binding Path="."/>
                                             </MultiBinding>
                                         </ctrl:ComBtn.CommandParameter>

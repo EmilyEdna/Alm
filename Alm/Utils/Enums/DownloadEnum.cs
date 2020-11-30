@@ -7,7 +7,6 @@ namespace Alm.Utils.Enums
     public enum DownloadEnum
     {
         Start,
-        ReStart,
         Delete
     }
 }
