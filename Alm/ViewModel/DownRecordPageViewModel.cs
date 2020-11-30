@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using XExten.Common;
 using XExten.XCore;
 
@@ -48,6 +49,7 @@ namespace Alm.ViewModel
             get { return _Time; }
             set { _Time = value; OnPropertyChanged("Time"); }
         }
+
         #endregion
 
         #region Commands
@@ -79,31 +81,35 @@ namespace Alm.ViewModel
         public Commands<Dictionary<DownloadEnum, DownRecord>> HanderCmd => new Commands<Dictionary<DownloadEnum, DownRecord>>((obj) =>
         {
             DownRecord Record = obj.Values.FirstOrDefault();
+            var Main = ThreadMainCore.Instance;
             switch (obj.Keys.FirstOrDefault())
             {
                 case DownloadEnum.Start:
-                    ThreadMainCore.Instance.MainHttp(Record.FileURL.ToLzStringDec()).Progress += (arg1, arg2) =>
+                    Main.MainHttp(Record.FileURL.ToLzStringDec()).Progress += (arg1, arg2) =>
                     {
-                        var RefreshData = Refresh(Root.Queryable);
-                        var Model = RefreshData.Where(t => t.Id == Record.Id).FirstOrDefault();
-                        Model.Progress = double.Parse((arg1 * 100.00 / arg2).ToString("F2"));
-                        Model.CurrentStream = arg1;
-                        Model.TotalStream = arg2;
-                        Root = new PageResult<DownRecord>
+                        Task.Factory.StartNew(() =>
                         {
-                            CurrentPage = Root.CurrentPage,
-                            Total = Root.Total,
-                            TotalPage = Root.TotalPage,
-                            Queryable = RefreshData
-                        };
-                        if(Model.Progress==100)
-                            KonachanLogic.Logic.UpdateRecord(new DownRecord
+                            var RefreshData = Refresh(Root.Queryable);
+                            var Model = RefreshData.Where(t => t.Id == Record.Id).FirstOrDefault();
+                            Model.Progress = double.Parse((arg1 * 100.00 / arg2).ToString("F2"));
+                            Model.CurrentStream = arg1;
+                            Model.TotalStream = arg2;
+                            Root = new PageResult<DownRecord>
                             {
-                                Id = Record.Id,
-                                Progress = Model.Progress,
-                                CurrentStream = arg1,
-                                TotalStream = arg2
-                            });
+                                CurrentPage = Root.CurrentPage,
+                                Total = Root.Total,
+                                TotalPage = Root.TotalPage,
+                                Queryable = RefreshData
+                            };
+                            if (Model.Progress == 100)
+                                KonachanLogic.Logic.UpdateRecord(new DownRecord
+                                {
+                                    Id = Record.Id,
+                                    Progress = Model.Progress,
+                                    CurrentStream = arg1,
+                                    TotalStream = arg2
+                                });
+                        });
                     };
                     break;
                 case DownloadEnum.ReStart:
@@ -113,12 +119,12 @@ namespace Alm.ViewModel
                     Root = KonachanLogic.Logic.GetDownRecord(Time, PageIndex);
                     break;
                 case DownloadEnum.Stop:
+                    Main.StopMethod();
                     break;
                 default:
                     break;
             }
         }, null);
-
 
         public Commands<FunctionEventArgs<int>> PageUpdatedCmd => new Commands<FunctionEventArgs<int>>((obj) =>
         {
@@ -128,6 +134,11 @@ namespace Alm.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        /// <param name="queryable"></param>
+        /// <returns></returns>
         private List<DownRecord> Refresh(List<DownRecord> queryable)
         {
             return queryable.Select(t => new DownRecord

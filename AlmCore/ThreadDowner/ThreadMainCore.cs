@@ -12,8 +12,9 @@ namespace AlmCore.ThreadDowner
     {
         public static ThreadMainCore Instance => new Lazy<ThreadMainCore>().Value;
 
-        public event Action<long,long> Progress;
-        private int Long=0;
+        public event Action<long, long> Progress;
+        private int Long = 0;
+        private static bool Flag = false;
         /// <summary>
         /// 多线程下载
         /// </summary>
@@ -25,7 +26,7 @@ namespace AlmCore.ThreadDowner
             FileInfoDowner fileInfo = new FileInfoDowner
             {
                 SaveDir = Extension.CreateDir(Extension.SavrDir),
-                Url=Url,
+                Url = Url,
             };
             var rsp = HttpCore.RangeDown(Url, 0, 0);
 
@@ -49,7 +50,6 @@ namespace AlmCore.ThreadDowner
             }
             return this;
         }
-
 
         private void Save(FileInfoDowner fileInfo, Stream st)
         {
@@ -75,11 +75,19 @@ namespace AlmCore.ThreadDowner
             int length = 0;
             while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
             {
+                if (Flag)
+                    break;
                 Long += length;
                 fs.Write(bytes, 0, length);
-                Progress.Invoke(Long, fileInfo.Count);
+                Progress?.Invoke(Long, fileInfo.Count);
             }
             fs.Close();
+        }
+
+
+        public void StopMethod() 
+        {
+            Flag = true;
         }
 
     }
