@@ -25,6 +25,5 @@ namespace AlmCore.ThreadDowner
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             return response;
         }
-        //主线程去拿目标看看支持多线程分片下载否，不支持则单线程下载，支持则用线程池下载
     }
 }

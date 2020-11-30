@@ -80,8 +80,7 @@ namespace Alm.ViewModel
             switch (obj.Keys.FirstOrDefault())
             {
                 case DownloadEnum.Start:
-                    var Info = ThreadMainCore.Instance.MainHttp(Record.FileURL.ToLzStringDec());
-                    ThreadPoolCore.Run = true;
+                    var Info = ThreadMainCore.Instance.MainHttp(Record.FileURL.ToLzStringDec(),Record.Name);
                     ThreadPoolCore.Instance.CreateTaskInfo(Info);
                     break;
                 case DownloadEnum.ReStart:
