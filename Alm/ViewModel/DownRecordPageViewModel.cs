@@ -118,9 +118,6 @@ namespace Alm.ViewModel
                     KonachanLogic.Logic.DeleteRecord(Record.Id);
                     Root = KonachanLogic.Logic.GetDownRecord(Time, PageIndex);
                     break;
-                case DownloadEnum.Stop:
-                    Main.StopMethod();
-                    break;
                 default:
                     break;
             }

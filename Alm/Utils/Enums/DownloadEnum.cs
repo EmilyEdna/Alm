@@ -8,7 +8,6 @@ namespace Alm.Utils.Enums
     {
         Start,
         ReStart,
-        Delete,
-        Stop
+        Delete
     }
 }

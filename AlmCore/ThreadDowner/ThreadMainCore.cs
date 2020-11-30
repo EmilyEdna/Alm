@@ -83,12 +83,5 @@ namespace AlmCore.ThreadDowner
             }
             fs.Close();
         }
-
-
-        public void StopMethod() 
-        {
-            Flag = true;
-        }
-
     }
 }

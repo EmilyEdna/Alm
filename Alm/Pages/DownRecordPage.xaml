@@ -117,28 +117,6 @@
                                             </MultiBinding>
                                         </ctrl:ComBtn.CommandParameter>
                                     </ctrl:ComBtn>
-                                    <ctrl:ComBtn 
-                                        ButtonSize="22"
-                                        ButtonHoverColor="#0000"
-                                        ButtonHoverForeground="HotPink"
-                                        ButtonForeground="Black"
-                                        IconHeight="15"
-                                        IconWidth="15"
-                                        ToolTipService.Placement="Bottom"
-                                        Icon="{StaticResource  PauseIcon}" 
-                                        Command="{Binding DataContext.HanderCmd,RelativeSource={RelativeSource AncestorType=Page}}">
-                                        <ctrl:ComBtn.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock Text="暂停"/>
-                                            </ToolTip>
-                                        </ctrl:ComBtn.ToolTip>
-                                        <ctrl:ComBtn.CommandParameter>
-                                            <MultiBinding Mode="TwoWay" Converter="{StaticResource Convter}">
-                                                <Binding Source="3"/>
-                                                <Binding Path="."/>
-                                            </MultiBinding>
-                                        </ctrl:ComBtn.CommandParameter>
-                                    </ctrl:ComBtn>
                                 </WrapPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
