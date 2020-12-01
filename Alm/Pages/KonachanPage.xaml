@@ -32,6 +32,12 @@
             <Button Content="搜索" 
                     Style="{StaticResource ButtonPrimary}"
                     Command="{Binding SearchCmd}"/>
+            <Button Content="自定义标签" 
+                    Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding AddCmd}"/>
+            <Button Content="刷新标签" 
+                    Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding RefreshCmd}"/>
         </WrapPanel>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="#ffffff" >
             <hc:CoverView Margin="30"
@@ -59,6 +65,9 @@
                                         <Binding RelativeSource="{RelativeSource Mode=Self}"/>
                                     </MultiBinding>
                                 </ctrl:CollectBtn.CommandParameter>
+                                <ctrl:CollectBtn.ToolTip>
+                                    <ToolTip Content="收藏"/>
+                                </ctrl:CollectBtn.ToolTip>
                             </ctrl:CollectBtn>
                             <ctrl:DownBtn
                                 Panel.ZIndex="15" Margin="0,0,-140,105"
@@ -70,7 +79,11 @@
                                 IconWidth="15"
                                 Icon="{DynamicResource DownIcon}" 
                                 CommandParameter="{Binding .}"
-                                Command="{Binding DataContext.DownCmd, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                Command="{Binding DataContext.DownCmd, RelativeSource={RelativeSource AncestorType=Page}}">
+                                <ctrl:DownBtn.ToolTip>
+                                    <ToolTip Content="添加下载列表"/>
+                                </ctrl:DownBtn.ToolTip>
+                            </ctrl:DownBtn>
                             <Image Source="{Binding PreviewURL}"/>
                         </Grid>
                     </DataTemplate>

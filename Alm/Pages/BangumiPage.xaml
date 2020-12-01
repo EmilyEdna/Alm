@@ -110,8 +110,8 @@
                 <Image Source="{Binding BRoot.Conver}"/>
             </StackPanel>
             <WrapPanel Grid.Row="0" Grid.Column="1" Margin="10,0,0,0">
-                <TextBlock Text="{Binding Info}" Style="{StaticResource TextBlockDefaultViolet}"/>
-                <TextBlock Text="{Binding BRoot.Description}" TextWrapping="Wrap" Style="{StaticResource TextBlockDefaultViolet}">
+                <TextBlock Text="{Binding Info}" Style="{StaticResource TextBlockDefaultAccent}"/>
+                <TextBlock Text="{Binding BRoot.Description}" TextWrapping="Wrap" Style="{StaticResource TextBlockDefaultAccent}">
                     <TextBlock.ToolTip>
                         <ToolTip  DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
                             <TextBlock Text="{Binding Text}" TextWrapping="Wrap" Width="200"/>

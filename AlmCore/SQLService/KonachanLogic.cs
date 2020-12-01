@@ -5,6 +5,7 @@ using System;
 using XExten.XCore;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using XExten.Common;
 
 namespace AlmCore.SQLService
@@ -12,14 +13,53 @@ namespace AlmCore.SQLService
     public class KonachanLogic
     {
         public static KonachanLogic Logic => new KonachanLogic();
+        #region 标签
         /// <summary>
         /// 获取用户自定义标签
         /// </summary>
         /// <returns></returns>
-        public List<UserTags> GetUserTags()
+        public List<string> GetUserTags()
         {
-            return SQLContext.Lite.Queryable<UserTags>().OrderBy(t => t.AddTime, OrderByType.Desc).ToList();
+          return  SQLContext.Lite.Queryable<UserTags>()
+               .OrderBy(t => t.AddTime, OrderByType.Desc)
+               .ToList().Select(t => $"{t.DiyValue}[{t.DiyName}]").ToList();
         }
+        /// <summary>
+        /// 获取用户自定义标签
+        /// </summary>
+        /// <returns></returns>
+        public List<UserTags> GetUserTagsPage(ref int Total, int PageIndex = 0)
+        {
+            return SQLContext.Lite.Queryable<UserTags>().OrderBy(t => t.AddTime, OrderByType.Desc).ToPageList(PageIndex, 20, ref Total);
+        }
+        /// <summary>
+        /// 添加用户标签
+        /// </summary>
+        /// <param name="Tags"></param>
+        public void AddUserTags(UserTags Tags)
+        {
+            SQLContext.Lite.Insertable(Tags).ExecuteCommand();
+        }
+        /// <summary>
+        /// 删除用户标签
+        /// </summary>
+        /// <param name="Id"></param>
+        public void RemoveUserTags(int Id)
+        {
+            SQLContext.Lite.Deleteable<UserTags>(t => t.Id == Id).ExecuteCommand();
+        }
+        /// <summary>
+        /// 获取标签
+        /// </summary>
+        /// <param name="PageIndex"></param>
+        /// <param name="Total"></param>
+        /// <returns></returns>
+        public List<Tags> GetTags(ref int Total, int PageIndex = 0)
+        {
+            return SQLContext.Lite.Queryable<Tags>().ToPageList(PageIndex, 20, ref Total);
+        }
+        #endregion
+
         #region 收藏
         /// <summary>
         /// 查询收藏
@@ -79,7 +119,7 @@ namespace AlmCore.SQLService
         {
             return SQLContext.Lite.Queryable<DownRecord>()
                     .WhereIF(DownTime.HasValue, t => t.DownTime <= DownTime.Value)
-                    .OrderBy(t=>t.DownTime,OrderByType.Desc).ToList().ToPage(PageIndex, 20);
+                    .OrderBy(t => t.DownTime, OrderByType.Desc).ToList().ToPage(PageIndex, 20);
         }
         /// <summary>
         /// 更新下载状态
@@ -88,10 +128,10 @@ namespace AlmCore.SQLService
         public void UpdateRecord(DownRecord Record)
         {
             SQLContext.Lite.Updateable<DownRecord>()
-                .SetColumns(t=>t.Progress== Record.Progress)
+                .SetColumns(t => t.Progress == Record.Progress)
                 .SetColumns(t => t.CurrentStream == Record.CurrentStream)
                 .SetColumns(t => t.TotalStream == Record.TotalStream)
-                .Where(t=>t.Id==Record.Id).ExecuteCommand();
+                .Where(t => t.Id == Record.Id).ExecuteCommand();
         }
         /// <summary>
         /// 判断下载记录

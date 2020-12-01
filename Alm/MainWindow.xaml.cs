@@ -1,4 +1,5 @@
 ﻿using AlmCore.Scrapy;
+using HandyControl.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using XExten.XPlus;
 
 namespace Alm
 {
@@ -24,7 +26,7 @@ namespace Alm
         public MainWindow()
         {
             InitializeComponent();
-            Task.Factory.StartNew(() => Konachan.InitTags());
+            Task.Factory.StartNew(() => XPlusEx.XTry(() => Konachan.InitTags(), ex => Growl.Info("网络连接失败!")));
         }
     }
 }

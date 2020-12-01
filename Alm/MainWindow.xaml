@@ -40,7 +40,7 @@
                         Data="{StaticResource FlowerIcon}"
                         Stretch="Fill">
                 </Path>
-                <TextBlock Text="-----"
+                <TextBlock Text="宅男神器"
                            Foreground="White" 
                            Margin="4,0,0,0" 
                            FontSize="12"

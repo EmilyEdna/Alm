@@ -1,0 +1,192 @@
+﻿<win:AlmWin x:Class="Alm.Pages.KonachanLabel"
+        xmlns:win="clr-namespace:Alm.Controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Alm.Pages"
+        xmlns:vm="clr-namespace:Alm.ViewModel"
+        WindowStartupLocation="CenterScreen"
+        WindowShadowColor="#888888"
+        WindowShadowOpacity="1"
+        WindowShadowSize="20"
+        Foreground="#5C5C5C"
+        Height="700"
+        Width="1300"
+        Style="{StaticResource MainWindows}"
+        mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:KonachanLabelViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="DarkCyan">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <WrapPanel 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="5,0,0,0">
+                <Path 
+                        Width="20"
+                        Height="20"
+                        Fill="Black"
+                        Data="{StaticResource FlowerIcon}"
+                        Stretch="Fill">
+                </Path>
+                <TextBlock Text="Label"
+                           Foreground="White" 
+                           Margin="4,0,0,0" 
+                           FontSize="12"
+                           VerticalAlignment="Center"/>
+            </WrapPanel>
+            <StackPanel Grid.Column="2"
+                        Margin="0,0,12,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <win:AlmBtn  
+                    ButtonSize="22"
+                    ButtonHoverColor="Transparent"
+                    ButtonHoverForeground="White"
+                    ButtonForeground="Black"
+                    IconHeight="1"
+                    IconWidth="12"
+                    Icon="{StaticResource MinIcon}"
+                    Cursor="Hand"
+                    CommandParameter="Min"/>
+                <win:AlmBtn  
+                    ButtonSize="22"
+                    ButtonHoverColor="Transparent"
+                    ButtonHoverForeground="White"
+                    ButtonForeground="Black"
+                    IconHeight="12"
+                    IconWidth="12"
+                    Icon="{StaticResource MaxIcon}"
+                    Cursor="Hand"
+                    CommandParameter="Max"/>
+                <win:AlmBtn
+                    ButtonSize="22"
+                    ButtonHoverColor="Transparent"
+                    ButtonHoverForeground="White"
+                    ButtonForeground="Black"
+                    IconHeight="12"
+                    IconWidth="12"
+                    Icon="{StaticResource CloseIcon}"
+                    Cursor="Hand"
+                    CommandParameter="Close"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ListView ItemsSource="{Binding Root}" Width="650">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="标签名称" DisplayMemberBinding="{Binding TagName}" Width="550"/>
+                            <GridViewColumn Header="操作" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="添加" 
+                                                Style="{StaticResource ButtonPrimary}" 
+                                                Click="Button_Click"
+                                                Command="{Binding DataContext.AddCmd,RelativeSource={RelativeSource AncestorType=win:AlmWin}}"
+                                                CommandParameter="{Binding TagName}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <hc:Pagination Grid.Row="1" 
+                       Margin="0,5,0,0"
+                       HorizontalAlignment="Center"
+                       MaxPageCount="{Binding RTotal}" 
+                       PageIndex="{Binding PageIndex}" 
+                       IsJumpEnabled="True">
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="PageUpdated">
+                            <hc:EventToCommand Command="{Binding PageUpdatedCmdR}" PassEventArgsToCommand="True" />
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+                </hc:Pagination>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <WrapPanel Orientation="Horizontal">
+                    <TextBlock Text="标签名称:" 
+                               Margin="10,0,5,0"
+                               Style="{StaticResource TextBlockDefaultDanger}"/>
+                    <TextBox  Width="150" 
+                              Margin="5,0,5,0" 
+                              Text="{Binding DiyName}"
+                              BorderThickness="0,0,0,1" 
+                              BorderBrush="HotPink"/>
+                    <TextBlock Text="自定义名称:" 
+                               Style="{StaticResource TextBlockDefaultDanger}" 
+                               Margin="5,0,5,0"/>
+                    <TextBox  Width="150" 
+                              Margin="5,0,5,0" 
+                              Text="{Binding DiyValue}"
+                              BorderThickness="0,0,0,1" 
+                              BorderBrush="HotPink"/>
+                    <Button Content="添加" 
+                            HorizontalAlignment="Right" 
+                            Margin="50,0,5,0" 
+                            Command="{Binding DiyCmd}"
+                            Style="{StaticResource ButtonPrimary}" 
+                            Height="28"/>
+                </WrapPanel>
+                <ListView ItemsSource="{Binding URoot}" Width="650" Grid.Row="1">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="标签名称" DisplayMemberBinding="{Binding DiyValue}" Width="200"/>
+                            <GridViewColumn Header="自定义名称" DisplayMemberBinding="{Binding DiyName}" Width="150"/>
+                            <GridViewColumn Header="创建时间" DisplayMemberBinding="{Binding AddTime,StringFormat='{}{0:yyyy-MM-dd}'}" Width="120"/>
+                            <GridViewColumn Header="操作" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="删除" 
+                                                Style="{StaticResource ButtonPrimary}" 
+                                                Command="{Binding DataContext.RmCmd,RelativeSource={RelativeSource AncestorType=win:AlmWin}}"
+                                                CommandParameter="{Binding Id}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <hc:Pagination Grid.Row="2" 
+                       Margin="0,5,0,0"
+                       HorizontalAlignment="Center"
+                       MaxPageCount="{Binding URTotal}" 
+                       PageIndex="{Binding PageIndexs}" 
+                       IsJumpEnabled="True">
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="PageUpdated">
+                            <hc:EventToCommand Command="{Binding PageUpdatedCmdUR}" PassEventArgsToCommand="True" />
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+                </hc:Pagination>
+            </Grid>
+        </Grid>
+    </Grid>
+</win:AlmWin>

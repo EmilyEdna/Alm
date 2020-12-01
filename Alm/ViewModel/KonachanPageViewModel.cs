@@ -1,4 +1,5 @@
 ﻿using Alm.Controls;
+using Alm.Pages;
 using Alm.Utils;
 using Alm.ViewModel.Base;
 using AlmCore.Scrapy;
@@ -53,8 +54,8 @@ namespace Alm.ViewModel
             get { return _Root; }
             set { _Root = value; OnPropertyChanged("Root"); }
         }
-        private List<UserTags> _Tags;
-        public List<UserTags> Tags
+        private List<string> _Tags;
+        public List<string> Tags
         {
             get { return _Tags; }
             set { _Tags = value; OnPropertyChanged("Tags"); }
@@ -65,7 +66,12 @@ namespace Alm.ViewModel
         public Commands<FunctionEventArgs<int>> PageUpdatedCmd => new Commands<FunctionEventArgs<int>>((obj) =>
         {
             PageIndex = obj.Info;
-            Root = Konachan.GetImage(PageIndex, null, ex => Growl.Error(ex.Message));
+            if (!KeyWord.IsNullOrEmpty())
+                Search(PageIndex);
+            else
+            {
+                Root = Konachan.GetImage(PageIndex, null, ex => Growl.Error(ex.Message));
+            }
         }, null);
 
         public Commands<Dictionary<CollectBtn, ImageElements>> CollectCmd => new Commands<Dictionary<CollectBtn, ImageElements>>((obj) =>
@@ -106,9 +112,28 @@ namespace Alm.ViewModel
             else Growl.Info("已经在下载列表了");
         }, null);
 
-        public Commands<object> SearchCmd => new Commands<object>((obj) =>
+        public Commands<object> SearchCmd => new Commands<object>((obj) => Search(1), null);
+
+        public Commands<object> RefreshCmd => new Commands<object>((obj) =>
         {
+            Tags = KonachanLogic.Logic.GetUserTags();
+        }, null);
+        public Commands<object> AddCmd => new Commands<object>((obj) =>
+        {
+            KonachanLabel label = new KonachanLabel();
+            label.Show();
         }, null);
         #endregion
+
+        private void Search(int PageIndex)
+        {
+            if (KeyWord.Contains("[") && KeyWord.Contains("]"))
+            {
+                string kw = KeyWord.Split("[")[1].Split("]")[0];
+                Root = Konachan.GetImage(PageIndex, kw);
+            }
+            else
+                Root = Konachan.GetImage(PageIndex, KeyWord);
+        }
     }
 }
