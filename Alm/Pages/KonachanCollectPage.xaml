@@ -34,9 +34,8 @@
                 <hc:CoverView.ItemHeaderTemplate>
                     <DataTemplate>
                         <Grid>
-                            <CheckBox Panel.ZIndex="10" Margin="0,0,140,142"/>
                             <ctrl:CollectBtn
-                                Panel.ZIndex="15" Margin="0,0,-140,142"
+                                Panel.ZIndex="15" Margin="0,0,140,142"
                                 ButtonSize="22"
                                 ButtonHoverColor="#0000"
                                 ButtonHoverForeground="HotPink"
@@ -45,9 +44,13 @@
                                 IconWidth="15"
                                 Icon="{DynamicResource YesStarIcon}" 
                                 Command="{Binding DataContext.RemoveCmd,RelativeSource={RelativeSource AncestorType=Page}}"
-                                CommandParameter="{Binding Id}"/>
+                                CommandParameter="{Binding Id}">
+                                <ctrl:CollectBtn.ToolTip>
+                                    <ToolTip Content="移除收藏"/>
+                                </ctrl:CollectBtn.ToolTip>
+                            </ctrl:CollectBtn>
                             <ctrl:DownBtn
-                                Panel.ZIndex="15" Margin="0,0,-140,105"
+                                Panel.ZIndex="15" Margin="0,0,-140,140"
                                 ButtonSize="22"
                                 ButtonHoverColor="#0000"
                                 ButtonHoverForeground="HotPink"
@@ -56,7 +59,11 @@
                                 IconWidth="15"
                                 Icon="{DynamicResource DownIcon}" 
                                 CommandParameter="{Binding .}"
-                                Command="{Binding DataContext.DownCmd, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                Command="{Binding DataContext.DownCmd, RelativeSource={RelativeSource AncestorType=Page}}">
+                                <ctrl:DownBtn.ToolTip>
+                                    <ToolTip Content="添加下载列表"/>
+                                </ctrl:DownBtn.ToolTip>
+                            </ctrl:DownBtn>
                             <Image Source="{Binding PreviewURL}"/>
                         </Grid>
                     </DataTemplate>

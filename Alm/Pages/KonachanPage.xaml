@@ -48,9 +48,8 @@
                 <hc:CoverView.ItemHeaderTemplate>
                     <DataTemplate>
                         <Grid>
-                            <CheckBox Panel.ZIndex="10" Margin="0,0,140,142"/>
                             <ctrl:CollectBtn
-                                Panel.ZIndex="15" Margin="0,0,-140,142"
+                                Panel.ZIndex="15" Margin="0,0,140,142"
                                 ButtonSize="22"
                                 ButtonHoverColor="#0000"
                                 ButtonHoverForeground="HotPink"
@@ -70,7 +69,7 @@
                                 </ctrl:CollectBtn.ToolTip>
                             </ctrl:CollectBtn>
                             <ctrl:DownBtn
-                                Panel.ZIndex="15" Margin="0,0,-140,105"
+                                Panel.ZIndex="15" Margin="0,0,-140,140"
                                 ButtonSize="22"
                                 ButtonHoverColor="#0000"
                                 ButtonHoverForeground="HotPink"
