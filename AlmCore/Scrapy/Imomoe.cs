@@ -19,35 +19,43 @@ namespace AlmCore.Scrapy
         #region 获取远程数据
         public static BangumiRoot GetBangumi(object Keyword, int Page = 1, Action<Exception> action = null)
         {
-
-            if (Keyword.GetType() == typeof(string))
-            {
-                //每页20条数据 关键字查询
-                var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Search, Keyword, Page)).Build().RunString().FirstOrDefault();
-                return LoadSearchPage(data, 20, action);
-            }
-            else
-            {
-                //每页15条数据 年份查询
-                var host = (Page == 0 || Page == 1) ? $"/{Keyword}" : $"/{Keyword}/{Page}.html";
-                var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + host).Build().RunString().FirstOrDefault();
-                return LoadSearchPage(data, 15, action);
-            }
+            return RetryException.DoRetry(() =>
+             {
+                 if (Keyword.GetType() == typeof(string))
+                 {
+                     //每页20条数据 关键字查询
+                     var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Search, Keyword, Page)).Build().RunString().FirstOrDefault();
+                     return LoadSearchPage(data, 20, action);
+                 }
+                 else
+                 {
+                     //每页15条数据 年份查询
+                     var host = (Page == 0 || Page == 1) ? $"/{Keyword}" : $"/{Keyword}/{Page}.html";
+                     var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + host).Build().RunString().FirstOrDefault();
+                     return LoadSearchPage(data, 15, action);
+                 }
+             });
         }
 
         public static BangumiDetailRoot GetBangumiPage(string Route, Action<Exception> action = null)
         {
-            var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + Route).Build().RunString().FirstOrDefault();
-            return LoadPlayPage(data, action);
+            return RetryException.DoRetry(() =>
+            {
+                var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + Route).Build().RunString().FirstOrDefault();
+                return LoadPlayPage(data, action);
+            });
         }
 
         public static string GetVedio(string PlayHtml, Action<Exception> action = null)
         {
-            var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + PlayHtml).Build().RunString().FirstOrDefault();
-            return LoadBangumi(data, action);
+            return RetryException.DoRetry(() =>
+            {
+                var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + PlayHtml).Build().RunString().FirstOrDefault();
+                return LoadBangumi(data, action);
+            });
         }
 
-        #region 爬虫
+        #region 解析数据
         private static BangumiRoot LoadSearchPage(string html, double pageNo = 20, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
@@ -122,7 +130,7 @@ namespace AlmCore.Scrapy
                 return null;
             });
         }
-        private static string LoadBangumi(string html, Action<Exception> action=null)
+        private static string LoadBangumi(string html, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
             {

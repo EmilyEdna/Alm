@@ -18,32 +18,39 @@ namespace AlmCore.Scrapy
         private const string Tag = "tag.xml?order=date&limit={0}";
         private const string Home = "post.xml?page={0}&limit=15";
 
-        public static ImageRoot GetImage(int Page=1, string Tag = "", Action<Exception> action = null)
+        public static ImageRoot GetImage(int Page = 1, string Tag = "", Action<Exception> action = null)
         {
-            return XPlusEx.XTry(() =>
-             {
-                 var Hosts = string.Format(Home, Page);
-                 if (!Tag.IsNullOrEmpty())
-                     Hosts += $"&tags={Tag}";
-                 var XmlData = HttpMultiClient.HttpMulti.AddNode(BaseURL + Hosts, UseCache: true).Build().CacheTime().RunString();
-                 return XPlusEx.XmlDeserialize<ImageRoot>(XmlData.FirstOrDefault());
-             }, ex =>
-             {
-                 action?.Invoke(ex);
-                 return null;
-             });
+            return RetryException.DoRetry(() =>
+            {
+                return XPlusEx.XTry(() =>
+                {
+                    var Hosts = string.Format(Home, Page);
+                    if (!Tag.IsNullOrEmpty())
+                        Hosts += $"&tags={Tag}";
+                    var XmlData = HttpMultiClient.HttpMulti.AddNode(BaseURL + Hosts, UseCache: true).Build().CacheTime().RunString();
+                    return XPlusEx.XmlDeserialize<ImageRoot>(XmlData.FirstOrDefault());
+                }, ex =>
+                {
+                    action?.Invoke(ex);
+                    return null;
+                });
+            });
         }
         public static TagRoot GetTag(int Page = 0, Action<Exception> action = null)
         {
-            return XPlusEx.XTry(() =>
+            return RetryException.DoRetry(() =>
             {
-                var XmlData = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Tag, Page)).Build().RunString();
-                return XPlusEx.XmlDeserialize<TagRoot>(XmlData.FirstOrDefault());
-            }, ex =>
-            {
-                action?.Invoke(ex);
-                return null;
+                return XPlusEx.XTry(() =>
+                {
+                    var XmlData = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Tag, Page)).Build().RunString();
+                    return XPlusEx.XmlDeserialize<TagRoot>(XmlData.FirstOrDefault());
+                }, ex =>
+                {
+                    action?.Invoke(ex);
+                    return null;
+                });
             });
+
         }
         #endregion
 
