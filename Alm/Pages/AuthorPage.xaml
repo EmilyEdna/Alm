@@ -20,7 +20,7 @@
         <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
             <TextBlock Text="打赏作者" Style="{StaticResource TextBlockLargeBold}" Margin="0,20,0,0"/>
             <TextBlock Text="打赏者名单" Style="{StaticResource TextBlockDefaultDanger}" Margin="0,20,0,0"/>
-            <TextBlock Text="{Binding}" Style="{StaticResource TextBlockDefaultInfo}" 
+            <TextBlock Text="{Binding Support}" Style="{StaticResource TextBlockDefaultInfo}" 
                        Margin="-400,20,0,0" 
                        HorizontalAlignment="Left" 
                        TextWrapping="Wrap"/>

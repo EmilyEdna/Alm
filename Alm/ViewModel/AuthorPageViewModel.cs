@@ -1,10 +1,13 @@
 ﻿using Alm.Utils;
 using Alm.ViewModel.Base;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using XExten.HttpFactory;
+using XExten.XCore;
+using System.Linq;
 
 namespace Alm.ViewModel
 {
@@ -22,9 +25,10 @@ namespace Alm.ViewModel
             set { _Support = value; OnPropertyChanged("Support"); }
         }
 
-        private void InitSupport() {
-            WebClient client = new WebClient();
-            var xx = client.DownloadString("https://raw.githubusercontent.com/EmilyEdna/Alm/master/SupportList.json");
+        private void InitSupport()
+        {
+            var Result = new WebClient().DownloadString("https://raw.githubusercontent.com/EmilyEdna/Alm/master/SupportList.json");
+            Support = string.Join(",", Result.ToModel<JObject>().SelectToken("DataList").Children().Select(t => t.ToString()));
         }
     }
 }
