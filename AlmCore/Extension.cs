@@ -8,7 +8,7 @@ namespace AlmCore
 {
     public class Extension
     {
-        private static string ApplicationRoute = AppDomain.CurrentDomain.BaseDirectory;
+        public static string ApplicationRoute = AppDomain.CurrentDomain.BaseDirectory;
         public static string Connection = ApplicationRoute + "God.SqlLite";
         public static string InitDataBase = ApplicationRoute + "Config.cof";
         public static string SavrDir = ApplicationRoute + "Save";

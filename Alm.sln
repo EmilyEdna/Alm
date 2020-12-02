@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alm", "Alm\Alm.csproj", "{74A2788C-B4B7-497B-AB7A-E7EA78B077AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alm", "Alm\Alm.csproj", "{74A2788C-B4B7-497B-AB7A-E7EA78B077AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmCore", "AlmCore\AlmCore.csproj", "{A711CA9E-E3D0-4CCF-9F56-E025CEC3BC77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmCore", "AlmCore\AlmCore.csproj", "{A711CA9E-E3D0-4CCF-9F56-E025CEC3BC77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmUpdate", "AlmUpdate\AlmUpdate.csproj", "{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A711CA9E-E3D0-4CCF-9F56-E025CEC3BC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A711CA9E-E3D0-4CCF-9F56-E025CEC3BC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A711CA9E-E3D0-4CCF-9F56-E025CEC3BC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

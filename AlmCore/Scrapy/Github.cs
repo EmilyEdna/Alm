@@ -14,12 +14,13 @@ namespace AlmCore.Scrapy
         private const string BaseURL = "https://raw.githubusercontent.com/EmilyEdna/Alm/master/";
         private const string SupportURL = "SupportList.json";
         private const string DeveloperURL = "DeveloperList.json";
+        private const string VersionURL = "Version.txt";
         /// <summary>
         /// 获取赞助者
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static SupportRoot GetSupport(Action<Exception> action =null) 
+        public static SupportRoot GetSupport(Action<Exception> action = null)
         {
             return RetryException.DoRetry(() =>
             {
@@ -39,13 +40,29 @@ namespace AlmCore.Scrapy
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static List<DeveloperRoot> GetDevelopers(Action<Exception> action = null) {
+        public static List<DeveloperRoot> GetDevelopers(Action<Exception> action = null)
+        {
             return RetryException.DoRetry(() =>
             {
                 return XPlusEx.XTry(() =>
                 {
                     var JsonData = HttpMultiClient.HttpMulti.AddNode(BaseURL + DeveloperURL, UseCache: true).Build().CacheTime().RunString();
                     return JsonData.FirstOrDefault().ToModel<List<DeveloperRoot>>();
+                }, ex =>
+                {
+                    action?.Invoke(ex);
+                    return null;
+                });
+            });
+        }
+
+        public static string GetVersion(Action<Exception> action = null)
+        {
+            return RetryException.DoRetry(() =>
+            {
+                return XPlusEx.XTry(() =>
+                {
+                    return HttpMultiClient.HttpMulti.AddNode(BaseURL + VersionURL).Build().CacheTime().RunString().FirstOrDefault();
                 }, ex =>
                 {
                     action?.Invoke(ex);
