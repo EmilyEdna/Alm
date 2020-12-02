@@ -1,0 +1,33 @@
+﻿<Page x:Class="Alm.Pages.AuthorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Alm.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AuthorPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="0.7*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock Text="打赏作者" Style="{StaticResource TextBlockLargeBold}" Margin="0,20,0,0"/>
+            <TextBlock Text="打赏者名单" Style="{StaticResource TextBlockDefaultDanger}" Margin="0,20,0,0"/>
+            <TextBlock Text="{Binding}" Style="{StaticResource TextBlockDefaultInfo}" 
+                       Margin="-400,20,0,0" 
+                       HorizontalAlignment="Left" 
+                       TextWrapping="Wrap"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="支持支付宝和微信" Style="{StaticResource TextBlockDefaultPrimary}"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center">
+           
+            <Image Source="/Style/Resources/AliPay.jpg" Width="220"/>
+            <Image Source="/Style/Resources/WxPay.jpg" Width="220"/>
+        </WrapPanel>
+    </Grid>
+</Page>

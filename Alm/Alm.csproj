@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Style\Resources\AliPay.jpg" />
+    <None Remove="Style\Resources\WxPay.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Style\Resources\AliPay.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AlmCore\AlmCore.csproj" />
   </ItemGroup>
 
@@ -16,6 +27,10 @@
     <Page Update="Style\Geometry.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Style\Resources\WxPay.jpg" />
   </ItemGroup>
 
 </Project>

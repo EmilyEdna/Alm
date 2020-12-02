@@ -39,6 +39,7 @@ namespace Alm.ViewModel
                     main.CurrentPage = new DownRecordPage();
                     break;
                 case FunctionEnum.Author:
+                    main.CurrentPage = new AuthorPage();
                     break;
                 default:
                     break;
