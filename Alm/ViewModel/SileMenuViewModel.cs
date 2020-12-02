@@ -21,7 +21,8 @@ namespace Alm.ViewModel
             FunctionEnum function = Enum.Parse<FunctionEnum>(str);
             switch (function)
             {
-                case FunctionEnum.Search:
+                case FunctionEnum.DeveloperNote:
+                    main.CurrentPage = new DeveloperPage();
                     break;
                 case FunctionEnum.Konachan:
                     main.CurrentPage = new KonachanPage();

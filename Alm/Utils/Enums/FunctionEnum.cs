@@ -6,7 +6,7 @@ namespace Alm.Utils.Enums
 {
     public enum FunctionEnum
     {
-        Search,
+        DeveloperNote,
         Konachan,
         Bangumi,
         PlayHistory,

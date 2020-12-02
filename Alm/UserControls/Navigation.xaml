@@ -20,11 +20,11 @@
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
-                <hc:SideMenuItem Header="Search" 
+                <hc:SideMenuItem Header="DeveloperNote" 
                                  Command="{Binding SelectItem}" 
                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
-                        <Path Data="{StaticResource SearchIcon}"  
+                        <Path Data="{StaticResource NoteIcon}"  
                                   Fill="BlueViolet"
                                   Width="14"
                                   Height="14"/>
