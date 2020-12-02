@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
         <Grid Background="Black">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
@@ -41,6 +41,11 @@
                         Stretch="Fill">
                 </Path>
                 <TextBlock Text="宅男神器"
+                           Foreground="White" 
+                           Margin="4,0,0,0" 
+                           FontSize="12"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Ver,StringFormat='Ver {0}'}"
                            Foreground="White" 
                            Margin="4,0,0,0" 
                            FontSize="12"
