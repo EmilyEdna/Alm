@@ -102,10 +102,13 @@
                             <TextBlock Text="{Binding Source,StringFormat='源地址：{0}'}" 
                                        Margin="1"
                                        Style="{StaticResource TextBlockDefaultWarning}"/>
-                            <TextBlock Text="{Binding Tag,StringFormat='标签：{0}'}" 
-                                       TextWrapping="Wrap"
-                                       Margin="1"
-                                       Style="{StaticResource TextBlockDefaultDanger}"/>
+                            <TextBox BorderThickness="0" 
+                                     TextWrapping="Wrap"
+                                     Style="{StaticResource TextBoxBaseStyle}"
+                                     HorizontalAlignment="Center"
+                                     Foreground="Red"
+                                     IsReadOnly="True" 
+                                     Text="{Binding Tag,StringFormat='标签：{0}'}"/>
                             <TextBlock Text="{Binding CreateDate,StringFormat='创建时间：{0:yyyy-MM-dd HH:mm:ss}'}"
                                        Margin="1"
                                        Style="{StaticResource TextBlockDefaultSuccess}"/>

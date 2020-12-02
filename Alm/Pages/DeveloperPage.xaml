@@ -12,7 +12,12 @@
     <Page.DataContext>
         <vm:DeveloperPageViewModel/>
     </Page.DataContext>
-    <hc:ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" IsInertiaEnabled="True" IsPenetrating="True">
+    <hc:ScrollViewer 
+        VerticalScrollBarVisibility="Visible" 
+        Width="965"
+        HorizontalAlignment="Left" 
+        IsInertiaEnabled="True" 
+        IsPenetrating="True">
         <ItemsControl ItemsSource="{Binding Root}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
