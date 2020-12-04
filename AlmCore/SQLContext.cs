@@ -42,7 +42,7 @@ namespace AlmCore
             var Content = Extension.ReadContent(Extension.InitDataBase);
             if (Content.IsNullOrEmpty())
             {
-                Extension.WriteContent(Extension.InitDataBase, "True".ToLzStringEnc());
+                Extension.WriteContent(Extension.InitDataBase, $"{true}_{DateTime.Now.ToFmtDate()}".ToLzStringEnc());
                 return true;
             }
             else
