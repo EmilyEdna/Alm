@@ -25,6 +25,8 @@ namespace AlmUpdate
         public MainWindow()
         {
             InitializeComponent();
+            //Extension.GetFilesList();
+            Extension.Test();
         }
         private const string URL = "http://system.cfda.vip/wwwroot/Uploads/";
         private void Button_Click(object sender, RoutedEventArgs e)

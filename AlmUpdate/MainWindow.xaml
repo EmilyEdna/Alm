@@ -8,9 +8,9 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="自动升级程序" Height="100" Width="150">
+        Title="自动升级程序" Height="150" Width="400">
     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button Content="开始更新"  Grid.Row="1" Click="Button_Click"/>
+        <ProgressBar Style="{StaticResource ProgressBarSuccess}" Value="0" Maximum="100" Width="300"/>
     </WrapPanel>
   
 </Window>
