@@ -22,6 +22,7 @@ namespace Alm.ViewModel
             IocManager.SetCache(nameof(MainWindowViewModel), this);
             Ver = Application.ResourceAssembly.GetName().Version.ToString();
             CheckVersion();
+            CurrentPage = new AuthorPage();
         }
         private Page _CurrentPage;
         public Page CurrentPage
