@@ -46,7 +46,7 @@ namespace AlmCore
                 return true;
             }
             else
-                return Convert.ToBoolean(Content.ToLzStringDec());
+                return Convert.ToBoolean(Content.ToLzStringDec().Split("_")[0]);
         }
     }
 }
