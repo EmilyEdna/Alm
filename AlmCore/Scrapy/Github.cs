@@ -11,7 +11,7 @@ namespace AlmCore.Scrapy
 {
     public class Github
     {
-        private const string BaseURL = "https://raw.githubusercontent.com/EmilyEdna/Alm/master/";
+        private const string BaseURL = "https://raw.githubusercontent.com/EmilyEdna/Alm/master/Configs/";
         private const string SupportURL = "SupportList.json";
         private const string DeveloperURL = "DeveloperList.json";
         private const string VersionURL = "Version.txt";
