@@ -7,13 +7,14 @@ using System.Net;
 using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AlmUpdate
 {
-    public  class Extension
+    public class Extension
     {
         private const string ReleaseURL = "https://raw.githubusercontent.com/EmilyEdna/Alm/master/Configs/UpdateUrl.txt";
-        private  string Base = AppDomain.CurrentDomain.BaseDirectory;
+        private string Base = AppDomain.CurrentDomain.BaseDirectory;
         public event Action<long, long> Progress;
         private int Long = 0;
         /// <summary>
@@ -30,39 +31,51 @@ namespace AlmUpdate
         /// 读取文件
         /// </summary>
         /// <param name="URL"></param>
-        private  void GetZipFile(string URL)
+        private void GetZipFile(string URL)
         {
-            HttpWebRequest request = null;
-            if (URL.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((sender, certificate, chain, errors) => true);
-                request = WebRequest.Create(URL) as HttpWebRequest;
-                request.ProtocolVersion = HttpVersion.Version11;
+                HttpWebRequest request = null;
+                if (URL.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((sender, certificate, chain, errors) => true);
+                    request = WebRequest.Create(URL) as HttpWebRequest;
+                    request.ProtocolVersion = HttpVersion.Version11;
+                }
+                else
+                {
+                    request = WebRequest.Create(URL) as HttpWebRequest;
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                var Size = response.ContentLength;
+                var st = response.GetResponseStream();
+                byte[] bytes = new byte[1024];
+                File.Delete(Base + "AlmUpdate.zip");
+                using var fs = File.Open(Base + "AlmUpdate.zip", FileMode.CreateNew);
+                int length = 0;
+                while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
+                {
+                    Long += length;
+                    fs.Write(bytes, 0, length);
+                    Progress?.Invoke(Long, Size);
+                }
+                fs.Close();
+                ExtractZip();
             }
-            else
+            catch (Exception)
             {
-                request = WebRequest.Create(URL) as HttpWebRequest;
+                var result = MessageBox.Show("已是最新版本!", "通知", MessageBoxButton.OK);
+                if (result == MessageBoxResult.OK)
+                {
+                    Environment.Exit(0);
+                }
             }
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            var Size = response.ContentLength;
-            var st = response.GetResponseStream();
-            byte[] bytes = new byte[1024];
-            File.Delete(Base+ "AlmUpdate.zip");
-            using var fs = File.Open(Base + "AlmUpdate.zip", FileMode.CreateNew);
-            int length = 0;
-            while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
-            {
-                Long += length;
-                fs.Write(bytes, 0, length);
-                Progress?.Invoke(Long, Size);
-            }
-            fs.Close();
-            ExtractZip();
+
         }
         /// <summary>
         /// 自解压文件
         /// </summary>
-        private  void ExtractZip()
+        private void ExtractZip()
         {
             string zipPath = Base + "AlmUpdate.zip";
             ZipFile.ExtractToDirectory(zipPath, Base);
