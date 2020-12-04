@@ -14,7 +14,6 @@ namespace AlmCore.ThreadDowner
 
         public event Action<long, long> Progress;
         private int Long = 0;
-        private static bool Flag = false;
         /// <summary>
         /// 多线程下载
         /// </summary>
@@ -75,8 +74,6 @@ namespace AlmCore.ThreadDowner
             int length = 0;
             while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
             {
-                if (Flag)
-                    break;
                 Long += length;
                 fs.Write(bytes, 0, length);
                 Progress?.Invoke(Long, fileInfo.Count);

@@ -25,18 +25,8 @@ namespace AlmUpdate
         public MainWindow()
         {
             InitializeComponent();
-            //Extension.GetFilesList();
-            Extension.Test();
-        }
-        private const string URL = "http://system.cfda.vip/wwwroot/Uploads/";
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            WebClient client = new WebClient();
-            List<string> Files = new List<string>{
-                "Alm.exe","Alm.dll","AlmCore.dll"
-            };
-            DownFile(client, Files);
-            OpenAlm();
+            Extension util = new Extension();
+            util.GetFilesList();
         }
 
         private void OpenAlm() {
@@ -48,20 +38,6 @@ namespace AlmUpdate
             process.Close();//释放与此组件关联的所有资源
             Environment.Exit(0);
         }
-        private void DownFile(WebClient client ,List<string> Files)
-        {
-            for (int i = 0; i < Files.Count; i++)
-            {
-                try
-                {
-                    client.DownloadFile(URL + Files[i], AppDomain.CurrentDomain.BaseDirectory + Files[i]);
-                }
-                catch (Exception)
-                {
-                    Files.RemoveAt(i);
-                    DownFile(client, Files);
-                }
-            }
-        }
+    
     }
 }

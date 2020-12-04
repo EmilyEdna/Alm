@@ -1,1 +1,1 @@
-https://github.com/EmilyEdna/Alm/releases
+https://github.com/EmilyEdna/Alm/releases/download/1.4.4.1/AlmUpdate.zip
