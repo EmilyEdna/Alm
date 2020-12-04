@@ -10,7 +10,8 @@
         ResizeMode="NoResize"
         Title="自动升级程序" Height="150" Width="400">
     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <ProgressBar Style="{StaticResource ProgressBarSuccess}" Value="0" Maximum="100" Width="300"/>
+        <ProgressBar x:Name="Prog" Style="{StaticResource ProgressBarSuccess}" Value="0" Maximum="100" Width="300" Height="30"/>
+        <Button Content="开始升级" Click="Button_Click"/>
     </WrapPanel>
   
 </Window>

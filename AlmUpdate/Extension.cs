@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Security;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AlmUpdate
 {
     public  class Extension
     {
         private const string ReleaseURL = "https://raw.githubusercontent.com/EmilyEdna/Alm/master/Configs/UpdateUrl.txt";
+        private  string Base = AppDomain.CurrentDomain.BaseDirectory;
         public event Action<long, long> Progress;
         private int Long = 0;
         /// <summary>
         /// 获取升级地址
         /// </summary>
         /// <returns></returns>
-        public  void GetFilesList()
+        public void GetFilesList()
         {
             WebClient client = new WebClient();
-            GetZipFile(client.DownloadString(ReleaseURL).Replace("\n", ""));
+            var URL = client.DownloadString(ReleaseURL).Replace("\n", "");
+            GetZipFile(URL);
         }
         /// <summary>
         /// 读取文件
@@ -43,7 +47,8 @@ namespace AlmUpdate
             var Size = response.ContentLength;
             var st = response.GetResponseStream();
             byte[] bytes = new byte[1024];
-            using var fs = File.Open(AppDomain.CurrentDomain.BaseDirectory+ "AlmUpdate.zip", FileMode.CreateNew);
+            File.Delete(Base+ "AlmUpdate.zip");
+            using var fs = File.Open(Base + "AlmUpdate.zip", FileMode.CreateNew);
             int length = 0;
             while ((length = st.Read(bytes, 0, bytes.Length)) > 0)
             {
@@ -54,17 +59,27 @@ namespace AlmUpdate
             fs.Close();
             ExtractZip();
         }
-
         /// <summary>
         /// 自解压文件
         /// </summary>
         private  void ExtractZip()
         {
-            string extractPath = AppDomain.CurrentDomain.BaseDirectory;
-            string zipPath = extractPath + "AlmUpdate.zip";
-            ZipFile.ExtractToDirectory(zipPath, extractPath);
-            File.Delete(zipPath);
+            string zipPath = Base + "AlmUpdate.zip";
+            ZipFile.ExtractToDirectory(zipPath, Base);
+            OpenAlm();
+        }
+        /// <summary>
+        /// 自动打开主程序
+        /// </summary>
+        private void OpenAlm()
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "Alm.exe";
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();//启动
+            process.CloseMainWindow();//通过向进程的主窗口发送关闭消息来关闭拥有用户界面的进程
+            process.Close();//释放与此组件关联的所有资源
+            Environment.Exit(0);
         }
     }
-
 }
