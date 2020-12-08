@@ -1,4 +1,5 @@
 ﻿using AlmCore;
+using AlmCore.Scrapy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,9 +27,9 @@ namespace Alm.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            vlcCtrl.SourceProvider.CreatePlayer(Extension.VLCPath);
-
-            vlcCtrl.SourceProvider.MediaPlayer.Play(new Uri ("D:\\Movie\\[LoliHouse] Tenki No Ko [BDRip 1920x1080 HEVC-10bit FLAC PGS(chs,eng,jpn)].mkv"));
+            IQiyi.GetIQiyiSearch("高达");
+            //vlcCtrl.SourceProvider.CreatePlayer(Extension.VLCPath);
+            //vlcCtrl.SourceProvider.MediaPlayer.Play(new Uri ("D:\\Movie\\[LoliHouse] Tenki No Ko [BDRip 1920x1080 HEVC-10bit FLAC PGS(chs,eng,jpn)].mkv"));
         }
     }
 }
