@@ -21,11 +21,17 @@ namespace Alm.ViewModel
             FunctionEnum function = Enum.Parse<FunctionEnum>(str);
             switch (function)
             {
-                case FunctionEnum.DeveloperNote:
-                    main.CurrentPage = new DeveloperPage();
+                case FunctionEnum.Music:
+                    main.CurrentPage = new BangumiPage();
                     break;
                 case FunctionEnum.Konachan:
                     main.CurrentPage = new KonachanPage();
+                    break;
+                case FunctionEnum.Movie:
+                    main.CurrentPage = new BangumiPage();
+                    break;
+                case FunctionEnum.TVSeries:
+                    main.CurrentPage = new BangumiPage();
                     break;
                 case FunctionEnum.Bangumi:
                     main.CurrentPage = new BangumiPage();
@@ -38,6 +44,9 @@ namespace Alm.ViewModel
                     break;
                 case FunctionEnum.DownRecord:
                     main.CurrentPage = new DownRecordPage();
+                    break;
+                case FunctionEnum.DeveloperNote:
+                    main.CurrentPage = new DeveloperPage();
                     break;
                 case FunctionEnum.Author:
                     main.CurrentPage = new AuthorPage();

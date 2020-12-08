@@ -13,19 +13,19 @@
     </UserControl.DataContext>
     <hc:TransitioningContentControl>
         <hc:SideMenu>
-            <hc:SideMenuItem Header="Overview">
+            <hc:SideMenuItem Header="OverView">
                 <hc:SideMenuItem.Icon>
                     <Path Data="{StaticResource FunctionIcon}"  
                                   Fill="Indigo"
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
-                <hc:SideMenuItem Header="DeveloperNote" 
+                <hc:SideMenuItem Header="Music"  
                                  Command="{Binding SelectItem}" 
                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                     <hc:SideMenuItem.Icon>
-                        <Path Data="{StaticResource NoteIcon}"  
-                                  Fill="BlueViolet"
+                        <Path Data="{StaticResource MusicIcon}"  
+                                  Fill="DarkRed"
                                   Width="14"
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
@@ -36,6 +36,34 @@
                     <hc:SideMenuItem.Icon>
                         <Path Data="{StaticResource ImageIcon}"  
                                   Fill="YellowGreen"
+                                  Width="14"
+                                  Height="14"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+            </hc:SideMenuItem>
+            <hc:SideMenuItem Header="MediaView">
+                <hc:SideMenuItem.Icon>
+                    <Path Data="{StaticResource MediaIcon}"  
+                                  Fill="DarkOrange"
+                                  Width="22"
+                                  Height="22"/>
+                </hc:SideMenuItem.Icon>
+                <hc:SideMenuItem Header="Movie"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                    <hc:SideMenuItem.Icon>
+                        <Path Data="{StaticResource MovieIcon}"  
+                                  Fill="Black"
+                                  Width="14"
+                                  Height="14"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+                <hc:SideMenuItem Header="TVSeries"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                    <hc:SideMenuItem.Icon>
+                        <Path Data="{StaticResource TvIcon}"  
+                                  Fill="OrangeRed"
                                   Width="14"
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
@@ -96,6 +124,16 @@
                                   Width="22"
                                   Height="22"/>
                 </hc:SideMenuItem.Icon>
+                <hc:SideMenuItem Header="DeveloperNote" 
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                    <hc:SideMenuItem.Icon>
+                        <Path Data="{StaticResource NoteIcon}"  
+                                  Fill="BlueViolet"
+                                  Width="14"
+                                  Height="14"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
                 <hc:SideMenuItem Header="Author"
                                  Command="{Binding SelectItem}" 
                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
