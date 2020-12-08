@@ -12,6 +12,7 @@ namespace AlmCore
         public static string Connection = ApplicationRoute + "Alm.SqlLite";
         public static string InitDataBase = ApplicationRoute + "Alm.cof";
         public static string SavrDir = ApplicationRoute + "Save";
+        public static DirectoryInfo VLCPath = new DirectoryInfo(Path.Combine(ApplicationRoute, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
 
         /// <summary>
         /// 创建文件夹
