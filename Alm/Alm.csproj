@@ -13,28 +13,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Style\Resources\AliPay.jpg" />
-    <None Remove="Style\Resources\WxPay.jpg" />
+    <Compile Remove="win-x64\**" />
+    <EmbeddedResource Remove="win-x64\**" />
+    <None Remove="win-x64\**" />
+    <Page Remove="win-x64\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Style\Resources\AliPay.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <None Remove="Style\Resources\AliPay.jpg" />
+    <None Remove="Style\Resources\WxPay.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AlmCore\AlmCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Style\Geometry.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Vlc.DotNet.Wpf" Version="3.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Style\Resources\WxPay.jpg" />
-  </ItemGroup>
-
+	<ItemGroup>
+	  <Resource Include="Style\Resources\AliPay.jpg" />
+	  <Resource Include="Style\Resources\WxPay.jpg" />
+	</ItemGroup>
 </Project>

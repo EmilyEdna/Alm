@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alm", "Alm\Alm.csproj", "{7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmCore", "AlmCore\AlmCore.csproj", "{A711CA9E-E3D0-4CCF-9F56-E025CEC3BC77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmUpdate", "AlmUpdate\AlmUpdate.csproj", "{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmUpdate", "AlmUpdate\AlmUpdate.csproj", "{FB06D035-7411-4F3F-96A4-AEBCA8E518AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
