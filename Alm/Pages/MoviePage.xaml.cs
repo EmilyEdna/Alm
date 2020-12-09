@@ -27,7 +27,7 @@ namespace Alm.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            IQiyi.GetIQiyiSearch("高达");
+          var xx = IQiyi.GetIQiyiSearch("功夫战警");
             //vlcCtrl.SourceProvider.CreatePlayer(Extension.VLCPath);
             //vlcCtrl.SourceProvider.MediaPlayer.Play(new Uri ("D:\\Movie\\[LoliHouse] Tenki No Ko [BDRip 1920x1080 HEVC-10bit FLAC PGS(chs,eng,jpn)].mkv"));
         }
