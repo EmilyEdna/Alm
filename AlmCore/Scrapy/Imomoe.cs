@@ -138,7 +138,7 @@ namespace AlmCore.Scrapy
                 document.LoadHtml(html);
                 var node = document.DocumentNode.SelectSingleNode("//div[@class='play']//div[@data-vid]");
                 var URL = node.GetAttributeValue("data-vid", "$").Replace("$mp4", "");
-                if (URL.Contains(".mp4"))
+                if (URL.Contains(".mp4") || URL.Contains("m3u8"))
                     return URL;
                 var res = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
                 if (!res.IsNullOrEmpty())

@@ -54,14 +54,15 @@ namespace AlmCore.Scrapy
                         {
                             Elements = new List<IQiyiElements>()
                         };
-                        root.Elements.Add(new IQiyiElements
-                        {
-                            Collect = "全集",
-                            PlayUrl = "https:" + item.GetAttributeValue("href", "")
-                        });
                         var Img = item.Descendants("img").FirstOrDefault();
                         root.Name = Img.GetAttributeValue("alt", "");
                         root.Cover = "http:" + Img.GetAttributeValue("src", "");
+                        root.Elements.Add(new IQiyiElements
+                        {
+                            Names = root.Name,
+                            Collect = "全集",
+                            PlayUrl = "https:" + item.GetAttributeValue("href", "")
+                        });
                         roots.Add(root);
                     }
                 }
@@ -92,6 +93,7 @@ namespace AlmCore.Scrapy
                                 CollectStr = $"第{Collect}集";
                             root.Elements.Add(new IQiyiElements
                             {
+                                Names= root.Name,
                                 Collect = CollectStr,
                                 PlayUrl = "https:" + target.GetAttributeValue("href", "")
                             });

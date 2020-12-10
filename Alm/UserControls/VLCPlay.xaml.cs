@@ -1,5 +1,7 @@
 ﻿using Alm.Utils.Enums;
 using AlmCore;
+using AlmCore.SQLModel.Imomoes;
+using AlmCore.SQLService;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Vlc.DotNet.Core;
+using XExten.XCore;
 
 namespace Alm.UserControls
 {
@@ -17,7 +20,14 @@ namespace Alm.UserControls
     /// </summary>
     public partial class VLCPlay
     {
+        #region Property
         public Uri MediaURL { get; set; }
+        public bool UseContinue { get; set; }
+        public string BangumiName { get; set; }
+        public string Collection { get; set; }
+        public int Id { get; set; }
+        public double PlayProgress { get; set; }
+        #endregion
         private bool IsPlayed = false;
         public VLCPlay()
         {
@@ -41,6 +51,8 @@ namespace Alm.UserControls
                         VCtrl.SourceProvider.MediaPlayer.Play(MediaURL);
                         VCtrl.SourceProvider.MediaPlayer.Playing += MediaPlayer_Playing;
                         VCtrl.SourceProvider.MediaPlayer.PositionChanged += MediaPlayer_PositionChanged;
+                        if (UseContinue)
+                            VCtrl.SourceProvider.MediaPlayer.Position = (float)PlayProgress;
                         IsPlayed = true;
                     }
                     break;
@@ -56,21 +68,33 @@ namespace Alm.UserControls
         }
         private void MediaPlayer_Playing(object sender, VlcMediaPlayerPlayingEventArgs e)
         {
+            if (ImomoeLogic.Logic.CheckHistory(BangumiName, Collection))
+            {
+                Id = ImomoeLogic.Logic.AddHistory(new BangumiHisitory
+                {
+                    BangumiName = BangumiName,
+                    Collection = Collection,
+                    BangumiURL = MediaURL.ToString().ToLzStringEnc(),
+                    PlayProgress = "0",
+                    PlayTime = DateTime.Now
+                }); ;
+            }
             Dispatcher.Invoke(() =>
             {
                 var play = (sender as VlcMediaPlayer);
                 Rate.Maximum = play.Length/1000;
-                RateTotal.Text = TimeSpan.FromSeconds(play.Length / 1000).ToString();
+                RateTotal.Text = "/"+TimeSpan.FromSeconds(play.Length / 1000).ToString();
             });
         }
         private void MediaPlayer_PositionChanged(object sender, VlcMediaPlayerPositionChangedEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
-                Rate.Value = Convert.ToDouble(e.NewPosition* 1000000);
                 var play = (sender as VlcMediaPlayer);
                 Rate.Value = play.Time/1000;
-                RatePlay.Text = TimeSpan.FromSeconds(play.Time / 1000).ToString() + "/";
+                RatePlay.Text = TimeSpan.FromSeconds(play.Time / 1000).ToString();
+                if (Rate.Value % 60 == 0)
+                    ImomoeLogic.Logic.UpdateHistory(Id, RatePlay.Text, (float)(Rate.Value / Rate.Maximum));
             });
         }
         private void Voice_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

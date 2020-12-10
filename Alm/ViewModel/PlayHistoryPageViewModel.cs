@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using XExten.XCore;
 using XExten.Common;
+using Alm.UserControls;
 
 namespace Alm.ViewModel
 {
@@ -56,15 +57,24 @@ namespace Alm.ViewModel
         public Commands<int> ContinuePlay => new Commands<int>((obj) =>
         {
             var History = ImomoeLogic.Logic.GetHistory(obj);
-            BangumiPlay Play = new BangumiPlay
+            VLCPlay Play = new VLCPlay()
             {
-                Id = History.Id,
-                Collection = History.Collection,
-                BangumiName = History.BangumiName,
                 MediaURL = new Uri(History.BangumiURL.ToLzStringDec()),
+                BangumiName = History.BangumiName,
+                Collection = History.Collection,
                 UseContinue = true,
-                PlayProgress = TimeSpan.FromSeconds(History.SpanSeconds)
+                Id=History.Id,
+                PlayProgress= History.SpanSeconds
             };
+            //BangumiPlay Play = new BangumiPlay
+            //{
+            //    Id = History.Id,
+            //    Collection = History.Collection,
+            //    BangumiName = History.BangumiName,
+            //    MediaURL = new Uri(History.BangumiURL.ToLzStringDec()),
+            //    UseContinue = true,
+            //    PlayProgress = TimeSpan.FromSeconds(History.SpanSeconds)
+            //};
             Play.Show();
         }, null);
         public Commands<object> Cmd => new Commands<object>(obj =>

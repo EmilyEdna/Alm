@@ -50,16 +50,15 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <hc:ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Center" IsInertiaEnabled="True" IsPenetrating="True">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="3.5*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="3.5*"/>
+                                </Grid.ColumnDefinitions>
                                 <WrapPanel Orientation="Horizontal" Margin="5">
                                     <Image Source="{Binding Cover}" Height="300">
                                         <Image.ToolTip>
-                                            <ToolTip Placement="Center" Content="{Binding Name}"/>
-
+                                            <ToolTip Placement="Center" Content="{Binding Name}" x:Name="Test"/>
                                         </Image.ToolTip>
                                     </Image>
                                 </WrapPanel>
@@ -79,14 +78,14 @@
                                                 <hc:ButtonGroup>
                                                     <Button Content="{Binding Collect}" 
                                                             Margin="5"
-                                                            Command="{Binding DataContext.PlayCmd,RelativeSource={RelativeSource AncestorType=Page}}"
-                                                            CommandParameter="{Binding PlayUrl}"/>
+                                                            CommandParameter="{Binding .}"
+                                                            Command="{Binding DataContext.PlayCmd,RelativeSource={RelativeSource AncestorType=Page}}"/>
                                                 </hc:ButtonGroup>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                 </WrapPanel>
-                        </Grid>
+                            </Grid>
                         </hc:ScrollViewer>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

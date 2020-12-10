@@ -59,11 +59,14 @@ namespace Alm.ViewModel
             }
         }, null);
 
-        public Commands<string> PlayCmd => new Commands<string>((str) =>
+        public Commands<IQiyiElements> PlayCmd => new Commands<IQiyiElements>((obj) =>
         {
             VLCPlay Play = new VLCPlay()
             {
-                MediaURL = new Uri(IQiyi.ResolvURL(str)),
+                BangumiName=obj.Names,
+                UseContinue=false,
+                Collection=obj.Collect,
+                MediaURL = new Uri(IQiyi.ResolvURL(obj.PlayUrl)),
             };
             Play.Show();
         }, null);

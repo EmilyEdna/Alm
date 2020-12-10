@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using XExten.XCore;
 using System.Linq;
+using Alm.UserControls;
 
 namespace Alm.ViewModel
 {
@@ -76,13 +77,20 @@ namespace Alm.ViewModel
                 Growl.Info("未找到相关资源");
                 return;
             }
-            BangumiPlay Play = new BangumiPlay()
+            VLCPlay Play = new VLCPlay()
             {
                 MediaURL = new Uri(PLAY),
                 BangumiName = BangumiName,
                 Collection = obj.Keys.FirstOrDefault(),
-                UseContinue=false
+                UseContinue = false
             };
+            //BangumiPlay Play = new BangumiPlay()
+            //{
+            //    MediaURL = new Uri(PLAY),
+            //    BangumiName = BangumiName,
+            //    Collection = obj.Keys.FirstOrDefault(),
+            //    UseContinue = false
+            //};
             Play.Show();
         }, null);
 
