@@ -82,8 +82,8 @@ namespace Alm.UserControls
             Dispatcher.Invoke(() =>
             {
                 var play = (sender as VlcMediaPlayer);
-                Rate.Maximum = play.Length/1000;
-                RateTotal.Text = "/"+TimeSpan.FromSeconds(play.Length / 1000).ToString();
+                Rate.Maximum = play.Length / 1000;
+                RateTotal.Text = "/" + TimeSpan.FromSeconds(play.Length / 1000).ToString();
             });
         }
         private void MediaPlayer_PositionChanged(object sender, VlcMediaPlayerPositionChangedEventArgs e)
@@ -91,10 +91,14 @@ namespace Alm.UserControls
             Dispatcher.Invoke(() =>
             {
                 var play = (sender as VlcMediaPlayer);
-                Rate.Value = play.Time/1000;
+                Rate.Value = play.Time / 1000;
                 RatePlay.Text = TimeSpan.FromSeconds(play.Time / 1000).ToString();
                 if (Rate.Value % 60 == 0)
-                    ImomoeLogic.Logic.UpdateHistory(Id, RatePlay.Text, (float)(Rate.Value / Rate.Maximum));
+                {
+                    var span = (float)(Rate.Value / Rate.Maximum);
+                    var Text = RatePlay.Text;
+                    Task.Factory.StartNew(() => ImomoeLogic.Logic.UpdateHistory(Id, Text, span));
+                }
             });
         }
         private void Voice_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
