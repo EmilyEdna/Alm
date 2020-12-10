@@ -11,14 +11,7 @@
       Title="MoviePage">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="0.2*"/>
-        </Grid.RowDefinitions>
-        <vlc:VlcControl  x:Name="vlcCtrl"/>
-        <hc:ButtonGroup Grid.Row="1" >
-            <Button Content="Play" Click="Button_Click" />
-        </hc:ButtonGroup>
+  
     </Grid>
 
 </Page>

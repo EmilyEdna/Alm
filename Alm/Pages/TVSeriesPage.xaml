@@ -1,0 +1,96 @@
+﻿<Page x:Class="Alm.Pages.TVSeriesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      xmlns:local="clr-namespace:Alm.Pages"
+      xmlns:vm="clr-namespace:Alm.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TVSeriesPage">
+    <Page.DataContext>
+        <vm:TVSeriesPageViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal">
+            <hc:SplitButton  Content="{Binding Type}" HorizontalAlignment="Stretch" Style="{StaticResource SplitButtonPrimary}">
+                <hc:SplitButton.DropDownContent>
+                    <StackPanel Width="65">
+                        <MenuItem Header="爱奇艺" 
+                                       Margin="-25,0,0,0"
+                                       Command="{Binding SelectCmd}" 
+                                       CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}"/>
+                        <MenuItem Header="腾讯视频" 
+                                      Margin="-30,0,0,0"
+                                      Command="{Binding SelectCmd}" 
+                                      CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}"/>
+                    </StackPanel>
+                </hc:SplitButton.DropDownContent>
+            </hc:SplitButton>
+            <hc:SearchBar hc:InfoElement.Placeholder="请输入查询条件" 
+                              Command="{Binding SearchCmd}"
+                              ShowClearButton="True" 
+                              Width="200"
+                              Text="{Binding KeyWord}"
+                              CommandParameter="{Binding Text,RelativeSource={RelativeSource Self}}"
+                              Style="{StaticResource SearchBarPlus}"/>
+        </WrapPanel>
+        <Grid Grid.Row="1" Margin="0,5,0,0">
+            <ListBox ItemsSource="{Binding Root,Mode=TwoWay}" BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <hc:ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Center" IsInertiaEnabled="True" IsPenetrating="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3.5*"/>
+                            </Grid.ColumnDefinitions>
+                                <WrapPanel Orientation="Horizontal" Margin="5">
+                                    <Image Source="{Binding Cover}" Height="300">
+                                        <Image.ToolTip>
+                                            <ToolTip Placement="Center" Content="{Binding Name}"/>
+
+                                        </Image.ToolTip>
+                                    </Image>
+                                </WrapPanel>
+                                <WrapPanel Grid.Column="1" 
+                                            Orientation="Horizontal">
+                                    <ItemsControl 
+                                        ItemsSource="{Binding Elements}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="10,10,0,0"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <hc:ButtonGroup>
+                                                    <Button Content="{Binding Collect}" 
+                                                            Margin="5"
+                                                            Command="{Binding DataContext.PlayCmd,RelativeSource={RelativeSource AncestorType=Page}}"
+                                                            CommandParameter="{Binding PlayUrl}"/>
+                                                </hc:ButtonGroup>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </WrapPanel>
+                        </Grid>
+                        </hc:ScrollViewer>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Page>

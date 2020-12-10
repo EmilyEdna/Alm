@@ -1,8 +1,5 @@
-﻿using AlmCore;
-using AlmCore.Scrapy;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,11 +14,11 @@ using System.Windows.Shapes;
 namespace Alm.Pages
 {
     /// <summary>
-    /// MoviePage.xaml 的交互逻辑
+    /// TVSeriesPage.xaml 的交互逻辑
     /// </summary>
-    public partial class MoviePage : Page
+    public partial class TVSeriesPage : Page
     {
-        public MoviePage()
+        public TVSeriesPage()
         {
             InitializeComponent();
         }

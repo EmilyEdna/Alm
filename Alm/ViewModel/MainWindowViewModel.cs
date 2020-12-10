@@ -47,10 +47,12 @@ namespace Alm.ViewModel
 
         public void CheckVersion()
         {
-            var NewVer = Github.GetVersion().Replace("\n","");
-            if (!NewVer.Equals(Ver))
+            var NewVer = Github.GetVersion().Replace("\n", "");
+            var New = int.Parse(NewVer.Replace(".", ""));
+            var Old = int.Parse(Ver.Replace(".", ""));
+            if (Old< New)
             {
-              var result =  HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
+                var result = HandyControl.Controls.MessageBox.Show(new MessageBoxInfo
                 {
                     Button = MessageBoxButton.OK,
                     DefaultResult = MessageBoxResult.OK,
