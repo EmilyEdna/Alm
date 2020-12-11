@@ -64,8 +64,10 @@
                                     <ToolTip Content="添加下载列表"/>
                                 </ctrl:DownBtn.ToolTip>
                             </ctrl:DownBtn>
-                            <Image Source="http://123.56.178.100/headpic/7.jpg"/>
-                            <!--<Image Source="{Binding PreviewURL}"/>-->
+                            <!--<Image Source="http://123.56.178.100/headpic/7.jpg"/>-->
+                            <Image 
+                                PreviewMouseLeftButtonDown="Image_PreviewMouseLeftButtonDown"
+                                Source="{Binding PreviewURL}"/>
                         </Grid>
                     </DataTemplate>
                 </hc:CoverView.ItemHeaderTemplate>
