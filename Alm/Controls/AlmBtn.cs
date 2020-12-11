@@ -46,7 +46,10 @@ namespace Alm.Controls
                         Task.Run(() =>
                         {
                             if (item.SourceProvider.MediaPlayer != null)
+                            {
                                 item.SourceProvider.MediaPlayer.Stop();
+                                item.SourceProvider.MediaPlayer.Dispose();
+                            }
                         });
                     });
                 }
