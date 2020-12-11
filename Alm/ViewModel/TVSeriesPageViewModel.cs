@@ -16,7 +16,7 @@ namespace Alm.ViewModel
         public TVSeriesPageViewModel()
         {
             IocManager.SetCache(nameof(TVSeriesPageViewModel), this);
-            Type = "类型";
+            Type = "频道";
         }
         #region Property
         private string _Type;
@@ -51,11 +51,14 @@ namespace Alm.ViewModel
 
         public Commands<string> SearchCmd => new Commands<string>((str) =>
         {
-            if (Type.Equals("类型")) { Growl.Warning("请选择类型"); return; }
+            if (Type.Equals("频道")) { Growl.Warning("请选择频道"); return; }
             if (str.IsNullOrEmpty()) { Growl.Warning("查询条件不能为空"); return; }
             if (Type.Equals("爱奇艺"))
             {
                 Root = IQiyi.GetIQiyiSearch(str);
+            }
+            else { 
+            
             }
         }, null);
 
