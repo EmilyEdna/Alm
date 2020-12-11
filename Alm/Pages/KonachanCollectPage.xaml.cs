@@ -37,6 +37,7 @@ namespace Alm.Pages
             dragObj.SetFileDropList(new StringCollection() { Path.Combine(Extension.SavrDir, FileName) });
             DragDrop.DoDragDrop(CopyFrame, dragObj, DragDropEffects.Copy);
             FileWatcher.Instance.StopWatchFile();
+            File.Delete(Path.Combine(Extension.SavrDir, FileName));
         }
     }
 }
