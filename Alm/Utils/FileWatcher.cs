@@ -44,7 +44,7 @@ namespace Alm.Utils
                         };
                         watcher.Created += Watcher_Created;
                         watcher.Created -= Watcher_Created;
-                        Watcher.Add("Watcher" + i.ToString(), watcher);
+                        Watcher.Add("Watcher" + i, watcher);
                     }
                 }
             }
@@ -55,7 +55,7 @@ namespace Alm.Utils
             {
                 for (int i = 0; i < Watcher.Count; i++)
                 {
-                    ((FileSystemWatcher)Watcher["Watcher" + i.ToString()]).Dispose();
+                    ((FileSystemWatcher)Watcher["Watcher" + i]).Dispose();
                 }
                 Watcher.Clear();
                 Watcher = null;
