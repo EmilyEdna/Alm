@@ -73,7 +73,6 @@ namespace Alm.Utils
         }
         private void Watcher_Created(object sender, FileSystemEventArgs e)
         {
-            //string path = Path.Combine(Path.GetTempPath(), "TempDirectory");
             if (e.FullPath.Contains(Extension.SavrDir))
             {
                 return;
