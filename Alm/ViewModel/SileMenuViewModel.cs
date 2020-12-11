@@ -45,6 +45,9 @@ namespace Alm.ViewModel
                 case FunctionEnum.DownRecord:
                     main.CurrentPage = new DownRecordPage();
                     break;
+                case FunctionEnum.Options:
+                    main.CurrentPage = new OptionsPage();
+                    break;
                 case FunctionEnum.DeveloperNote:
                     main.CurrentPage = new DeveloperPage();
                     break;

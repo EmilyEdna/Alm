@@ -39,6 +39,10 @@ namespace Alm.Utils.Enums
         /// </summary>
         DownRecord,
         /// <summary>
+        /// 配置单元
+        /// </summary>
+        Options,
+        /// <summary>
         /// 开发日志
         /// </summary>
         DeveloperNote,

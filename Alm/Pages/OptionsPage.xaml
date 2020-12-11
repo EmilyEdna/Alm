@@ -1,0 +1,83 @@
+﻿<Page x:Class="Alm.Pages.OptionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Alm.Pages"
+      xmlns:cv="clr-namespace:Alm.ViewModel.Convert"
+      xmlns:vm="clr-namespace:Alm.ViewModel"
+      
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OptionsPage">
+    <Page.DataContext>
+        <vm:OptionsPageViewModel/>
+    </Page.DataContext>
+    <Page.Resources>
+        <cv:OptionsValue x:Key="Convert"/>
+    </Page.Resources>
+    <hc:SimplePanel>
+        <ItemsControl ItemsSource="{Binding Root,Mode=TwoWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="15,15,0,0" >
+                        <Button Content="更新配置" 
+                                HorizontalAlignment="Left" 
+                                Margin="15"
+                                Command="{Binding DataContext.SavCmd,RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding .}"/>
+                        <hc:NumericUpDown  Maximum="20" Value="{Binding OptionPage,Mode=TwoWay}" Minimum="1"
+                                           BorderThickness="1" Width="120"
+                                           HorizontalAlignment="Left" Margin="15">
+                            <hc:NumericUpDown.ToolTip>
+                                <ToolTip Placement="RelativePoint"
+                                         Content="爱奇艺查询页面数量限制：数值越大对应的数据越多，需要更好的网络和设备性能"/>
+                            </hc:NumericUpDown.ToolTip>
+                        </hc:NumericUpDown>
+                        <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <TextBox IsReadOnly="True" BorderThickness="0,0,0,1"  HorizontalAlignment="Left"
+                                 BorderBrush="Red"  Text="{Binding AddrOne,Mode=TwoWay,Converter={StaticResource Convert}}" Width="200" Margin="15">
+                                <TextBox.ToolTip>
+                                    <ToolTip Content="解析地址一" Placement="RelativePoint"/>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                            <Button Content="设为默认" 
+                                HorizontalAlignment="Left" 
+                                Margin="15"
+                                Command="{Binding DataContext.UpCmd,RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding AddrOne}"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <TextBox IsReadOnly="True" BorderThickness="0,0,0,1" HorizontalAlignment="Left"
+                                 BorderBrush="Red"  Text="{Binding AddrTwo,Mode=TwoWay,Converter={StaticResource Convert}}" Width="200" Margin="15">
+                                <TextBox.ToolTip>
+                                    <ToolTip Content="解析地址二" Placement="RelativePoint"/>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                            <Button Content="设为默认" 
+                                HorizontalAlignment="Left" 
+                                Margin="15"
+                                Command="{Binding DataContext.UpCmd,RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding AddrTwo}"/>
+                        </WrapPanel>
+                        <TextBlock  
+                            HorizontalAlignment="Left" 
+                            Text="{Binding DefaultAddr,Mode=TwoWay,Converter={StaticResource Convert}}" 
+                            Style="{StaticResource TextBlockDefaultDanger}"
+                            Margin="15">
+                            <TextBlock.ToolTip>
+                                <ToolTip Content="默认解析地址" Placement="RelativePoint"/>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </hc:SimplePanel>
+</Page>

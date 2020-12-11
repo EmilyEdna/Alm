@@ -6,14 +6,24 @@ using System.Windows.Data;
 
 namespace Alm.ViewModel.Base
 {
-    public abstract class BaseConverter : IMultiValueConverter
+    public abstract class BaseConverter : IMultiValueConverter,IValueConverter
     {
         public virtual object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
         }
 
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+
         public virtual object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
         }

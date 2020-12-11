@@ -116,6 +116,16 @@
                                   Height="14"/>
                     </hc:SideMenuItem.Icon>
                 </hc:SideMenuItem>
+                <hc:SideMenuItem Header="Options"
+                                 Command="{Binding SelectItem}" 
+                                 CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                    <hc:SideMenuItem.Icon>
+                        <Path Data="{StaticResource OptionIcon}"  
+                                  Fill="#0adff0"
+                                  Width="14"
+                                  Height="14"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
             </hc:SideMenuItem>
             <hc:SideMenuItem Header="About">
                 <hc:SideMenuItem.Icon>

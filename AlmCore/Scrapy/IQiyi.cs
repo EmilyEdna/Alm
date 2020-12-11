@@ -1,11 +1,14 @@
 ﻿using AlmCore.Scrapy.IQiyiModel;
+using AlmCore.SQLService;
 using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using XExten.HttpFactory;
+using XExten.HttpFactory.MultiInterface;
 using XExten.XCore;
 using XExten.XPlus;
 
@@ -15,6 +18,7 @@ namespace AlmCore.Scrapy
     {
         private const string BaseURL = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_page_{1}_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0";
         private const string Resolv = "https://vip.52jiexi.top/?url=";
+        private const string ResolvBackup = "https://cdn.yangju.vip/kc/api.php?url=";
         /// <summary>
         /// 爱奇艺查询
         /// </summary>
@@ -24,11 +28,13 @@ namespace AlmCore.Scrapy
         public static List<IQiyiRoot> GetIQiyiSearch(string Keyword, Action<Exception> action = null)
         {
             List<IQiyiRoot> roots = new List<IQiyiRoot>();
-            var htmls = HttpMultiClient.HttpMulti
-                 .AddNode(string.Format(BaseURL, Keyword, 1))
-                 .AddNode(string.Format(BaseURL, Keyword, 2))
-                 .AddNode(string.Format(BaseURL, Keyword, 3))
-                 .Build().RunString();
+            int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
+            INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
+            for (int i = 2; i <= Size; i++)
+            {
+                Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
+            }
+            var htmls = Node.Build().RunString();
             foreach (var html in htmls)
             {
                 roots.AddRange(LoadIQiyiSearch(html, action));
@@ -93,7 +99,7 @@ namespace AlmCore.Scrapy
                                 CollectStr = $"第{Collect}集";
                             root.Elements.Add(new IQiyiElements
                             {
-                                Names= root.Name,
+                                Names = root.Name,
                                 Collect = CollectStr,
                                 PlayUrl = "https:" + target.GetAttributeValue("href", "")
                             });
@@ -117,9 +123,19 @@ namespace AlmCore.Scrapy
         /// <returns></returns>
         public static string ResolvURL(string Url)
         {
-            var data = HttpMultiClient.HttpMulti.AddNode(Resolv + Url).Build().RunString();
-            var Fitlers = Regex.Match(data.FirstOrDefault(), "=\\s\\S(http).*\"").Value;
-            return Regex.Match(Fitlers, "http.*\"").Value.Replace("\"", "");
+            var ResolvURL = CommonLogic.Logic.GetOptions().Select(t => t.DefaultAddr).FirstOrDefault();
+            if (ResolvURL.Equals(Resolv))
+            {
+                var data = HttpMultiClient.HttpMulti.AddNode(Resolv + Url).Build().RunString();
+                var Fitlers = Regex.Match(data.FirstOrDefault(), "=\\s\\S(http).*\"").Value;
+                return Regex.Match(Fitlers, "http.*\"").Value.Replace("\"", "");
+            }
+            if (ResolvURL.Equals(ResolvBackup))
+            {
+                var data = HttpMultiClient.HttpMulti.AddNode(ResolvBackup + Url).Build().RunString().FirstOrDefault();
+                return data.ToModel<JObject>().SelectToken("url").ToString();
+            }
+            return string.Empty;
         }
     }
 }

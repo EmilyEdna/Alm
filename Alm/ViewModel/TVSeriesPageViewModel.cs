@@ -64,12 +64,18 @@ namespace Alm.ViewModel
 
         public Commands<IQiyiElements> PlayCmd => new Commands<IQiyiElements>((obj) =>
         {
+            var URL = IQiyi.ResolvURL(obj.PlayUrl);
+            if (URL.IsNullOrEmpty())
+            {
+                Growl.Warning("解析地址失效");
+                return;
+            }
             VLCPlay Play = new VLCPlay()
             {
                 BangumiName=obj.Names,
                 UseContinue=false,
                 Collection=obj.Collect,
-                MediaURL = new Uri(IQiyi.ResolvURL(obj.PlayUrl)),
+                MediaURL = new Uri(URL),
             };
             Play.Show();
         }, null);
