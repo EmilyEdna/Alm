@@ -1,8 +1,9 @@
 ﻿using Alm.UserControls;
 using Alm.Utils;
 using Alm.ViewModel.Base;
+using AlmCore;
 using AlmCore.Scrapy;
-using AlmCore.Scrapy.IQiyiModel;
+using AlmCore.Scrapy.MediaModel;
 using HandyControl.Controls;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,8 @@ namespace Alm.ViewModel
             get { return _KeyWord; }
             set { _KeyWord = value; OnPropertyChanged("KeyWord"); }
         }
-        private List<IQiyiRoot> _Root;
-        public List<IQiyiRoot> Root
+        private List<MediaRoot> _Root;
+        public List<MediaRoot> Root
         {
             get => _Root;
             set
@@ -55,16 +56,21 @@ namespace Alm.ViewModel
             if (str.IsNullOrEmpty()) { Growl.Warning("查询条件不能为空"); return; }
             if (Type.Equals("爱奇艺"))
             {
-                Root = IQiyi.GetIQiyiSearch(str);
+                Root = IQiyi.GetIQiyiSearch(str,ex=>Growl.Error("未找到相关资源"));
             }
-            else { 
-            
+            else
+            {
+                Root = Tencent.GetTencentSearch(str, ex => Growl.Error("未找到相关资源"));
             }
         }, null);
 
-        public Commands<IQiyiElements> PlayCmd => new Commands<IQiyiElements>((obj) =>
+        public Commands<MediaElements> PlayCmd => new Commands<MediaElements>((obj) =>
         {
-            var URL = IQiyi.ResolvURL(obj.PlayUrl);
+            if (obj.PlayUrl.IsNullOrEmpty()) {
+                Growl.Warning("暂无资源");
+                return;
+            }
+            var URL = Extension.ResolvURL(obj.PlayUrl);
             if (URL.IsNullOrEmpty())
             {
                 Growl.Warning("解析地址失效");
@@ -72,9 +78,9 @@ namespace Alm.ViewModel
             }
             VLCPlay Play = new VLCPlay()
             {
-                BangumiName=obj.Names,
-                UseContinue=false,
-                Collection=obj.Collect,
+                BangumiName = obj.Names,
+                UseContinue = false,
+                Collection = obj.Collect,
                 MediaURL = new Uri(URL),
             };
             Play.Show();

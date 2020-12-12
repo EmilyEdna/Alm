@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AlmCore.Scrapy.IQiyiModel
+namespace AlmCore.Scrapy.MediaModel
 {
-    public class IQiyiElements
+    public class MediaElements
     {
         /// <summary>
         /// 名称

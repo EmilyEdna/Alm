@@ -1,4 +1,4 @@
-﻿using AlmCore.Scrapy.IQiyiModel;
+﻿using AlmCore.Scrapy.MediaModel;
 using AlmCore.SQLService;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
@@ -17,36 +17,42 @@ namespace AlmCore.Scrapy
     public class IQiyi
     {
         private const string BaseURL = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_page_{1}_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0";
-        private const string Resolv = "https://vip.52jiexi.top/?url=";
-        private const string ResolvBackup = "https://cdn.yangju.vip/kc/api.php?url=";
         /// <summary>
         /// 爱奇艺查询
         /// </summary>
         /// <param name="Keyword"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static List<IQiyiRoot> GetIQiyiSearch(string Keyword, Action<Exception> action = null)
+        public static List<MediaRoot> GetIQiyiSearch(string Keyword, Action<Exception> action = null)
         {
-            List<IQiyiRoot> roots = new List<IQiyiRoot>();
-            int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
-            INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
-            for (int i = 2; i <= Size; i++)
-            {
-                Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
-            }
-            var htmls = Node.Build().RunString();
-            foreach (var html in htmls)
-            {
-                roots.AddRange(LoadIQiyiSearch(html, action));
-            }
-            return roots;
+            return XPlusEx.XTry(() =>
+             {
+                 List<MediaRoot> roots = new List<MediaRoot>();
+                 int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
+                 INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
+                 for (int i = 2; i <= Size; i++)
+                 {
+                     Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
+                 }
+                 var htmls = Node.Build().RunString();
+                 foreach (var html in htmls)
+                 {
+                     roots.AddRange(LoadIQiyiSearch(html, action));
+                 }
+                 return roots;
+
+             }, ex =>
+             {
+                 action?.Invoke(ex);
+                 return null;
+             });
         }
 
-        private static List<IQiyiRoot> LoadIQiyiSearch(string html, Action<Exception> action = null)
+        private static List<MediaRoot> LoadIQiyiSearch(string html, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
             {
-                List<IQiyiRoot> roots = new List<IQiyiRoot>();
+                List<MediaRoot> roots = new List<MediaRoot>();
                 HtmlDocument document = new HtmlDocument();
                 document.LoadHtml(html);
                 var Doc = document.DocumentNode;
@@ -56,14 +62,14 @@ namespace AlmCore.Scrapy
                 {
                     foreach (var item in MovieType)
                     {
-                        IQiyiRoot root = new IQiyiRoot
+                        MediaRoot root = new MediaRoot
                         {
-                            Elements = new List<IQiyiElements>()
+                            Elements = new List<MediaElements>()
                         };
                         var Img = item.Descendants("img").FirstOrDefault();
                         root.Name = Img.GetAttributeValue("alt", "");
                         root.Cover = "http:" + Img.GetAttributeValue("src", "");
-                        root.Elements.Add(new IQiyiElements
+                        root.Elements.Add(new MediaElements
                         {
                             Names = root.Name,
                             Collect = "全集",
@@ -79,9 +85,9 @@ namespace AlmCore.Scrapy
                 {
                     foreach (var TV in TVSeries)
                     {
-                        IQiyiRoot root = new IQiyiRoot
+                        MediaRoot root = new MediaRoot
                         {
-                            Elements = new List<IQiyiElements>()
+                            Elements = new List<MediaElements>()
                         };
                         var Img = TV.SelectSingleNode("div[@class='result-figure']//img");
                         root.Name = Img.GetAttributeValue("alt", "");
@@ -97,7 +103,7 @@ namespace AlmCore.Scrapy
                                 CollectStr = $"第0{Collect}集";
                             else
                                 CollectStr = $"第{Collect}集";
-                            root.Elements.Add(new IQiyiElements
+                            root.Elements.Add(new MediaElements
                             {
                                 Names = root.Name,
                                 Collect = CollectStr,
@@ -114,28 +120,6 @@ namespace AlmCore.Scrapy
                 action?.Invoke(ex);
                 return null;
             });
-        }
-
-        /// <summary>
-        /// 获取视频流
-        /// </summary>
-        /// <param name="Url"></param>
-        /// <returns></returns>
-        public static string ResolvURL(string Url)
-        {
-            var ResolvURL = CommonLogic.Logic.GetOptions().Select(t => t.DefaultAddr).FirstOrDefault();
-            if (ResolvURL.Equals(Resolv))
-            {
-                var data = HttpMultiClient.HttpMulti.AddNode(Resolv + Url).Build().RunString();
-                var Fitlers = Regex.Match(data.FirstOrDefault(), "=\\s\\S(http).*\"").Value;
-                return Regex.Match(Fitlers, "http.*\"").Value.Replace("\"", "");
-            }
-            if (ResolvURL.Equals(ResolvBackup))
-            {
-                var data = HttpMultiClient.HttpMulti.AddNode(ResolvBackup + Url).Build().RunString().FirstOrDefault();
-                return data.ToModel<JObject>().SelectToken("url").ToString();
-            }
-            return string.Empty;
         }
     }
 }

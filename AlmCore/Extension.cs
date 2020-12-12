@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using XExten.XPlus;
+using AlmCore.SQLService;
+using System.Linq;
+using XExten.HttpFactory;
+using System.Text.RegularExpressions;
+using XExten.XCore;
+using Newtonsoft.Json.Linq;
 
 namespace AlmCore
 {
@@ -13,6 +19,8 @@ namespace AlmCore
         public static string InitDataBase = ApplicationRoute + "Alm.cof";
         public static string SavrDir = ApplicationRoute + "Save";
         public static DirectoryInfo VLCPath = new DirectoryInfo(Path.Combine(ApplicationRoute, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
+        private const string Resolv = "https://vip.52jiexi.top/?url=";
+        private const string ResolvBackup = "https://cdn.yangju.vip/kc/api.php?url=";
 
         /// <summary>
         /// 创建文件夹
@@ -100,6 +108,27 @@ namespace AlmCore
         {
             Stream stream = new MemoryStream(bytes);
             return stream;
+        }
+        /// <summary>
+        /// 获取视频流
+        /// </summary>
+        /// <param name="Url"></param>
+        /// <returns></returns>
+        public static string ResolvURL(string Url)
+        {
+            var ResolvURL = CommonLogic.Logic.GetOptions().Select(t => t.DefaultAddr).FirstOrDefault();
+            if (ResolvURL.Equals(Resolv))
+            {
+                var data = HttpMultiClient.HttpMulti.AddNode(Resolv + Url).Build().RunString();
+                var Fitlers = Regex.Match(data.FirstOrDefault(), "=\\s\\S(http).*\"").Value;
+                return Regex.Match(Fitlers, "http.*\"").Value.Replace("\"", "");
+            }
+            if (ResolvURL.Equals(ResolvBackup))
+            {
+                var data = HttpMultiClient.HttpMulti.AddNode(ResolvBackup + Url).Build().RunString().FirstOrDefault();
+                return data.ToModel<JObject>().SelectToken("url").ToString();
+            }
+            return string.Empty;
         }
     }
 }

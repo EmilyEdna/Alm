@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AlmCore.Scrapy.IQiyiModel
+namespace AlmCore.Scrapy.MediaModel
 {
-    public class IQiyiRoot
+    public class MediaRoot
     {
         /// <summary>
         /// 封面
@@ -17,6 +17,6 @@ namespace AlmCore.Scrapy.IQiyiModel
         /// <summary>
         /// 地址
         /// </summary>
-        public List<IQiyiElements> Elements { get; set; }
+        public List<MediaElements> Elements { get; set; }
     }
 }
