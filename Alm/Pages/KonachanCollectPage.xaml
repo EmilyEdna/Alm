@@ -29,7 +29,7 @@
             <hc:CoverView Margin="30"
                               ItemWidth="160"
                               ItemHeight="160"
-                              ItemContentHeight="120"
+                              ItemContentHeight="150"
                               ItemsSource="{Binding Root.Queryable}">
                 <hc:CoverView.ItemHeaderTemplate>
                     <DataTemplate>
@@ -77,16 +77,22 @@
                             <TextBlock Text="{Binding Author,StringFormat='作者：{0}'}"
                                        Margin="1"
                                        Style="{StaticResource TextBlockDefaultAccent}"/>
+                            <TextBlock Text="{Binding FileSizeMB,StringFormat='文件大小：{0}MB'}" 
+                                       Margin="1"
+                                       Style="{StaticResource TextBlockDefaultPrimary}"/>
                             <TextBlock Text="{Binding Rating,StringFormat='分级：{0}'}" 
                                         Margin="1"
                                         Style="{StaticResource TextBlockDefaultThiLight}"/>
                             <TextBlock Text="{Binding Source,StringFormat='源地址：{0}'}" 
                                        Margin="1"
                                        Style="{StaticResource TextBlockDefaultWarning}"/>
-                            <TextBlock Text="{Binding Tag,StringFormat='标签：{0}'}" 
-                                       TextWrapping="Wrap"
-                                       Margin="1"
-                                       Style="{StaticResource TextBlockDefaultDanger}"/>
+                            <TextBox BorderThickness="0" 
+                                     TextWrapping="Wrap"
+                                     Style="{StaticResource TextBoxBaseStyle}"
+                                     HorizontalAlignment="Center"
+                                     Foreground="Red"
+                                     IsReadOnly="True" 
+                                     Text="{Binding Tag,StringFormat='标签：{0}'}"/>
                             <TextBlock Text="{Binding Time,StringFormat='收藏时间：{0:yyyy-MM-dd HH:mm:ss}'}"
                                        Margin="1"
                                        Style="{StaticResource TextBlockDefaultSuccess}"/>

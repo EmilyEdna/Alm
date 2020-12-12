@@ -37,6 +37,10 @@ namespace AlmCore.SQLModel.Konachans
         /// </summary>
         public string Author { get; set; }
         /// <summary>
+        /// 文件大小
+        /// </summary>
+        public string FileSizeMB { get; set; }
+        /// <summary>
         /// 时间
         /// </summary>
         [SugarColumn(ColumnDataType = "DateTime")]

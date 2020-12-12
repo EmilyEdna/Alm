@@ -63,7 +63,7 @@ namespace Alm.ViewModel
             Root = KonachanLogic.Logic.GetCollect(Time, PageIndex);
         }, null);
 
-        public Commands<ImageElements> DownCmd => new Commands<ImageElements>((obj) =>
+        public Commands<KonaCollect> DownCmd => new Commands<KonaCollect>((obj) =>
         {
             if (KonachanLogic.Logic.CheckRecord(obj.Id))
             {
@@ -73,7 +73,7 @@ namespace Alm.ViewModel
                     FileURL = obj.FileURL.ToLzStringEnc(),
                     Id = obj.Id,
                     Name = obj.Tag,
-                    FileSize=obj.FileSizeMB+"MB"
+                    FileSize = obj.FileSizeMB + "MB"
                 });
                 Growl.Info("已加入到下载列表");
             }
