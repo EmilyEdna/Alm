@@ -37,7 +37,7 @@
                                            HorizontalAlignment="Left" Margin="15">
                             <hc:NumericUpDown.ToolTip>
                                 <ToolTip Placement="RelativePoint"
-                                         Content="爱奇艺查询页面数量限制：数值越大对应的数据越多，需要更好的网络和设备性能"/>
+                                         Content="查询页面数量限制：数值越大对应的数据越多，需要更好的网络和设备性能"/>
                             </hc:NumericUpDown.ToolTip>
                         </hc:NumericUpDown>
                         <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal">
