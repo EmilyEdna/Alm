@@ -22,7 +22,7 @@ namespace AlmCore.SQLService
         {
           return  SQLContext.Lite.Queryable<UserTags>()
                .OrderBy(t => t.AddTime, OrderByType.Desc)
-               .ToList().Select(t => $"{t.DiyValue}[{t.DiyName}]").ToList();
+               .ToList().Select(t => $"{t.DiyName}[{t.DiyValue}]").ToList();
         }
         /// <summary>
         /// 获取用户自定义标签
