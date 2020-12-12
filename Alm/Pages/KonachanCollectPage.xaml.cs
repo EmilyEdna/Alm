@@ -21,8 +21,7 @@ namespace Alm.Pages
         {
             InitializeComponent();
         }
-
-        private void Image_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Image_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             FrameworkElement CopyFrame = (sender as FrameworkElement);
             KonaCollect Kona = CopyFrame.DataContext as KonaCollect;

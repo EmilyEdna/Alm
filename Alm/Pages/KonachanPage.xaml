@@ -43,7 +43,7 @@
             <hc:CoverView Margin="30"
                               ItemWidth="160"
                               ItemHeight="160"
-                              ItemContentHeight="120"
+                              ItemContentHeight="150"
                               ItemsSource="{Binding Root.Elements}">
                 <hc:CoverView.ItemHeaderTemplate>
                     <DataTemplate>

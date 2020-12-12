@@ -66,7 +66,7 @@
                             </ctrl:DownBtn>
                             <!--<Image Source="http://123.56.178.100/headpic/7.jpg"/>-->
                             <Image 
-                                PreviewMouseLeftButtonDown="Image_PreviewMouseLeftButtonDown"
+                                PreviewMouseRightButtonDown="Image_PreviewMouseRightButtonDown"
                                 Source="{Binding PreviewURL}"/>
                         </Grid>
                     </DataTemplate>
@@ -77,9 +77,6 @@
                             <TextBlock Text="{Binding Author,StringFormat='作者：{0}'}"
                                        Margin="1"
                                        Style="{StaticResource TextBlockDefaultAccent}"/>
-                            <TextBlock Text="{Binding FileSizeMB,StringFormat='文件大小：{0}MB'}" 
-                                       Margin="1"
-                                       Style="{StaticResource TextBlockDefaultPrimary}"/>
                             <TextBlock Text="{Binding Rating,StringFormat='分级：{0}'}" 
                                         Margin="1"
                                         Style="{StaticResource TextBlockDefaultThiLight}"/>
