@@ -39,6 +39,40 @@ namespace AlmCore.Scrapy
             });
         }
 
+        private static List<MediaElements> GetTencentSearchDetail(string URL, string Name, Action<Exception> action = null)
+        {
+            return XPlusEx.XTry(() =>
+             {
+                 List<MediaElements> elements = new List<MediaElements>();
+                 var Html = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
+                 HtmlDocument document = new HtmlDocument();
+                 document.LoadHtml(Html);
+                 var Data = document.DocumentNode.SelectNodes("//div[@class='wrapper_main']//div[@class='mod_episode']//a");
+                 foreach (var item in Data)
+                 {
+                     string CollectStr = string.Empty;
+                     int.TryParse(item.SelectSingleNode("span").InnerText, out int Collect);
+                     if (Collect == 0)
+                         CollectStr = "全集";
+                     else if (Collect > 0 && Collect < 10)
+                         CollectStr = $"第0{Collect}集";
+                     else
+                         CollectStr = $"第{Collect}集";
+                     elements.Add(new MediaElements
+                     {
+                         PlayUrl = item.GetAttributeValue("href", ""),
+                         Collect = CollectStr,
+                         Names = Name
+                     });
+                 }
+                 return elements;
+             }, ex =>
+             {
+                 action?.Invoke(ex);
+                 return null;
+             });
+        }
+
         private static List<MediaRoot> LoadTencentSearch(string html, Action<Exception> action = null)
         {
             return XPlusEx.XTry(() =>
@@ -57,6 +91,7 @@ namespace AlmCore.Scrapy
                              Elements = new List<MediaElements>()
                          };
                          var infos = item.SelectSingleNode("div[@class='_infos']//h2[@class='result_title']/a");
+                         var DetailPage = infos.GetAttributeValue("href", "");
                          var Type = infos.SelectSingleNode("span[@class='type']").InnerText;
                          var Nodes = infos.Descendants("em");
                          if (Nodes.Count() != 0)
@@ -66,28 +101,35 @@ namespace AlmCore.Scrapy
                              #region 电视剧
                              if (Type.Equals("电视剧"))
                              {
-                                 var ContentHtml = item.SelectNodes("div[@class='_playlist']/div[@r-component='inline-teleplay']//div[@class='item']/a");
-                                 NullExten(root.Elements, ContentHtml, root.Name, () =>
+                                 var NewsHtml = item.SelectNodes("div[@class='_playlist']/div[@r-component='inline-teleplay']//div[@class='item item_fold']");
+                                 if (NewsHtml != null && NewsHtml?.Count != 0)
                                  {
-                                     foreach (var Content in ContentHtml)
+                                     root.Elements.AddRange(GetTencentSearchDetail(DetailPage, root.Name,action));
+                                 }
+                                 else
+                                 {
+                                     var ContentHtml = item.SelectNodes("div[@class='_playlist']/div[@r-component='inline-teleplay']//div[@class='item']/a");
+                                     NullExten(root.Elements, ContentHtml, root.Name, () =>
                                      {
-                                         string CollectStr = string.Empty;
-                                         int.TryParse(Content.InnerText, out int Collect);
-                                         if (Collect == 0)
-                                             CollectStr = "全集";
-                                         else if (Collect > 0 && Collect < 10)
-                                             CollectStr = $"第0{Collect}集";
-                                         else
-                                             CollectStr = $"第{Collect}集";
-                                         root.Elements.Add(new MediaElements
+                                         foreach (var Content in ContentHtml)
                                          {
-                                             PlayUrl = Content.GetAttributeValue("href", ""),
-                                             Collect = CollectStr,
-                                             Names = root.Name
-                                         });
-                                     }
-                                 });
-                                
+                                             string CollectStr = string.Empty;
+                                             int.TryParse(Content.InnerText, out int Collect);
+                                             if (Collect == 0)
+                                                 CollectStr = "全集";
+                                             else if (Collect > 0 && Collect < 10)
+                                                 CollectStr = $"第0{Collect}集";
+                                             else
+                                                 CollectStr = $"第{Collect}集";
+                                             root.Elements.Add(new MediaElements
+                                             {
+                                                 PlayUrl = Content.GetAttributeValue("href", ""),
+                                                 Collect = CollectStr,
+                                                 Names = root.Name
+                                             });
+                                         }
+                                     });
+                                 }
                              }
                              #endregion
                              #region 电影
