@@ -62,6 +62,20 @@ namespace Alm.UserControls
                 case MediaEnum.Stop:
                     Task.Run(() => VCtrl.SourceProvider.MediaPlayer.Stop());
                     break;
+                case MediaEnum.Prev:
+                    if (VCtrl.SourceProvider.MediaPlayer == null) return;
+                    float CurrentTimePrev = VCtrl.SourceProvider.MediaPlayer.Position;
+                    CurrentTimePrev -= 0.001f;
+                    if (CurrentTimePrev <= 0) return;
+                    VCtrl.SourceProvider.MediaPlayer.Position = CurrentTimePrev;
+                    break;
+                case MediaEnum.Next:
+                    if (VCtrl.SourceProvider.MediaPlayer == null) return;
+                    float CurrentTimeNext = VCtrl.SourceProvider.MediaPlayer.Position;
+                    CurrentTimeNext += 0.001f;
+                    if (CurrentTimeNext >= 1) return;
+                    VCtrl.SourceProvider.MediaPlayer.Position = CurrentTimeNext;
+                    break;
                 default:
                     break;
             }
@@ -115,6 +129,16 @@ namespace Alm.UserControls
                 position = 0.99f;
             }
             VCtrl.SourceProvider.MediaPlayer.Position = position;
+        }
+
+        private void Menu_Click(object sender, RoutedEventArgs e)
+        {
+            if (VCtrl.SourceProvider.MediaPlayer == null) return;
+            if (!VCtrl.SourceProvider.MediaPlayer.IsPlaying()) return;
+            MenuItem Item = (sender as MenuItem);
+            var Data = float.Parse(Item.CommandParameter.ToString());
+            Dp.Content = Data;
+            VCtrl.SourceProvider.MediaPlayer.Rate = Data;
         }
     }
 }

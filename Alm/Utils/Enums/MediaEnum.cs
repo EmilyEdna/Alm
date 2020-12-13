@@ -6,8 +6,10 @@ namespace Alm.Utils.Enums
 {
     public enum MediaEnum
     {
+        Prev,
         Play,
         Pause,
-        Stop
+        Stop,
+        Next
     }
 }
