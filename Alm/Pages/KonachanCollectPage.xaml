@@ -6,13 +6,10 @@
       xmlns:local="clr-namespace:Alm.Pages"
       xmlns:ctrl="clr-namespace:Alm.Controls"
       xmlns:hc="https://handyorg.github.io/handycontrol"
-      xmlns:vm="clr-namespace:Alm.ViewModel"
+      DataContext="{Binding Source={StaticResource Locator},Path=CollectPageVM}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="KonachanCollectPage">
-    <Page.DataContext>
-        <vm:CollectPageViewModel/>
-    </Page.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>

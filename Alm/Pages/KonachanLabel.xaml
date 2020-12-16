@@ -6,7 +6,6 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Alm.Pages"
-        xmlns:vm="clr-namespace:Alm.ViewModel"
         WindowStartupLocation="CenterScreen"
         WindowShadowColor="#888888"
         WindowShadowOpacity="1"
@@ -14,11 +13,9 @@
         Foreground="#5C5C5C"
         Height="700"
         Width="1300"
+        DataContext="{Binding Source={StaticResource Locator},Path=KonachanLabelPageVM}"
         Style="{StaticResource MainWindows}"
         mc:Ignorable="d">
-    <Window.DataContext>
-        <vm:KonachanLabelViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

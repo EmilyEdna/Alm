@@ -1,5 +1,6 @@
 ﻿using Alm.Pages.Confirms;
 using Alm.Utils;
+using Alm.ViewModel;
 using Alm.ViewModel.Confirms;
 using AlmCore.SQLModel.Konachans;
 using AlmCore.SQLService;
@@ -37,7 +38,7 @@ namespace Alm.Pages
             };
             if (confirm.ShowDialog().Value)
             {
-                var result = IocManager.GetCache<ConfirmViewModel>(nameof(ConfirmViewModel)).Result;
+                var result = ViewModelLocator.Instance.ConfirmVM.Result;
                 if (!result.IsNullOrEmpty())
                 {
                     KonachanLogic.Logic.AddUserTags(new UserTags

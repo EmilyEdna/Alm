@@ -1,4 +1,5 @@
 ﻿using Alm.Utils;
+using Alm.ViewModel;
 using Alm.ViewModel.Confirms;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Alm.Pages.Confirms
             Button btn = (sender as Button);
             if (Convert.ToBoolean(btn.CommandParameter))
             {
-                IocManager.GetCache<ConfirmViewModel>(nameof(ConfirmViewModel)).Result = DataResult.Text;
+                ViewModelLocator.Instance.ConfirmVM.Result= DataResult.Text;
                 DialogResult = true;
                 Close();
             }
