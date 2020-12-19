@@ -23,6 +23,9 @@ namespace Alm.ViewModel
             SimpleIoc.Default.Register<OptionsPageViewModel>();
             SimpleIoc.Default.Register<PlayHistoryPageViewModel>();
             SimpleIoc.Default.Register<TVSeriesPageViewModel>();
+            SimpleIoc.Default.Register<MoviePageViewModel>();
+
+
 
             SimpleIoc.Default.Register<ConfirmViewModel>();
         }
@@ -39,6 +42,10 @@ namespace Alm.ViewModel
         public OptionsPageViewModel OptionsPageVM => SimpleIoc.Default.GetInstance<OptionsPageViewModel>();
         public PlayHistoryPageViewModel PlayHistoryPageVM => SimpleIoc.Default.GetInstance<PlayHistoryPageViewModel>();
         public SileMenuViewModel SileMenuViewVM => SimpleIoc.Default.GetInstance<SileMenuViewModel>();
+        public MoviePageViewModel MovieVM => SimpleIoc.Default.GetInstance<MoviePageViewModel>();
+
+
+
 
 
 

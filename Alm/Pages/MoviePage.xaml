@@ -6,12 +6,102 @@
       xmlns:hc="https://handyorg.github.io/handycontrol"
       xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
       xmlns:local="clr-namespace:Alm.Pages"
+      DataContext="{Binding Source={StaticResource Locator},Path=MovieVM}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MoviePage">
-
     <Grid>
-  
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--#region 左边-->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15,2,0,0">
+                <hc:SearchBar 
+                    ShowClearButton="True" 
+                    Width="200"
+                    Command="{Binding SearchCmd}"
+                    CommandParameter="{Binding Text,RelativeSource={RelativeSource Mode=Self}}"
+                    hc:InfoElement.Placeholder="请输入查询条件" 
+                    Style="{StaticResource SearchBarPlus}"/>
+            </StackPanel>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Roots.Elements}" BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel>
+                                    <Image Source="{Binding Cover}" Width="80"/>
+                                </WrapPanel>
+                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding Type,StringFormat='类型：{0}'}" 
+                                               HorizontalAlignment="Left"
+                                               Margin="10"
+                                               Style="{StaticResource TextBlockDefaultDanger}"/>
+                                    <TextBlock Text="{Binding Name,StringFormat='名称：{0}'}" 
+                                               HorizontalAlignment="Left"
+                                               Margin="10"
+                                               Style="{StaticResource TextBlockDefaultDanger}"/>
+                                    <Button Content="查看" 
+                                            HorizontalAlignment="Left"
+                                            Margin="10,0,0,0"
+                                            Command="{Binding DataContext.ShowCmd,RelativeSource={RelativeSource AncestorType=Page}}"
+                                            CommandParameter="{Binding Id}"
+                                            Style="{StaticResource  ButtonDanger}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <hc:Pagination Grid.Row="2" MaxPageCount="{Binding Roots.Pages}" PageIndex="{Binding PageIndex}" IsJumpEnabled="True">
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="PageUpdated">
+                        <hc:EventToCommand Command="{Binding PageUpdatedCmd}" PassEventArgsToCommand="True" />
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+            </hc:Pagination>
+        </Grid>
+        <!--#endregion-->
+       <!--#region 右边-->
+        <WrapPanel Grid.Column="1">
+            <hc:ScrollViewer VerticalScrollBarVisibility="Visible" IsPenetrating="True"
+                                             HorizontalAlignment="Center" IsInertiaEnabled="True" >
+                <ItemsControl ItemsSource="{Binding Root.PlayURL}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                                 <Button Content="{Binding Key}" 
+                                         Margin="10"
+                                         Command="{Binding DataContext.PlayCmd,RelativeSource={RelativeSource AncestorType=Page}}"
+                                         Style="{StaticResource ButtonPrimary}"
+                                         CommandParameter="{Binding .}"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            </hc:ScrollViewer>
+        </WrapPanel>
+        <!--#endregion-->
     </Grid>
-
 </Page>
