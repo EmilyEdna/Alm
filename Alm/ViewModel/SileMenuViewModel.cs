@@ -22,7 +22,7 @@ namespace Alm.ViewModel
             switch (function)
             {
                 case FunctionEnum.Music:
-                    main.CurrentPage = new BangumiPage();
+                    main.CurrentPage = new MusicPage();
                     break;
                 case FunctionEnum.Konachan:
                     main.CurrentPage = new KonachanPage();
