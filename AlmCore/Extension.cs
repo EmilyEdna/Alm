@@ -15,8 +15,8 @@ namespace AlmCore
     public class Extension
     {
         public static string ApplicationRoute = AppDomain.CurrentDomain.BaseDirectory;
-        public static string Connection = ApplicationRoute + "Alm.SqlLite";
-        public static string InitDataBase = ApplicationRoute + "Alm.cof";
+        public static string Connection = Path.Combine(CreateDir(Path.Combine(ApplicationRoute, "Config")), "Alm.db");
+        public static string InitDataBase = Path.Combine(CreateDir(Path.Combine(ApplicationRoute, "Config")), "Alm.cof");
         public static string SavrDir = ApplicationRoute + "Save";
         public static DirectoryInfo VLCPath = new DirectoryInfo(Path.Combine(ApplicationRoute, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
         private const string Resolv = "https://vip.52jiexi.top/?url=";
