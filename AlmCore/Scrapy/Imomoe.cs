@@ -126,6 +126,7 @@ namespace AlmCore.Scrapy
                 return roots;
             }, ex =>
             {
+                LogFactory.WriteLog(ex);
                 action?.Invoke(ex);
                 return null;
             });
@@ -146,6 +147,7 @@ namespace AlmCore.Scrapy
                 return null;
             }, ex =>
             {
+                LogFactory.WriteLog(ex);
                 action?.Invoke(ex);
                 return null;
             });

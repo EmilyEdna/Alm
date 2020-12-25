@@ -25,26 +25,30 @@ namespace AlmCore.Scrapy
         /// <returns></returns>
         public static List<MediaRoot> GetIQiyiSearch(string Keyword, Action<Exception> action = null)
         {
-            return XPlusEx.XTry(() =>
+            return RetryException.DoRetry(() =>
              {
-                 List<MediaRoot> roots = new List<MediaRoot>();
-                 int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
-                 INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
-                 for (int i = 2; i <= Size; i++)
-                 {
-                     Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
-                 }
-                 var htmls = Node.Build().RunString();
-                 foreach (var html in htmls)
-                 {
-                     roots.AddRange(LoadIQiyiSearch(html, action));
-                 }
-                 return roots;
+                 return XPlusEx.XTry(() =>
+                  {
+                      List<MediaRoot> roots = new List<MediaRoot>();
+                      int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
+                      INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
+                      for (int i = 2; i <= Size; i++)
+                      {
+                          Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
+                      }
+                      var htmls = Node.Build().RunString();
+                      foreach (var html in htmls)
+                      {
+                          roots.AddRange(LoadIQiyiSearch(html, action));
+                      }
+                      return roots;
 
-             }, ex =>
-             {
-                 action?.Invoke(ex);
-                 return null;
+                  }, ex =>
+                  {
+                      LogFactory.WriteLog(ex);
+                      action?.Invoke(ex);
+                      return null;
+                  });
              });
         }
 
@@ -117,6 +121,7 @@ namespace AlmCore.Scrapy
                 return roots;
             }, ex =>
             {
+                LogFactory.WriteLog(ex);
                 action?.Invoke(ex);
                 return null;
             });

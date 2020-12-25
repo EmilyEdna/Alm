@@ -46,6 +46,7 @@ namespace AlmCore.Scrapy
                     return XPlusEx.XmlDeserialize<TagRoot>(XmlData.FirstOrDefault());
                 }, ex =>
                 {
+                    LogFactory.WriteLog(ex);
                     action?.Invoke(ex);
                     return null;
                 });

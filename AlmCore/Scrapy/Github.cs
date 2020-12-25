@@ -30,6 +30,7 @@ namespace AlmCore.Scrapy
                     return JsonData.FirstOrDefault().ToModel<SupportRoot>();
                 }, ex =>
                 {
+                    LogFactory.WriteLog(ex);
                     action?.Invoke(ex);
                     return null;
                 });
@@ -50,6 +51,7 @@ namespace AlmCore.Scrapy
                     return JsonData.FirstOrDefault().ToModel<List<DeveloperRoot>>();
                 }, ex =>
                 {
+                    LogFactory.WriteLog(ex);
                     action?.Invoke(ex);
                     return null;
                 });
@@ -65,6 +67,7 @@ namespace AlmCore.Scrapy
                     return HttpMultiClient.HttpMulti.AddNode(BaseURL + VersionURL).Build().CacheTime().RunString().FirstOrDefault();
                 }, ex =>
                 {
+                    LogFactory.WriteLog(ex);
                     action?.Invoke(ex);
                     return null;
                 });

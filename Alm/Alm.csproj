@@ -41,4 +41,10 @@
 	  <Resource Include="Style\Resources\AliPay.jpg" />
 	  <Resource Include="Style\Resources\WxPay.jpg" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Nlog.config">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

@@ -26,6 +26,7 @@ namespace AlmCore.Scrapy
                     return JsonData.FirstOrDefault().ToModel<JObject>().SelectToken("data").ToString().ToModel<SearchRoots>();
                 }, ex =>
                 {
+                    LogFactory.WriteLog(ex);
                     action?.Invoke(ex);
                     return null;
                 });
@@ -41,6 +42,7 @@ namespace AlmCore.Scrapy
                     return JsonData.FirstOrDefault().ToModel<JObject>().SelectToken("data").ToString().ToModel<DetailRoots>();
                 }, ex =>
                 {
+                    LogFactory.WriteLog(ex);
                     action?.Invoke(ex);
                     return null;
                 });

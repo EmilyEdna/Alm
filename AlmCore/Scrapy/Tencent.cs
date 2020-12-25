@@ -17,60 +17,66 @@ namespace AlmCore.Scrapy
 
         public static List<MediaRoot> GetTencentSearch(string Keyword, Action<Exception> action = null)
         {
-            return XPlusEx.XTry(() =>
+            return RetryException.DoRetry(() =>
             {
-                List<MediaRoot> roots = new List<MediaRoot>();
-                int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
-                INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
-                for (int i = 2; i <= Size; i++)
+                return XPlusEx.XTry(() =>
                 {
-                    Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
-                }
-                var htmls = Node.Build().RunString();
-                foreach (var html in htmls)
+                    List<MediaRoot> roots = new List<MediaRoot>();
+                    int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
+                    INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
+                    for (int i = 2; i <= Size; i++)
+                    {
+                        Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
+                    }
+                    var htmls = Node.Build().RunString();
+                    foreach (var html in htmls)
+                    {
+                        roots.AddRange(LoadTencentSearch(html, action));
+                    }
+                    return roots;
+                }, ex =>
                 {
-                    roots.AddRange(LoadTencentSearch(html, action));
-                }
-                return roots;
-            }, ex =>
-            {
-                action?.Invoke(ex);
-                return null;
+                    action?.Invoke(ex);
+                    return null;
+                });
             });
         }
 
         private static List<MediaElements> GetTencentSearchDetail(string URL, string Name, Action<Exception> action = null)
         {
-            return XPlusEx.XTry(() =>
-             {
-                 List<MediaElements> elements = new List<MediaElements>();
-                 var Html = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
-                 HtmlDocument document = new HtmlDocument();
-                 document.LoadHtml(Html);
-                 var Data = document.DocumentNode.SelectNodes("//div[@class='wrapper_main']//div[@class='mod_episode']//a");
-                 foreach (var item in Data)
+            return RetryException.DoRetry(() =>
+            {
+                return XPlusEx.XTry(() =>
                  {
-                     string CollectStr = string.Empty;
-                     int.TryParse(item.SelectSingleNode("span").InnerText, out int Collect);
-                     if (Collect == 0)
-                         CollectStr = "全集";
-                     else if (Collect > 0 && Collect < 10)
-                         CollectStr = $"第0{Collect}集";
-                     else
-                         CollectStr = $"第{Collect}集";
-                     elements.Add(new MediaElements
+                     List<MediaElements> elements = new List<MediaElements>();
+                     var Html = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
+                     HtmlDocument document = new HtmlDocument();
+                     document.LoadHtml(Html);
+                     var Data = document.DocumentNode.SelectNodes("//div[@class='wrapper_main']//div[@class='mod_episode']//a");
+                     foreach (var item in Data)
                      {
-                         PlayUrl = item.GetAttributeValue("href", ""),
-                         Collect = CollectStr,
-                         Names = Name
-                     });
-                 }
-                 return elements;
-             }, ex =>
-             {
-                 action?.Invoke(ex);
-                 return null;
-             });
+                         string CollectStr = string.Empty;
+                         int.TryParse(item.SelectSingleNode("span").InnerText, out int Collect);
+                         if (Collect == 0)
+                             CollectStr = "全集";
+                         else if (Collect > 0 && Collect < 10)
+                             CollectStr = $"第0{Collect}集";
+                         else
+                             CollectStr = $"第{Collect}集";
+                         elements.Add(new MediaElements
+                         {
+                             PlayUrl = item.GetAttributeValue("href", ""),
+                             Collect = CollectStr,
+                             Names = Name
+                         });
+                     }
+                     return elements;
+                 }, ex =>
+                 {
+                     action?.Invoke(ex);
+                     return null;
+                 });
+            });
         }
 
         private static List<MediaRoot> LoadTencentSearch(string html, Action<Exception> action = null)
@@ -104,7 +110,7 @@ namespace AlmCore.Scrapy
                                  var NewsHtml = item.SelectNodes("div[@class='_playlist']/div[@r-component='inline-teleplay']//div[@class='item item_fold']");
                                  if (NewsHtml != null && NewsHtml?.Count != 0)
                                  {
-                                     root.Elements.AddRange(GetTencentSearchDetail(DetailPage, root.Name,action));
+                                     root.Elements.AddRange(GetTencentSearchDetail(DetailPage, root.Name, action));
                                  }
                                  else
                                  {
