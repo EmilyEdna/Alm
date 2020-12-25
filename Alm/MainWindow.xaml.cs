@@ -14,17 +14,17 @@ namespace Alm
         public MainWindow()
         {
             InitializeComponent();
-            //Timer timer = new Timer
-            //{
-            //    Interval = 60000,
-            //    AutoReset = false,
-            //    Enabled = false,
-            //};
-            //timer.Elapsed += (s, e) =>
-            //{
-            //    Task.Factory.StartNew(() => XPlusEx.XTry(() => Konachan.InitTags(), ex => Growl.Info("网络连接失败!")));
-            //};
-            //timer.Start();
+            Timer timer = new Timer
+            {
+                Interval = 60000,
+                AutoReset = false,
+                Enabled = false,
+            };
+            timer.Elapsed += (s, e) =>
+            {
+                Task.Factory.StartNew(() => XPlusEx.XTry(() => Konachan.InitTags(), ex => Growl.Info("网络连接失败!")));
+            };
+            timer.Start();
         }
     }
 }
