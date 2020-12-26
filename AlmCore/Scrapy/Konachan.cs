@@ -27,7 +27,7 @@ namespace AlmCore.Scrapy
                     var Hosts = string.Format(Home, Page);
                     if (!Tag.IsNullOrEmpty())
                         Hosts += $"&tags={Tag}";
-                    var XmlData = HttpMultiClient.HttpMulti.AddNode(BaseURL + Hosts, UseCache: true).Build().CacheTime().RunString();
+                    var XmlData = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + Hosts, UseCache: true).Build().CacheTime().RunString();
                     return XPlusEx.XmlDeserialize<ImageRoot>(XmlData.FirstOrDefault());
                 }, ex =>
                 {
@@ -42,7 +42,7 @@ namespace AlmCore.Scrapy
             {
                 return XPlusEx.XTry(() =>
                 {
-                    var XmlData = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Tag, Page)).Build().RunString();
+                    var XmlData = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + string.Format(Tag, Page)).Build().RunString();
                     return XPlusEx.XmlDeserialize<TagRoot>(XmlData.FirstOrDefault());
                 }, ex =>
                 {

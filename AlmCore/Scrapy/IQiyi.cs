@@ -31,7 +31,7 @@ namespace AlmCore.Scrapy
                   {
                       List<MediaRoot> roots = new List<MediaRoot>();
                       int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
-                      INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
+                      INode Node = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(string.Format(BaseURL, Keyword, 1));
                       for (int i = 2; i <= Size; i++)
                       {
                           Node = Node.AddNode(string.Format(BaseURL, Keyword, i));

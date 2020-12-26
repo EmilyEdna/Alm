@@ -24,14 +24,14 @@ namespace AlmCore.Scrapy
                  if (Keyword.GetType() == typeof(string))
                  {
                      //每页20条数据 关键字查询
-                     var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Search, Keyword, Page)).Build().RunString().FirstOrDefault();
+                     var data = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + string.Format(Search, Keyword, Page)).Build().RunString().FirstOrDefault();
                      return LoadSearchPage(data, 20, action);
                  }
                  else
                  {
                      //每页15条数据 年份查询
                      var host = (Page == 0 || Page == 1) ? $"/{Keyword}" : $"/{Keyword}/{Page}.html";
-                     var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + host).Build().RunString().FirstOrDefault();
+                     var data = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + host).Build().RunString().FirstOrDefault();
                      return LoadSearchPage(data, 15, action);
                  }
              });
@@ -41,7 +41,7 @@ namespace AlmCore.Scrapy
         {
             return RetryException.DoRetry(() =>
             {
-                var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + Route).Build().RunString().FirstOrDefault();
+                var data = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + Route).Build().RunString().FirstOrDefault();
                 return LoadPlayPage(data, action);
             });
         }
@@ -50,7 +50,7 @@ namespace AlmCore.Scrapy
         {
             return RetryException.DoRetry(() =>
             {
-                var data = HttpMultiClient.HttpMulti.AddNode(BaseURL + PlayHtml).Build().RunString().FirstOrDefault();
+                var data = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + PlayHtml).Build().RunString().FirstOrDefault();
                 return LoadBangumi(data, action);
             });
         }

@@ -26,7 +26,7 @@ namespace AlmCore.Scrapy
             {
                 return XPlusEx.XTry(() =>
                 {
-                    var JsonData = HttpMultiClient.HttpMulti.AddNode(BaseURL + SupportURL, UseCache: true).Build().CacheTime().RunString();
+                    var JsonData = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + SupportURL, UseCache: true).Build().CacheTime().RunString();
                     return JsonData.FirstOrDefault().ToModel<SupportRoot>();
                 }, ex =>
                 {
@@ -47,7 +47,7 @@ namespace AlmCore.Scrapy
             {
                 return XPlusEx.XTry(() =>
                 {
-                    var JsonData = HttpMultiClient.HttpMulti.AddNode(BaseURL + DeveloperURL, UseCache: true).Build().CacheTime().RunString();
+                    var JsonData = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + DeveloperURL, UseCache: true).Build().CacheTime().RunString();
                     return JsonData.FirstOrDefault().ToModel<List<DeveloperRoot>>();
                 }, ex =>
                 {
@@ -64,7 +64,7 @@ namespace AlmCore.Scrapy
             {
                 return XPlusEx.XTry(() =>
                 {
-                    return HttpMultiClient.HttpMulti.AddNode(BaseURL + VersionURL).Build().CacheTime().RunString().FirstOrDefault();
+                    return HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + VersionURL).Build().CacheTime().RunString().FirstOrDefault();
                 }, ex =>
                 {
                     LogFactory.WriteLog(ex);

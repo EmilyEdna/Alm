@@ -21,6 +21,7 @@ namespace AlmCore
         public static DirectoryInfo VLCPath = new DirectoryInfo(Path.Combine(ApplicationRoute, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
         private const string Resolv = "https://vip.52jiexi.top/?url=";
         private const string ResolvBackup = "https://cdn.yangju.vip/kc/api.php?url=";
+        public static Dictionary<string,string> Headers = new Dictionary<string, string> { { "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" } };
 
         /// <summary>
         /// 创建文件夹

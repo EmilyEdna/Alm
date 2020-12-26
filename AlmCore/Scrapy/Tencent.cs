@@ -23,7 +23,7 @@ namespace AlmCore.Scrapy
                 {
                     List<MediaRoot> roots = new List<MediaRoot>();
                     int Size = CommonLogic.Logic.GetOptions().Select(t => t.OptionPage).FirstOrDefault();
-                    INode Node = HttpMultiClient.HttpMulti.AddNode(string.Format(BaseURL, Keyword, 1));
+                    INode Node = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(string.Format(BaseURL, Keyword, 1));
                     for (int i = 2; i <= Size; i++)
                     {
                         Node = Node.AddNode(string.Format(BaseURL, Keyword, i));
@@ -49,7 +49,7 @@ namespace AlmCore.Scrapy
                 return XPlusEx.XTry(() =>
                  {
                      List<MediaElements> elements = new List<MediaElements>();
-                     var Html = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
+                     var Html = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(URL).Build().RunString().FirstOrDefault();
                      HtmlDocument document = new HtmlDocument();
                      document.LoadHtml(Html);
                      var Data = document.DocumentNode.SelectNodes("//div[@class='wrapper_main']//div[@class='mod_episode']//a");

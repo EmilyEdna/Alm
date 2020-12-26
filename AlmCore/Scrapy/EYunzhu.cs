@@ -22,7 +22,7 @@ namespace AlmCore.Scrapy
             {
                 return XPlusEx.XTry(() =>
                 {
-                    var JsonData = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Search,keyword,page)).Build().RunString();
+                    var JsonData = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + string.Format(Search,keyword,page)).Build().RunString();
                     return JsonData.FirstOrDefault().ToModel<JObject>().SelectToken("data").ToString().ToModel<SearchRoots>();
                 }, ex =>
                 {
@@ -38,7 +38,7 @@ namespace AlmCore.Scrapy
             {
                 return XPlusEx.XTry(() =>
                 {
-                    var JsonData = HttpMultiClient.HttpMulti.AddNode(BaseURL + string.Format(Detail, Id)).Build().RunString();
+                    var JsonData = HttpMultiClient.HttpMulti.Headers(Extension.Headers).AddNode(BaseURL + string.Format(Detail, Id)).Build().RunString();
                     return JsonData.FirstOrDefault().ToModel<JObject>().SelectToken("data").ToString().ToModel<DetailRoots>();
                 }, ex =>
                 {
