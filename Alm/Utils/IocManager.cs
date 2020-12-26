@@ -19,7 +19,6 @@ namespace Alm.Utils
             Cache.TryGetValue(key, out object obj);
             return (T)obj;
         }
-
         /// <summary>
         /// 获取子控件
         /// </summary>
