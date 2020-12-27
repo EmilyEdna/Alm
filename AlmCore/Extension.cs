@@ -9,6 +9,7 @@ using XExten.HttpFactory;
 using System.Text.RegularExpressions;
 using XExten.XCore;
 using Newtonsoft.Json.Linq;
+using AlmCore.TempModel;
 
 namespace AlmCore
 {
@@ -20,8 +21,8 @@ namespace AlmCore
         public static string SavrDir = ApplicationRoute + "Save";
         public static DirectoryInfo VLCPath = new DirectoryInfo(Path.Combine(ApplicationRoute, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
         private const string Resolv = "https://vip.52jiexi.top/?url=";
-        private const string ResolvBackup = "https://cdn.yangju.vip/kc/api.php?url=";
-        public static Dictionary<string,string> Headers = new Dictionary<string, string> { { "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" } };
+        private const string ResolvBackup = "http://5.nmgbq.com/2/api.php";
+        public static Dictionary<string, string> Headers = new Dictionary<string, string> { { "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" } };
 
         /// <summary>
         /// 创建文件夹
@@ -126,7 +127,14 @@ namespace AlmCore
             }
             if (ResolvURL.Equals(ResolvBackup))
             {
-                var data = HttpMultiClient.HttpMulti.AddNode(ResolvBackup + Url).Build().RunString().FirstOrDefault();
+                var data = HttpMultiClient.HttpMulti
+                    .AddNode(ResolvBackup, HttpKeyPairs.KeyValuePairs(new VedioTempModel
+                    {
+                        @ref = 0,
+                        url = Url,
+                        other = Convert.ToBase64String(Encoding.Default.GetBytes(Url))
+                    }), RequestType.POST).Build()
+                    .RunString().FirstOrDefault();
                 return data.ToModel<JObject>().SelectToken("url").ToString();
             }
             return string.Empty;

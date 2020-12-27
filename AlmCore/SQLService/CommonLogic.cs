@@ -35,7 +35,7 @@ namespace AlmCore.SQLService
                 {
                     OptionPage = 3,
                     AddrOne = "https://vip.52jiexi.top/?url=",
-                    AddrTwo = "https://cdn.yangju.vip/kc/api.php?url=",
+                    AddrTwo = "http://5.nmgbq.com/2/api.php",
                     DefaultAddr = "https://vip.52jiexi.top/?url="
                 }).ExecuteCommand();
             }
