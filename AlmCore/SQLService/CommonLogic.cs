@@ -34,9 +34,9 @@ namespace AlmCore.SQLService
                 SQLContext.Lite.Insertable(new Options
                 {
                     OptionPage = 3,
-                    AddrOne = "https://vip.52jiexi.top/?url=",
+                    AddrOne = "https://jx.idc126.net/jx/api.php",
                     AddrTwo = "http://5.nmgbq.com/2/api.php",
-                    DefaultAddr = "https://vip.52jiexi.top/?url="
+                    DefaultAddr = "https://jx.idc126.net/jx/api.php"
                 }).ExecuteCommand();
             }
             return SQLContext.Lite.Queryable<Options>().ToList();
