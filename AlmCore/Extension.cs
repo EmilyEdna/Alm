@@ -129,7 +129,9 @@ namespace AlmCore
                         other = Convert.ToBase64String(Encoding.Default.GetBytes(Url))
                     }), RequestType.POST).Build()
                     .RunString().FirstOrDefault();
-                return data.ToModel<JObject>().SelectToken("url").ToString();
+                var result = data.ToModel<JObject>().SelectToken("url").ToString();
+                if (!result.Contains("http") || !result.Contains("https"))
+                    return $"https:{result}";
             }
             if (ResolvURL.Equals(ResolvBackup))
             {
@@ -141,7 +143,9 @@ namespace AlmCore
                         other = Convert.ToBase64String(Encoding.Default.GetBytes(Url))
                     }), RequestType.POST).Build()
                     .RunString().FirstOrDefault();
-                return data.ToModel<JObject>().SelectToken("url").ToString();
+                var result = data.ToModel<JObject>().SelectToken("url").ToString();
+                if (!result.Contains("http") || !result.Contains("https"))
+                    return $"https:{result}";
             }
             return string.Empty;
         }
