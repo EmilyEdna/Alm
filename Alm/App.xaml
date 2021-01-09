@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:vm="clr-namespace:Alm.ViewModel"
              xmlns:local="clr-namespace:Alm"
-             StartupUri="MainWindow.xaml">
+             StartupUri="PINWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -24,18 +24,14 @@ namespace Alm
             var pin = DateTime.Now.ToString("yyyyMMdd");
             if (Pwd.Password.Equals(pin))
             {
-                DialogResult = true;
+                new MainWindow().Show();
+                Close();
             }
             else
             {
                 ErrorInfo.Text = "解锁码错误!";
                 return;
             }
-        }
-
-        private void AlmWin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Environment.Exit(0);
         }
     }
 }
