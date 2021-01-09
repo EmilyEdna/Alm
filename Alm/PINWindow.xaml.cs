@@ -32,5 +32,10 @@ namespace Alm
                 return;
             }
         }
+
+        private void AlmWin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
