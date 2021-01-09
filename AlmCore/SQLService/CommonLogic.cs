@@ -19,7 +19,7 @@ namespace AlmCore.SQLService
             return SQLContext.Lite.Updateable<Options>()
                 .SetColumns(t=>t.OptionPage==Data.OptionPage)
                 .SetColumns(t=>t.DefaultAddr==Data.DefaultAddr)
-                .Where(t=>t.Id==1)
+                .Where(t=>t.Id!=0)
                 .ExecuteCommand();
         }
         /// <summary>
