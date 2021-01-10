@@ -132,6 +132,8 @@ namespace AlmCore
                 var result = data.ToModel<JObject>().SelectToken("url").ToString();
                 if (!result.Contains("http") || !result.Contains("https"))
                     return $"https:{result}";
+                else
+                    return result;
             }
             if (ResolvURL.Equals(ResolvBackup))
             {
@@ -146,6 +148,8 @@ namespace AlmCore
                 var result = data.ToModel<JObject>().SelectToken("url").ToString();
                 if (!result.Contains("http") || !result.Contains("https"))
                     return $"https:{result}";
+                else
+                    return result;
             }
             return string.Empty;
         }
