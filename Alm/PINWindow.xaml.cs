@@ -11,6 +11,7 @@ namespace Alm
     {
         public PINWindow()
         {
+            AlmCore.Scrapy.NeteaseCloudMusic.Test();
             InitializeComponent();
         }
 
