@@ -25,7 +25,17 @@ namespace Alm.ViewModel
                     main.CurrentPage = new MusicPage();
                     break;
                 case FunctionEnum.Konachan:
-                    main.CurrentPage = new KonachanPage();
+                    KonachanPINWindow PIN = new KonachanPINWindow();
+                    if (PIN.ShowDialog() == true)
+                    {
+                        Growl.Info("解锁码正确!");
+                        main.CurrentPage = new KonachanPage();
+                    }
+                    else
+                    {
+                        Growl.Info("解锁码错误!");
+                        main.CurrentPage = new AuthorPage();
+                    }
                     break;
                 case FunctionEnum.Movie:
                     main.CurrentPage = new MoviePage();
