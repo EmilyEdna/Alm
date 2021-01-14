@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AlmCore.Scrapy;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using XExten.XCore;
 
@@ -11,8 +14,8 @@ namespace Alm
     {
         public PINWindow()
         {
-            AlmCore.Scrapy.NeteaseCloudMusic.Test();
             InitializeComponent();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
