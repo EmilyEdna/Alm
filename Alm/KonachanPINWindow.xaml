@@ -83,7 +83,7 @@
                 <hc:PasswordBox hc:InfoElement.Placeholder="解锁码" x:Name="Pwd" Width="338" />
             </WrapPanel>
             <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,20,0" HorizontalAlignment="Right">
-                <Button Content="OK" Style="{StaticResource ButtonPrimary}" Click="Button_Click"/>
+                <Button Content="OK" Style="{StaticResource ButtonPrimary}" Click="Button_Click" IsDefault="True"/>
             </WrapPanel>
         </Grid>
     </Grid>

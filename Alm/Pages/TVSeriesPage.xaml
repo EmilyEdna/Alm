@@ -73,10 +73,14 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <hc:ButtonGroup>
-                                                    <Button Content="{Binding Collect}" 
-                                                            Margin="5"
-                                                            CommandParameter="{Binding .}"
-                                                            Command="{Binding DataContext.PlayCmd,RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                                    <Button Content="{Binding Collect}"  Margin="5" Click="Button_Click" CommandParameter="{Binding .}">
+                                                        <Button.ContextMenu>
+                                                            <ContextMenu Width="80" MaxWidth="80" Placement="Bottom">
+                                                                <MenuItem Header="播放" Margin="-15,0,0,0"/>
+                                                                <MenuItem Header="缓存" Margin="-15,0,0,0"/>
+                                                            </ContextMenu>
+                                                        </Button.ContextMenu>
+                                                    </Button>
                                                 </hc:ButtonGroup>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

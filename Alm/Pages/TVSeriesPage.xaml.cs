@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Alm.Utils;
+using Alm.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +23,23 @@ namespace Alm.Pages
         public TVSeriesPage()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (e.OriginalSource as Button);
+            TVSeriesPageViewModel VM = IocManager.GetCache<TVSeriesPageViewModel>(nameof(TVSeriesPageViewModel));
+            var menu = btn.ContextMenu;
+            menu.PlacementTarget = btn;
+            menu.IsOpen = true;
+            foreach (MenuItem item in menu.Items)
+            {
+                item.CommandParameter = btn.CommandParameter;
+                if (item.Header.Equals("播放"))
+                    item.Command = VM.PlayCmd;
+                else
+                    item.Command = VM.DownCmd;
+            }
         }
     }
 }

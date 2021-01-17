@@ -90,7 +90,7 @@
                 <TextBlock Text="" Style="{StaticResource TextBlockDefaultDanger}" Grid.Column="2" Name="ErrorInfo"/>
             </Grid>
             <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,20,0" HorizontalAlignment="Right">
-                <Button Content="OK" Style="{StaticResource ButtonPrimary}" Click="Button_Click"/>
+                <Button Content="OK" Style="{StaticResource ButtonPrimary}" Click="Button_Click" IsDefault="True"/>
             </WrapPanel>
         </Grid>
     </Grid>

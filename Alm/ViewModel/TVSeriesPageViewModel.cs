@@ -7,6 +7,7 @@ using AlmCore.Scrapy.MediaModel;
 using HandyControl.Controls;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using XExten.XCore;
 
@@ -85,7 +86,19 @@ namespace Alm.ViewModel
             };
             Play.Show();
         }, null);
-
+        public Commands<MediaElements> DownCmd => new Commands<MediaElements>((obj) => {
+            if (obj.PlayUrl.IsNullOrEmpty())
+            {
+                Growl.Warning("暂无资源");
+                return;
+            }
+            var URL = Extension.ResolvURL(obj.PlayUrl);
+            if (URL.IsNullOrEmpty())
+            {
+                Growl.Warning("解析地址失效");
+                return;
+            }
+        }, null);
         #endregion
     }
 }
