@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using XExten.XCore;
 
 namespace Alm.ViewModel
 {
@@ -59,6 +60,7 @@ namespace Alm.ViewModel
         }, null);
         public Commands<KeyValuePair<string,string>> PlayCmd => new Commands<KeyValuePair<string, string>>((obj) =>
         {
+            if (obj.Value.IsNullOrEmpty()) return;
             VLCPlay Play = new VLCPlay()
             {
                 MediaURL = new Uri(obj.Value),

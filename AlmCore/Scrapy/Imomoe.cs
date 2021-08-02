@@ -13,7 +13,7 @@ namespace AlmCore.Scrapy
 {
     public class Imomoe
     {
-        private const string BaseURL = "http://www.yhdm.io";
+        private const string BaseURL = "http://www.yhdm.so";
         private const string Search = "/search/{0}/?page={1}";
 
         #region 获取远程数据
