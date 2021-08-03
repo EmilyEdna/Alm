@@ -15,10 +15,6 @@ namespace Alm.Utils.Enums
         /// </summary>
         Konachan,
         /// <summary>
-        /// 电影
-        /// </summary>
-        Movie,
-        /// <summary>
         /// 电视剧
         /// </summary>
         TVSeries,

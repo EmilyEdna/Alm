@@ -141,10 +141,7 @@ namespace AlmCore.Scrapy
                 var URL = node.GetAttributeValue("data-vid", "$").Replace("$mp4", "");
                 if (URL.Contains(".mp4") || URL.Contains("m3u8"))
                     return URL;
-                var res = HttpMultiClient.HttpMulti.AddNode(URL).Build().RunString().FirstOrDefault();
-                if (!res.IsNullOrEmpty())
-                    return Regex.Match(res, "http(.*)").Value;
-                return null;
+                return URL;
             }, ex =>
             {
                 LogFactory.WriteLog(ex);

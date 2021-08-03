@@ -27,9 +27,6 @@ namespace Alm.ViewModel
                 case FunctionEnum.Konachan:
                     main.CurrentPage = new KonachanPage();
                     break;
-                case FunctionEnum.Movie:
-                    main.CurrentPage = new MoviePage();
-                    break;
                 case FunctionEnum.TVSeries:
                     main.CurrentPage = new TVSeriesPage();
                     break;
